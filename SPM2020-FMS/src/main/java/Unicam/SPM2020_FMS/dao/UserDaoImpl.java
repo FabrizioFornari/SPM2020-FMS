@@ -22,15 +22,15 @@ public class UserDaoImpl implements UserDao {
   JdbcTemplate jdbcTemplate;
   
   public int register(User user) {
-    String sql = "insert into user values(?,?,?,?,?,?,?)";
+    String sql = "insert into user values(?,?,?,?,?,?,?,?,?)";
 
-    return jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getFirstname(),
-		        user.getLastname(), user.getEmail(), user.getAddress(), user.getPhone() });
+    return jdbcTemplate.update(sql, new Object[] { user.getIdUser(), user.getName(), user.getSurname() ,user.getPassword(),  user.getTaxCode(), user.getPhoneNumber(), user.getUserType(),
+		        user.getIdNumber(), user.getAuthNumber() });
   }
   
   public User validateUser(Login login) {
-    String sql = "select * from user where username='" + login.getUsername() + "' and password='" + login.getPassword()
-        + "'";
+    String sql = "select * from user where ID='" + login.getUsername() + "' and password='" + login.getPassword() + "'";
+    
     List<User> users = jdbcTemplate.query(sql, new UserMapper());
 
     return users.size() > 0 ? users.get(0) : null;
@@ -39,15 +39,17 @@ public class UserDaoImpl implements UserDao {
  class UserMapper implements RowMapper<User> {
 
   public User mapRow(ResultSet rs, int arg1) throws SQLException {
-    User user = new User();
-
-    user.setUsername(rs.getString("username"));
-    user.setPassword(rs.getString("password"));
-    user.setFirstname(rs.getString("firstname"));
-    user.setLastname(rs.getString("lastname"));
-    user.setEmail(rs.getString("email"));
-    user.setAddress(rs.getString("address"));
-    user.setPhone(rs.getInt("phone"));
+    User user = new User(
+    		rs.getInt("ID"),
+    	    rs.getString("Name"),
+    	    rs.getString("Surname"),
+    	    rs.getString("Password"),
+    	    rs.getString("Tax_code"),
+    	    rs.getInt("Phone_number"),
+    	    rs.getString("User_type"),
+    	    rs.getInt("Id_number"),
+    	    rs.getInt("Auth_number")
+    	    );
 
     return user;
   }

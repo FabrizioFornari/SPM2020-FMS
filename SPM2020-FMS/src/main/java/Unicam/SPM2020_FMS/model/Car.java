@@ -1,4 +1,4 @@
-package jbr.springmvc.model;
+package Unicam.SPM2020_FMS.model;
 
 public class Car {
 	
