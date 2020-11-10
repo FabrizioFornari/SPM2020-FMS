@@ -7,7 +7,7 @@
   <groupId>Unicam</groupId>
   <artifactId>SPM2020-FMS</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
+<packaging>war</packaging>
   <name>SPM2020-FMS</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>

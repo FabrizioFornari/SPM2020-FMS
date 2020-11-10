@@ -22,9 +22,9 @@ public class UserDaoImpl implements UserDao {
   JdbcTemplate jdbcTemplate;
   
   public int register(User user) {
-    String sql = "insert into user values(?,?,?,?,?,?,?,?,?)";
+    String sql = "insert into user values(?,?,?,?,?,?,?,?,?,?)";
 
-    return jdbcTemplate.update(sql, new Object[] { user.getIdUser(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),  user.getTaxCode(), user.getPhoneNumber(), user.getUserType(),
+    return jdbcTemplate.update(sql, new Object[] {1, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),  "taxcode", user.getPhoneNumber(), "driver",
 		        user.getIdNumber(), user.getAuthNumber() });
   }
   
