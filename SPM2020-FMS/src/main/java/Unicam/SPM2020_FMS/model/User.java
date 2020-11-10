@@ -5,6 +5,7 @@ public class User {
 	private int idUser;
 	private String name;
 	private String surname;
+	private String email;
 	private String password;
 	private String taxCode;
 	private int phoneNumber;
@@ -12,12 +13,16 @@ public class User {
 	private int idNumber;
 	private int authNumber;	
 	
-	
-	public User(int idUser, String name, String surname, String password, String taxCode, int phoneNumber,
+	public User() {
+		super();
+	}
+
+	public User(int idUser, String name, String surname, String email, String password, String taxCode, int phoneNumber,
 			String userType, int idNumber, int authNumber) {
 		this.idUser = idUser;
 		this.name = name;
 		this.surname = surname;
+		this.email = email;
 		this.password = password;
 		this.taxCode = taxCode;
 		this.phoneNumber = phoneNumber;
@@ -53,6 +58,16 @@ public class User {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 

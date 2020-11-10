@@ -24,12 +24,12 @@ public class UserDaoImpl implements UserDao {
   public int register(User user) {
     String sql = "insert into user values(?,?,?,?,?,?,?,?,?)";
 
-    return jdbcTemplate.update(sql, new Object[] { user.getIdUser(), user.getName(), user.getSurname() ,user.getPassword(),  user.getTaxCode(), user.getPhoneNumber(), user.getUserType(),
+    return jdbcTemplate.update(sql, new Object[] { user.getIdUser(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),  user.getTaxCode(), user.getPhoneNumber(), user.getUserType(),
 		        user.getIdNumber(), user.getAuthNumber() });
   }
   
   public User validateUser(Login login) {
-    String sql = "select * from user where ID='" + login.getUsername() + "' and password='" + login.getPassword() + "'";
+    String sql = "select * from user where email='" + login.getUsername() + "' and password='" + login.getPassword() + "'";
     
     List<User> users = jdbcTemplate.query(sql, new UserMapper());
 
@@ -43,6 +43,7 @@ public class UserDaoImpl implements UserDao {
     		rs.getInt("ID"),
     	    rs.getString("Name"),
     	    rs.getString("Surname"),
+    	    rs.getString("Email"),
     	    rs.getString("Password"),
     	    rs.getString("Tax_code"),
     	    rs.getInt("Phone_number"),
