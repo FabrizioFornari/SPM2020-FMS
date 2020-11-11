@@ -22,14 +22,23 @@ public class UserDaoImpl implements UserDao {
   JdbcTemplate jdbcTemplate;
   
   public int register(User user) {
-    String sql = "insert into user values(?,?,?,?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO user (name, surname, email, password, taxCode, phoneNumber, userType, idNumber, authNumber) VALUES (?,?,?,?,?,?,?,?,?)";
 
-    return jdbcTemplate.update(sql, new Object[] {1, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),  "taxcode", user.getPhoneNumber(), "driver",
-		        user.getIdNumber(), user.getAuthNumber() });
+    return jdbcTemplate.update(sql, new Object[] {
+    		user.getName(),
+    		user.getSurname(),
+    		user.getEmail(), 
+    		user.getPassword(),
+    		user.getTaxCode(),
+    		user.getPhoneNumber(),
+    		user.getUserType(),
+		    user.getIdNumber(),
+		    user.getAuthNumber()
+	});
   }
   
   public User validateUser(Login login) {
-    String sql = "select * from user where email='" + login.getUsername() + "' and password='" + login.getPassword() + "'";
+    String sql = "SELECT * FROM user WHERE email='" + login.getUsername() + "' and password='" + login.getPassword() + "'";
     
     List<User> users = jdbcTemplate.query(sql, new UserMapper());
 
