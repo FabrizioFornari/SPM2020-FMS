@@ -1,5 +1,6 @@
 package Unicam.SPM2020_FMS.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.User;
@@ -22,19 +25,30 @@ public class UserDaoImpl implements UserDao {
   JdbcTemplate jdbcTemplate;
   
   public int register(User user) {
+	  
     String sql = "INSERT INTO user(Name, Surname, Email, Password, Tax_code, Phone_number, User_type, Id_number, Auth_number) VALUES (?,?,?,?,?,?,?,?,?)";
-
-    return jdbcTemplate.update(sql, new Object[] {
-    		user.getName(),
-    		user.getSurname(),
-    		user.getEmail(), 
-    		user.getPassword(),
-    		user.getTaxCode(),
-    		user.getPhoneNumber(),
-    		"Driver",
-		    user.getIdNumber(),
-		    user.getAuthNumber()
-	});
+    KeyHolder userKeyHolder = new GeneratedKeyHolder();
+	
+    
+    jdbcTemplate.update( 
+    	connection -> {
+	    	PreparedStatement ps = connection.prepareStatement(sql);
+	    	ps.setString(1,user.getName());
+	    	ps.setString(2,user.getSurname());
+	    	ps.setString(3,user.getEmail());
+	    	ps.setString(4,user.getPassword());
+	    	ps.setString(5,user.getTaxCode());
+	    	ps.setObject(6,user.getPhoneNumber());
+	    	ps.setString(7,"Driver");
+	    	ps.setObject(8,user.getIdNumber());
+	    	ps.setObject(9,user.getAuthNumber());
+	        return ps;
+    	}, 
+    	userKeyHolder
+    );
+    
+    return (int) userKeyHolder.getKey();
+    
   }
   
   public User validateUser(Login login) {
@@ -59,7 +73,7 @@ public class UserDaoImpl implements UserDao {
     	    rs.getString("User_type"),
     	    rs.getInt("Id_number"),
     	    rs.getInt("Auth_number")
-    	    );
+    );
 
     return user;
   }

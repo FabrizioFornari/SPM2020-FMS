@@ -2,6 +2,7 @@ package Unicam.SPM2020_FMS.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +29,11 @@ public class RegistrationController {
   }
 
   @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
-  public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response,
+  public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
       @ModelAttribute("user") User user) {
 
-    userService.register(user);
+    int idUser=userService.register(user);
+    session.setAttribute("user", idUser);
 
     return new ModelAndView("welcome", "name", user.getName());
   }
