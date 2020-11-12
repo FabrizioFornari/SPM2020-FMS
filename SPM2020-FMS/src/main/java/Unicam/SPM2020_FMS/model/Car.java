@@ -3,14 +3,14 @@ package Unicam.SPM2020_FMS.model;
 public class Car {
 	
 	private String licensePlateNumber;
-	private int driver;
+	private Integer driver;
 	private String model;
 	
 	public Car() {
 		super();
 	}
 
-	public Car(String licensePlateNumber, int driver, String model) {
+	public Car(String licensePlateNumber, Integer driver, String model) {
 		super();
 		this.licensePlateNumber = licensePlateNumber;
 		this.driver = driver;
@@ -25,11 +25,11 @@ public class Car {
 		this.licensePlateNumber = licensePlateNumber;
 	}
 
-	public int getDriver() {
+	public Integer getDriver() {
 		return driver;
 	}
 
-	public void setDriver(int driver) {
+	public void setDriver(Integer driver) {
 		this.driver = driver;
 	}
 

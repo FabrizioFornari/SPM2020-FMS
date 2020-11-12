@@ -21,7 +21,7 @@ public class CarRegistrationController {
 
 	  @RequestMapping(value = "/addCar", method = RequestMethod.GET)
 	  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response) {
-	    ModelAndView mav = new ModelAndView("carRegistration");
+	    ModelAndView mav = new ModelAndView("addCar");
 	    mav.addObject("car", new Car());
 
 	    return mav;
@@ -30,11 +30,12 @@ public class CarRegistrationController {
 	  @RequestMapping(value = "/addCarProcess", method = RequestMethod.POST)
 	  public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 	      @ModelAttribute("car") Car car) {
+	
+		car.setDriver((Integer)session.getAttribute("user"));
 		
-		car.setDriver((int)session.getAttribute("user"));
 	    carService.register(car);
 
-	    return new ModelAndView("carRegistration", "message", car.getLicensePlateNumber());
+	    return new ModelAndView("addCar", "message", car.getLicensePlateNumber());
 	  }
 
 }

@@ -203,7 +203,7 @@
 </head>
 <body>
 
-<h2 align="center">Welcome user!</h2><br>
+<h2 align="center">Welcome ${name}!</h2><br>
     <div class="container">
 		<div class="row">
 			<div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
@@ -223,7 +223,7 @@
 						<div class="social">
 							<ul>
 								<li class="facebook" style="width:33%;"><a href="#"><span class="fas fa-plus"></span></a></li>
-								<li class="twitter" style="width:34%;"><a href="#"><span class="fas fa-car"></span></a></li>
+								<li class="twitter" style="width:34%;"><a href="addCar"><span class="fas fa-car"></span></a></li>
 								<li class="google-plus" style="width:33%;"><a href="#"><span class="fas fa-list"></span></a></li>
 							</ul>
 						</div>
