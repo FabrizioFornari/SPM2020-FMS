@@ -2,23 +2,23 @@ package Unicam.SPM2020_FMS.model;
 
 public class User {
 	
-	private int idUser;
+	private Integer idUser;
 	private String name;
 	private String surname;
 	private String email;
 	private String password;
 	private String taxCode;
-	private int phoneNumber;
+	private Integer phoneNumber;
 	private String userType;
-	private int idNumber;
-	private int authNumber;	
+	private Integer idNumber;
+	private Integer authNumber;	
 	
 	public User() {
 		super();
 	}
 
-	public User(int idUser, String name, String surname, String email, String password, String taxCode, int phoneNumber,
-			String userType, int idNumber, int authNumber) {
+	public User(Integer idUser, String name, String surname, String email, String password, String taxCode, Integer phoneNumber,
+			String userType, Integer idNumber, Integer authNumber) {
 		this.idUser = idUser;
 		this.name = name;
 		this.surname = surname;
@@ -31,103 +31,86 @@ public class User {
 		this.authNumber = authNumber;
 	}
 
-	public int getIdUser() {
+	public Integer getIdUser() {
 		return idUser;
 	}
 
-
-	public void setIdUser(int idUser) {
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getSurname() {
 		return surname;
 	}
 
-
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
-	
+
 	public String getEmail() {
 		return email;
 	}
-
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
 	public String getPassword() {
 		return password;
 	}
-
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-
 	public String getTaxCode() {
 		return taxCode;
 	}
-
 
 	public void setTaxCode(String taxCode) {
 		this.taxCode = taxCode;
 	}
 
-
-	public int getPhoneNumber() {
+	public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
 
-
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
 
 	public String getUserType() {
 		return userType;
 	}
 
-
 	public void setUserType(String userType) {
 		this.userType = userType;
 	}
 
-
-	public int getIdNumber() {
+	public Integer getIdNumber() {
 		return idNumber;
 	}
 
-
-	public void setIdNumber(int idNumber) {
+	public void setIdNumber(Integer idNumber) {
 		this.idNumber = idNumber;
 	}
 
-
-	public int getAuthNumber() {
+	public Integer getAuthNumber() {
 		return authNumber;
 	}
 
-
-	public void setAuthNumber(int authNumber) {
+	public void setAuthNumber(Integer authNumber) {
 		this.authNumber = authNumber;
 	}
+
+
 
 }

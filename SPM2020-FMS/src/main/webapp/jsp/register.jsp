@@ -72,7 +72,7 @@
 						<span class="input-group-text"> <i class="fas fa-id-card"></i>
 						</span>
 					</div>
-					<form:input path="taxCode" name="taxCode" id="taxCode"
+					<form:input path="taxCode"  name="taxCode" id="taxCode"
 						class="form-control" placeholder="Tax code" type="text" />
 
 				</div>
