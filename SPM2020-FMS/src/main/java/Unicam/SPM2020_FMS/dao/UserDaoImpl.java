@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.math.BigInteger; 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +29,27 @@ public class UserDaoImpl implements UserDao {
     String sql = "INSERT INTO user(Name, Surname, Email, Password, Tax_code, Phone_number, User_type, Id_number, Auth_number) VALUES (?,?,?,?,?,?,?,?,?)";
     KeyHolder userKeyHolder = new GeneratedKeyHolder();
 	
-    
-    jdbcTemplate.update( 
-    	connection -> {
-	    	PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-	    	ps.setString(1,user.getName());
-	    	ps.setString(2,user.getSurname());
-	    	ps.setString(3,user.getEmail());
-	    	ps.setString(4,user.getPassword());
-	    	ps.setString(5,user.getTaxCode());
-	    	ps.setObject(6,user.getPhoneNumber());
-	    	ps.setString(7,"Driver");
-	    	ps.setObject(8,user.getIdNumber());
-	    	ps.setObject(9,user.getAuthNumber());
-	        return ps;
-    	}, 
-    	userKeyHolder
-    );
+    //try {
+	    jdbcTemplate.update( 
+	    	connection -> {
+		    	PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+		    	ps.setString(1,user.getName());
+		    	ps.setString(2,user.getSurname());
+		    	ps.setString(3,user.getEmail());
+		    	ps.setString(4,user.getPassword());
+		    	ps.setString(5,user.getTaxCode());
+		    	ps.setObject(6,user.getPhoneNumber());
+		    	ps.setString(7,"Driver");
+		    	ps.setObject(8,user.getIdNumber());
+		    	ps.setObject(9,user.getAuthNumber());
+		        return ps;
+	    	}, 
+	    	userKeyHolder
+	    );
+    //} catch (SQLException e) {
+		//TODO
+		//trovare unique key violation e se possibile quale chiave
+	//}
     
     return  userKeyHolder.getKey().intValue();
     

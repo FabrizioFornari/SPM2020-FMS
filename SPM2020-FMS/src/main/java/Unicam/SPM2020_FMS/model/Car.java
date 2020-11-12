@@ -6,6 +6,10 @@ public class Car {
 	private int driver;
 	private String model;
 	
+	public Car() {
+		super();
+	}
+
 	public Car(String licensePlateNumber, int driver, String model) {
 		super();
 		this.licensePlateNumber = licensePlateNumber;
