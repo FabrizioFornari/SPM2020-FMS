@@ -3,8 +3,9 @@ package Unicam.SPM2020_FMS.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
-
+import java.math.BigInteger; 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class UserDaoImpl implements UserDao {
     
     jdbcTemplate.update( 
     	connection -> {
-	    	PreparedStatement ps = connection.prepareStatement(sql);
+	    	PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 	    	ps.setString(1,user.getName());
 	    	ps.setString(2,user.getSurname());
 	    	ps.setString(3,user.getEmail());
@@ -47,7 +48,7 @@ public class UserDaoImpl implements UserDao {
     	userKeyHolder
     );
     
-    return (int) userKeyHolder.getKey();
+    return  userKeyHolder.getKey().intValue();
     
   }
   
