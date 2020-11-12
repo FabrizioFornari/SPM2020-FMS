@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
   JdbcTemplate jdbcTemplate;
   
   public int register(User user) {
-    String sql = "INSERT INTO user (name, surname, email, password, taxCode, phoneNumber, userType, idNumber, authNumber) VALUES (?,?,?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO user(Name, Surname, Email, Password, Tax_code, Phone_number, User_type, Id_number, Auth_number) VALUES (?,?,?,?,?,?,?,?,?)";
 
     return jdbcTemplate.update(sql, new Object[] {
     		user.getName(),
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     		user.getPassword(),
     		user.getTaxCode(),
     		user.getPhoneNumber(),
-    		user.getUserType(),
+    		"Driver",
 		    user.getIdNumber(),
 		    user.getAuthNumber()
 	});

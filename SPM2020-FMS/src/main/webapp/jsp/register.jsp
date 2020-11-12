@@ -64,7 +64,17 @@
 						</span>
 					</div>
 					<form:password path="password" name="password" id="password"
-						class="form-control" placeholder="Password"  />
+						class="form-control" placeholder="Password" />
+				</div>
+				<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-id-card"></i>
+						</span>
+					</div>
+					<form:input path="taxCode" name="taxCode" id="taxCode"
+						class="form-control" placeholder="Tax code" type="text" />
+
 				</div>
 
 				<!-- form-group// -->
@@ -78,7 +88,7 @@
 
 				</div>
 				<!-- form-group// -->
-			<!-- 	<div class="form-group input-group">
+				<!-- 	<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fa fa-building"></i>
 						</span>
@@ -91,7 +101,7 @@
 					</select>
 				</div>-->
 				<!-- form-group end.// -->
-			<!--  	<div class="form-group input-group">
+				<!--  	<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fa fa-lock"></i>
 						</span>
@@ -100,7 +110,7 @@
 						type="password">
 				</div>-->
 				<!-- form-group// -->
-			<!--  	<div class="form-group input-group">
+				<!--  	<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fa fa-lock"></i>
 						</span>
@@ -110,8 +120,9 @@
 				</div>-->
 				<!-- form-group// -->
 				<div class="form-group">
-				<form:button id="register" name="register" type="submit" class="btn btn-primary btn-block">Create Account</form:button>
-				
+					<form:button id="register" name="register" type="submit"
+						class="btn btn-primary btn-block">Create Account</form:button>
+
 				</div>
 				<!-- form-group// -->
 				<p class="text-center">

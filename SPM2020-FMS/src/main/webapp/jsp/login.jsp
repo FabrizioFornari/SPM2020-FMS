@@ -5,34 +5,58 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <title>Login</title>
 </head>
 <body>
+	<div class="card bg-light">
+		<article class="card-body mx-auto" style="max-width: 400px;">
+		<h4 class="card-title mt-3 text-center">Login</h4>
+		<form:form id="loginForm" modelAttribute="login" action="loginProcess" method="post">
 
-	<form:form id="loginForm" modelAttribute="login" action="loginProcess"
-		method="post">
-		<table align="center">
-			<tr>
-				<td><form:label path="username">Username: </form:label></td>
-				<td><form:input path="username" name="username" id="username" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="password">Password:</form:label></td>
-				<td><form:password path="password" name="password"
-						id="password" /></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td align="left"><form:button id="login" name="login">Login</form:button></td>
-			</tr>
+			<div class="form-group input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"> <i class="fas fa-user"></i>
+					</span>
+				</div>
 
-			<tr></tr>
-			<tr>
-				<td></td>
-				<td><a href="home.jsp">Home</a></td>
-			</tr>
-		</table>
-	</form:form>
+				<form:input path="username" name="username" id="username" class="form-control" placeholder="Email" type="email" />
+
+			</div>
+			<!-- form-group// -->
+			
+				<div class="form-group input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"> <i class="fas fa-key"></i>
+					</span>
+				</div>
+
+				<form:password path="password" name="password" id="password" class="form-control" placeholder="Password" />
+
+			</div>
+			<!-- form-group// -->
+			
+				<div class="form-group">
+				<form:button id="login" name="login" type="submit" class="btn btn-primary btn-block">Login</form:button>
+				
+				</div>
+				<!-- form-group// -->
+				<p class="text-center">
+					Don't have an account? <a href="register">Register</a>
+				</p>
+		</form:form> </article>
+	</div>
+
+
+
 	<table align="center">
 		<tr>
 			<td style="font-style: italic; color: red;">${message}</td>
