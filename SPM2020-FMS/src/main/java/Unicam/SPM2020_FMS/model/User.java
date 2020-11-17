@@ -24,10 +24,14 @@ public class User {
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
+		/** Tax code that identifies all type of users */
 		this.taxCode = taxCode;
 		this.phoneNumber = phoneNumber;
+		/** Can be Driver,Policeman or Municipality*/
 		this.userType = userType;
+		/** Serial number that identifies exclusively a policeman*/
 		this.idNumber = idNumber;
+		/** Serial number that identifies exclusively a municipality*/
 		this.authNumber = authNumber;
 	}
 

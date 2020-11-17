@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
 		    	ps.setString(4,user.getPassword());
 		    	ps.setString(5,user.getTaxCode());
 		    	ps.setObject(6,user.getPhoneNumber());
-		    	ps.setString(7,"Driver");
+		    	ps.setString(7,user.getUserType());
 		    	ps.setObject(8,user.getIdNumber());
 		    	ps.setObject(9,user.getAuthNumber());
 		        return ps;
