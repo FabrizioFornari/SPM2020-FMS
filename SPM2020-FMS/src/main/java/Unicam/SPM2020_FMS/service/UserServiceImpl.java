@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
   }
 
   public User validateUser(Login login) {
-	login.setPassword(passwordEncoder.encode(login.getPassword()));
+	
+	
     return userDao.validateUser(login);
   }
 
