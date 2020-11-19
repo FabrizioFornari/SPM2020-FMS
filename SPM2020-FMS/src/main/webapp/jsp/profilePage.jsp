@@ -60,16 +60,7 @@
 
 				</div>
 
-				<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-key"></i>
-						</span>
-					</div>
-					<form:password path="password" name="password" id="password"
-						class="form-control" placeholder="Password" required="true" />
-				</div>
-				
+		
 			
 				<!-- form-group// -->
 				<div class="form-group input-group">

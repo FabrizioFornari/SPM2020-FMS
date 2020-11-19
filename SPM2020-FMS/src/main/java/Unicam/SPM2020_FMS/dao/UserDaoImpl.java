@@ -77,16 +77,12 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User update(User user) {
-System.out.println(user);
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String sql = "UPDATE user SET Name = '" + user.getName() + "', Surname = '" + user.getSurname()
-				+ "' , Email = '" + user.getEmail() + "', Password = '" + passwordEncoder.encode(user.getPassword())
-				+ "' , Tax_code = '" + user.getTaxCode() + "' ,Phone_number = '" + user.getPhoneNumber()
-				+ "',Id_number = '" + user.getIdNumber() + "' ,Auth_number = '" + user.getAuthNumber()
-				+ "' WHERE Email = '" + user.getEmail() + "' ";
 
 		
-		 jdbcTemplate.update(sql);
+		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
+
+		System.out.println(jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
+				user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() }));
 		return user;
 	}
 

@@ -32,8 +32,9 @@ public class InformationController {
 	  
 	  
 	  @RequestMapping(value = "/updateUserProcess", method = RequestMethod.POST)
-	  public ModelAndView updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user) {
-	    
+	  public ModelAndView updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user  ,HttpSession session) {
+	    User oldUser = (User) session.getAttribute("user");
+	    user.setIdUser(oldUser.getIdUser());
 		  userService.update(user);
 
 	    return new ModelAndView("profilePage", "message",user);
