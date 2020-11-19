@@ -115,6 +115,13 @@ public class User {
 		this.authNumber = authNumber;
 	}
 
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
+				+ password + ", taxCode=" + taxCode + ", phoneNumber=" + phoneNumber + ", userType=" + userType
+				+ ", idNumber=" + idNumber + ", authNumber=" + authNumber + "]";
+	}
+
 
 
 }

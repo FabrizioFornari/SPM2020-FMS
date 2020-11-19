@@ -26,4 +26,11 @@ public class UserServiceImpl implements UserService {
     return userDao.validateUser(login);
   }
 
+
+public User update(User user) {
+	
+	return userDao.update(user);
+	
+}
+
 }

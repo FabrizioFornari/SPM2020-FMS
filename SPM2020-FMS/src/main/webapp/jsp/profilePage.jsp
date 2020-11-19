@@ -17,16 +17,16 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<title>Registration</title>
+<title>Profile</title>
 </head>
 <body>
 
 	<div class="card bg-light" id= "app">
 		<article class="card-body mx-auto" style="max-width: 400px;">
-			<h4 class="card-title mt-3 text-center">Create an account</h4>
+			<h4 class="card-title mt-3 text-center">Update your information:</h4>
 
-			<form:form id="regForm" modelAttribute="user"
-				action="registerProcess" method="post">
+			<form:form id="updateForm" modelAttribute="user"
+				action="updateUserProcess" method="post">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-user"></i>
@@ -69,17 +69,8 @@
 					<form:password path="password" name="password" id="password"
 						class="form-control" placeholder="Password" required="true" />
 				</div>
-				<div class="form-group input-group">
-				<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-key"></i>
-						</span>
-					</div>
-					<form:select v-model="type"  class="form-control" path="userType" id="userType" required="true">
-						<option>Driver</option>
-						<option>Policeman</option>
-						<option>Municipality</option>
-					</form:select>
-				</div>
+				
+			
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
@@ -123,28 +114,7 @@
 						class="form-control" placeholder="Phone number" type="text" required="true" />
 
 				</div>
-				<!-- form-group// -->
-				<!-- 	<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fa fa-building"></i>
-						</span>
-					</div>
-					<select class="form-control">
-						<option selected="">Select type of user</option>
-						<option>Driver</option>
-						<option>Municipality</option>
-						<option>Policeman</option>
-					</select>
-				</div>-->
-				<!-- form-group end.// -->
-				<!--  	<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fa fa-lock"></i>
-						</span>
-					</div>
-					<input class="form-control" placeholder="Create password"
-						type="password">
-				</div>-->
+	
 				<!-- form-group// -->
 				<!--  	<div class="form-group input-group">
 					<div class="input-group-prepend">
@@ -154,16 +124,14 @@
 					<input class="form-control" placeholder="Repeat password"
 						type="password">
 				</div>-->
+				
 				<!-- form-group// -->
 				<div id="app" class="form-group">
 					<form:button id="register" name="register" type="submit"
-						class="btn btn-primary btn-block">Create Account</form:button>
+						class="btn btn-primary btn-block">Update information</form:button>
 
 				</div>
-				<!-- form-group// -->
-				<p class="text-center">
-					Have an account? <a href="login">Log In</a>
-				</p>
+			
 			</form:form>
 		</article>
 	</div>

@@ -54,18 +54,40 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	/** Check if the user has inserted the correct credentials */
+
 	public User validateUser(Login login) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String sql = "SELECT * FROM user WHERE email='" + login.getUsername() + "'";
 
+		/** Fetch the data retrieved from the database */
 		List<User> users = jdbcTemplate.query(sql, new UserMapper());
-
+		/**
+		 * If the user has inserted the right email the system will check if the
+		 * password is correct else if the user is not present or has inserted the wrong
+		 * credentials it will give null
+		 */
 		if (users.size() > 0 && passwordEncoder.matches(login.getPassword(), users.get(0).getPassword())) {
 			return users.get(0);
 		} else {
 			return null;
 		}
 
+	}
+
+	@Override
+	public User update(User user) {
+System.out.println(user);
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String sql = "UPDATE user SET Name = '" + user.getName() + "', Surname = '" + user.getSurname()
+				+ "' , Email = '" + user.getEmail() + "', Password = '" + passwordEncoder.encode(user.getPassword())
+				+ "' , Tax_code = '" + user.getTaxCode() + "' ,Phone_number = '" + user.getPhoneNumber()
+				+ "',Id_number = '" + user.getIdNumber() + "' ,Auth_number = '" + user.getAuthNumber()
+				+ "' WHERE Email = '" + user.getEmail() + "' ";
+
+		
+		 jdbcTemplate.update(sql);
+		return user;
 	}
 
 	class UserMapper implements RowMapper<User> {
