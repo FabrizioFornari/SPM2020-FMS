@@ -32,9 +32,25 @@ public class RegistrationController {
   public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
       @ModelAttribute("user") User user) {
 
-    int idUser=userService.register(user);
-    session.setAttribute("user", idUser);
+    int regResult=userService.register(user);
+    String[] messages = {
+    			"Registration error!",
+    			"Mail already used in the system",
+    			"Tax code already registered",
+    			"ID number already used",
+    			"Authorization number already used"
+    		};
+    
+    if (regResult>0) {
+        user.setIdUser(regResult);
+        session.setAttribute("user", user);
+        return new ModelAndView("welcome", "name", user.getName());
+    } else {
+    	regResult*=-1;
+        return new ModelAndView("register", "message", messages[regResult]);
+    }
 
-    return new ModelAndView("welcome", "name", user.getName());
+
+    
   }
 }

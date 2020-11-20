@@ -39,8 +39,7 @@ public class LoginController {
     if (user != null) {
       mav = new ModelAndView("welcome");
       mav.addObject("user", user);
-     session.setAttribute("user", user);
-    
+      session.setAttribute("user", user);
     } else {
       mav = new ModelAndView("login");
       mav.addObject("message", "Email or Password is wrong!!");

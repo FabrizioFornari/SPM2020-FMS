@@ -30,28 +30,39 @@ public class UserDaoImpl implements UserDao {
 
 		String sql = "INSERT INTO user(Name, Surname, Email, Password, Tax_code, Phone_number, User_type, Id_number, Auth_number) VALUES (?,?,?,?,?,?,?,?,?)";
 		KeyHolder userKeyHolder = new GeneratedKeyHolder();
+		int err=0;
 
-		// try {
-		jdbcTemplate.update(connection -> {
-			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, user.getName());
-			ps.setString(2, user.getSurname());
-			ps.setString(3, user.getEmail());
-			ps.setString(4, user.getPassword());
-			ps.setString(5, user.getTaxCode());
-			ps.setObject(6, user.getPhoneNumber());
-			ps.setString(7, user.getUserType());
-			ps.setObject(8, user.getIdNumber());
-			ps.setObject(9, user.getAuthNumber());
-			return ps;
-		}, userKeyHolder);
-		// } catch (SQLException e) {
-		// TODO
-		// trovare unique key violation e se possibile quale chiave
-		// }
-
+		try {
+			jdbcTemplate.update(connection -> {
+				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, user.getName());
+				ps.setString(2, user.getSurname());
+				ps.setString(3, user.getEmail());
+				ps.setString(4, user.getPassword());
+				ps.setString(5, user.getTaxCode());
+				ps.setObject(6, user.getPhoneNumber());
+				ps.setString(7, user.getUserType());
+				ps.setObject(8, user.getIdNumber());
+				ps.setObject(9, user.getAuthNumber());
+				return ps;
+			}, userKeyHolder);
+		} catch (org.springframework.dao.DuplicateKeyException e) {
+			String msg=e.getMessage();
+			if (msg.contains("user.Email")) {
+				err=-1;
+			} else if (msg.contains("user.Tax_code")) {
+				err=-2;
+			} else if (msg.contains("user.Id_number")) {
+				err=-3;
+			} else if (msg.contains("user.Auth_number")) {
+				err=-4;
+			}
+			return err;
+		} catch (Exception e) {
+			return err;
+		}
+		
 		return userKeyHolder.getKey().intValue();
-
 	}
 
 	/** Check if the user has inserted the correct credentials */
