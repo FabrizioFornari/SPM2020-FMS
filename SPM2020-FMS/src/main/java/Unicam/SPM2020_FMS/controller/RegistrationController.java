@@ -32,6 +32,7 @@ public class RegistrationController {
   public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
       @ModelAttribute("user") User user) {
 
+<<<<<<< HEAD
     int regResult=userService.register(user);
     String[] messages = {
     			"Registration error!",
@@ -52,5 +53,11 @@ public class RegistrationController {
 
 
     
+=======
+    int idUser=userService.register(user);
+    session.setAttribute("user", idUser);
+   
+    return new ModelAndView("welcome", "name", user.getName());
+>>>>>>> cf4e8bc6927fe6dc5d3cca4a078442edd93cfc0a
   }
 }
