@@ -1,14 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
@@ -17,7 +15,7 @@
 <title>Registration</title>
 </head>
 <body>
-
+<jsp:include page="navBar.jsp"></jsp:include>
 	<div class="container">
 		<h2 class="text-center">
 			<strong>Add a new car</strong>

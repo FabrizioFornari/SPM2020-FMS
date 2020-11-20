@@ -34,7 +34,7 @@ public class RegistrationController {
 
     int idUser=userService.register(user);
     session.setAttribute("user", idUser);
-
+   
     return new ModelAndView("welcome", "name", user.getName());
   }
 }
