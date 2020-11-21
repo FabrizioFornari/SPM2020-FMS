@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="navBar.jsp"></jsp:include>
-	<div class="container">
+	<div class="container" id="app">
 		<h2 class="text-center">
 			<strong>Add a new car</strong>
 		</h2>
@@ -85,12 +85,23 @@
 		</div>
 	</div>
 
-	<table align="center">
+	<table  align="center">
 		<tr>
-			<td style="font-style: italic; color: red;">License plate number ${message} inserted!</td>
+			<td style="font-style: italic; color: red;"> ${message} </td>
 		</tr>
 	</table>
 
 
+
 </body>
+
+
+<script>
+var app = new Vue({
+	  el: '#app',
+	  data: {
+	    type: ''
+	  }
+	})
+</script>
 </html>

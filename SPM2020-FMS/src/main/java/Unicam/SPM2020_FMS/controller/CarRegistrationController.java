@@ -35,7 +35,7 @@ public class CarRegistrationController {
 		
 	    carService.register(car);
 
-	    return new ModelAndView("addCar", "message", car.getLicensePlateNumber());
+	    return new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
 	  }
 
 }
