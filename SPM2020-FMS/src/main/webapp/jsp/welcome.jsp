@@ -238,7 +238,7 @@
 				
 				</ul>
 				
-				<a href="logout">logout</a>
+			
 			</div>
 		</div>
 	</div>

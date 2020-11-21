@@ -101,8 +101,8 @@ public class UserDaoImpl implements UserDao {
 
 		public User mapRow(ResultSet rs, int arg1) throws SQLException {
 			User user = new User(rs.getInt("ID"), rs.getString("Name"), rs.getString("Surname"), rs.getString("Email"),
-					rs.getString("Password"), rs.getString("Tax_code"), rs.getInt("Phone_number"),
-					rs.getString("User_type"), rs.getInt("Id_number"), rs.getInt("Auth_number"));
+					rs.getString("Password"), rs.getString("Tax_code"), rs.getString("Phone_number"),
+					rs.getString("User_type"), rs.getString("Id_number"), rs.getString("Auth_number"));
 
 			return user;
 		}

@@ -37,7 +37,7 @@
         <a class="nav-link" href="profilePage"><span class="fas fa-user-secret"></span> Profile</a>
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="profilePage"><span class="fas fa-power-off"></span> Logout</a>
+        <a class="nav-link" href="logout"><span class="fas fa-power-off"></span> Logout</a>
       </li>
 
 
