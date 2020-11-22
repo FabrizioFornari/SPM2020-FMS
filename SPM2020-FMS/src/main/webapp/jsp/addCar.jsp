@@ -8,11 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <title>Registration</title>
 </head>
 <body>

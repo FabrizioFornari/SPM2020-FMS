@@ -34,7 +34,7 @@
         <a class="nav-link" href="addCar"><span class="fas fa-id-badge"></span> License plates</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="profilePage"><span class="fas fa-user-secret"></span> Profile</a>
+        <a class="nav-link" href="profile"><span class="fas fa-user-secret"></span> Profile</a>
       </li>
        <li class="nav-item">
         <a class="nav-link" href="logout"><span class="fas fa-power-off"></span> Logout</a>
