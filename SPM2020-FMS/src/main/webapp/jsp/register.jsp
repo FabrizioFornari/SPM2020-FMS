@@ -72,8 +72,22 @@
 						<span class="input-group-text"> <i class="fas fa-key"></i>
 						</span>
 					</div>
-					<form:password path="password" name="password" id="password"
-						class="form-control" placeholder="Password" required="true" />
+					<form:password path="password" v-model="password" name="password"
+						id="password" class="form-control" placeholder="Password"
+						required="true" />
+				</div>
+				
+				<!-- form-group// -->
+				<div class="form-group input-group">
+
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-key"></i>
+						</span>
+					</div>
+
+					<input name="repeatPassword" v-model="repeatPassword"
+						v-on:keyup="checkPassword" type="password" id="repeatPassword"
+						class="form-control" placeholder="Reapeat password" required />
 				</div>
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
@@ -145,6 +159,7 @@
 				<table align="center">
 					<tr>
 						<td style="font-style: italic; color: red;">${message}</td>
+						<td v-if="isPasswordValid == false" style="font-style: italic; color: red;">The passwords don't match!</td>
 					</tr>
 				</table>
 
@@ -171,7 +186,21 @@
 	var app = new Vue({
 		el : '#app',
 		data : {
-			type : ''
+			type : '',
+			password : '',
+			repeatPassword : '',
+			isPasswordValid : null
+		},
+		methods : {
+			checkPassword : function() {
+				if (this.password.trim() === this.repeatPassword.trim()) {
+					this.isPasswordValid = true;
+					return;
+				} else {
+					this.isPasswordValid = false;
+					return;
+				}
+			}
 		}
 	})
 </script>
