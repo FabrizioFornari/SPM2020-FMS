@@ -1,24 +1,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <title>Registration</title>
 </head>
 <body>
-
-	<div class="container">
+<jsp:include page="navBar.jsp"></jsp:include>
+	<div class="container" id="app">
 		<h2 class="text-center">
 			<strong>Add a new car</strong>
 		</h2>
@@ -87,12 +82,23 @@
 		</div>
 	</div>
 
-	<table align="center">
+	<table  align="center">
 		<tr>
-			<td style="font-style: italic; color: red;">License plate number ${message} inserted!</td>
+			<td style="font-style: italic; color: red;"> ${message} </td>
 		</tr>
 	</table>
 
 
+
 </body>
+
+
+<script>
+var app = new Vue({
+	  el: '#app',
+	  data: {
+	    type: ''
+	  }
+	})
+</script>
 </html>

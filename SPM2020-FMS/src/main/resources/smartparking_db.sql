@@ -145,16 +145,16 @@ CREATE TABLE `user` (
   `Email` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Tax_code` varchar(20) NOT NULL,
-  `Phone_number` int NOT NULL,
+  `Phone_number` varchar(20) NOT NULL,
   `User_type` varchar(15) NOT NULL,
-  `Id_number` int DEFAULT NULL,
-  `Auth_number` int DEFAULT NULL,
+  `Id_number` varchar(20) DEFAULT NULL,
+  `Auth_number` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Tax_code` (`Tax_code`),
   UNIQUE KEY `Id_number` (`Id_number`),
   UNIQUE KEY `Auth_number` (`Auth_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,6 +163,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (21,'Mario','Lombardi','mario@hotmail.com','$2a$10$0rb9TtCwDQuPrmFeRZRqXeosfKg399RyXBkNykKvFrTX505566SI2','FDFDGDFGD','881','Driver',NULL,NULL),(26,'Mario','Lombardi','lombardi@hotmail.it','$2a$10$xFeUD1HXDq0BizsUn50UCuG671mJNiBlceFR/7Ylg/PDgTgQASnYu','756757','64646','Policeman','57657',NULL),(28,'Mario','Lombardi','lombardi@hotmail.com','$2a$10$sS.qhofh3yQFnF1pYvXunOalB2admiLWyBa0iRGRLBG5alDgdL2oi','giugigi','5353','Policeman','54453',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -175,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-10 17:38:59
+-- Dump completed on 2020-11-21 19:06:25

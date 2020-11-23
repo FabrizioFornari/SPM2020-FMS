@@ -8,26 +8,30 @@ public class User {
 	private String email;
 	private String password;
 	private String taxCode;
-	private Integer phoneNumber;
+	private String phoneNumber;
 	private String userType;
-	private Integer idNumber;
-	private Integer authNumber;	
+	private String idNumber;
+	private String authNumber;	
 	
 	public User() {
 		super();
 	}
 
-	public User(Integer idUser, String name, String surname, String email, String password, String taxCode, Integer phoneNumber,
-			String userType, Integer idNumber, Integer authNumber) {
+	public User(Integer idUser, String name, String surname, String email, String password, String taxCode, String phoneNumber,
+			String userType, String idNumber, String authNumber) {
 		this.idUser = idUser;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
+		/** Tax code that identifies all type of users */
 		this.taxCode = taxCode;
 		this.phoneNumber = phoneNumber;
+		/** Can be Driver,Policeman or Municipality*/
 		this.userType = userType;
+		/** Serial number that identifies exclusively a policeman*/
 		this.idNumber = idNumber;
+		/** Serial number that identifies exclusively a municipality*/
 		this.authNumber = authNumber;
 	}
 
@@ -79,11 +83,11 @@ public class User {
 		this.taxCode = taxCode;
 	}
 
-	public Integer getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Integer phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -95,20 +99,29 @@ public class User {
 		this.userType = userType;
 	}
 
-	public Integer getIdNumber() {
+
+
+	public String getIdNumber() {
 		return idNumber;
 	}
 
-	public void setIdNumber(Integer idNumber) {
+	public void setIdNumber(String idNumber) {
 		this.idNumber = idNumber;
 	}
 
-	public Integer getAuthNumber() {
+	public String getAuthNumber() {
 		return authNumber;
 	}
 
-	public void setAuthNumber(Integer authNumber) {
+	public void setAuthNumber(String authNumber) {
 		this.authNumber = authNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
+				+ password + ", taxCode=" + taxCode + ", phoneNumber=" + phoneNumber + ", userType=" + userType
+				+ ", idNumber=" + idNumber + ", authNumber=" + authNumber + "]";
 	}
 
 

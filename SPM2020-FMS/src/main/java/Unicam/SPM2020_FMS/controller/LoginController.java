@@ -36,10 +36,11 @@ public class LoginController {
 
     User user = userService.validateUser(login);
 
-    if (null != user) {
+    if (user != null) {
       mav = new ModelAndView("welcome");
-      mav.addObject("name", user.getName());
-      session.setAttribute("user", user.getIdUser());
+      mav.addObject("user", user);
+      session.setAttribute("user", user);
+
     } else {
       mav = new ModelAndView("login");
       mav.addObject("message", "Email or Password is wrong!!");
@@ -47,5 +48,7 @@ public class LoginController {
 
     return mav;
   }
+  
+  
 
 }

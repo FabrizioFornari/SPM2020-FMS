@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Car;
+
 import Unicam.SPM2020_FMS.service.CarService;
 
 @Controller
@@ -20,10 +21,13 @@ public class CarRegistrationController {
 	  public CarService carService;
 
 	  @RequestMapping(value = "/addCar", method = RequestMethod.GET)
-	  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response) {
+	  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 	    ModelAndView mav = new ModelAndView("addCar");
 	    mav.addObject("car", new Car());
-
+System.out.println(session.getId());
+System.out.println(session.getAttribute("user"));
+System.out.println(session.getAttribute("user"));
+System.out.println(session.getCreationTime());
 	    return mav;
 	  }
 
@@ -35,7 +39,7 @@ public class CarRegistrationController {
 		
 	    carService.register(car);
 
-	    return new ModelAndView("addCar", "message", car.getLicensePlateNumber());
+	    return new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
 	  }
 
 }
