@@ -24,7 +24,7 @@
 	<div class="card bg-light">
 		<article class="card-body mx-auto" style="max-width: 400px;">
 		<h4 class="card-title mt-3 text-center">Login</h4>
-		<form:form id="loginForm" modelAttribute="login" action="loginProcess" method="post">
+		<form:form id="loginForm" modelAttribute="login" action="welcome" method="post">
 
 			<div class="form-group input-group">
 				<div class="input-group-prepend">

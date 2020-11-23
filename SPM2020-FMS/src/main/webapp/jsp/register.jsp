@@ -29,7 +29,7 @@
 			<h4 class="card-title mt-3 text-center">Create an account</h4>
 
 			<form:form id="regForm" modelAttribute="user"
-				action="registerProcess" method="post">
+				action="_welcome" method="post">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-user"></i>
