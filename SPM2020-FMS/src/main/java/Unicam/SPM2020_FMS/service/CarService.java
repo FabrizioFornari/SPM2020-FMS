@@ -18,9 +18,8 @@ public class CarService {
     return carDao.register(car);
   }
 
-public List<Car> showCars(Integer idUser) {
-	return carDao.showCars(idUser);
-	
+  public List<Car> showCars(Integer idUser) {
+	return carDao.showCars(idUser);	
 }
 
 }

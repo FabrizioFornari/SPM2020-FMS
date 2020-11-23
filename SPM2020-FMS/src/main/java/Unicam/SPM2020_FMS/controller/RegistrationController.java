@@ -21,15 +21,24 @@ public class RegistrationController {
   public UserService userService;
 
   @RequestMapping(value = "/register", method = RequestMethod.GET)
-  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response) {
-    ModelAndView mav = new ModelAndView("register");
-    mav.addObject("user", new User());
-
-    return mav;
+  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	  
+    User user = (User)session.getAttribute("user");
+    if (user!=null) {
+    	return new ModelAndView("welcome", "user", user);
+    } else {
+        ModelAndView mav = new ModelAndView("register");
+        mav.addObject("user", new User());
+        Object message= session.getAttribute("message");
+        if(message!=null) {
+        	mav.addObject("message", (String) message);
+        }
+        return mav;   	
+    }
   }
 
-  @RequestMapping(value = "/_welcome", method = RequestMethod.POST)
-  public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+  @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
+  public String addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
       @ModelAttribute("user") User user) {
 
     int regResult=userService.register(user);
@@ -44,10 +53,11 @@ public class RegistrationController {
     if (regResult>0) {
         user.setIdUser(regResult);
         session.setAttribute("user", user);
-        return new ModelAndView("welcome", "name", user.getName());
+        return "redirect:/welcome";
     } else {
     	regResult*=-1;
-        return new ModelAndView("register", "message", messages[regResult]);
+    	session.setAttribute("message", messages[regResult]);
+    	return "redirect:/register";
     }
 
   }

@@ -16,7 +16,7 @@ import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.service.UserService;
 
 @Controller
-public class logoutController {
+public class LogoutController {
 
 	@Autowired
 	  UserService userService;

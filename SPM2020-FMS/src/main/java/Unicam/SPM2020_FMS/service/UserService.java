@@ -9,5 +9,5 @@ public interface UserService {
 
   User validateUser(Login login);
 
-User update(User user);
+  int update(User user);
 }

@@ -22,33 +22,36 @@ public class LoginController {
   UserService userService;
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
-    ModelAndView mav = new ModelAndView("login");
-    mav.addObject("login", new Login());
-
-    return mav;
+  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    
+    User user = (User)session.getAttribute("user");
+    if (user!=null) {
+    	return new ModelAndView("welcome", "user", user);
+    } else {    
+	    ModelAndView mav = new ModelAndView("login");
+	    mav.addObject("login", new Login());	    
+	    Object message= session.getAttribute("message");
+	    if(message!=null) {
+	    	mav.addObject("message", (String) message);
+	    }	
+	    return mav;
+    }
   }
-  
-  @RequestMapping(value = "/welcome", method = RequestMethod.POST)
-  public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+
+  @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+  public String loginProcess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
   @ModelAttribute("login") Login login) {
-    ModelAndView mav = null;
 
     User user = userService.validateUser(login);
 
     if (user != null) {
-      mav = new ModelAndView("welcome");
-      mav.addObject("user", user);
       session.setAttribute("user", user);
-
+      return "redirect:/welcome";
     } else {
-      mav = new ModelAndView("login");
-      mav.addObject("message", "Email or Password is wrong!!");
+      session.setAttribute("message", "Email or Password is wrong!!");
+      return "redirect:/login";
     }
-
-    return mav;
+    
   }
   
-  
-
 }

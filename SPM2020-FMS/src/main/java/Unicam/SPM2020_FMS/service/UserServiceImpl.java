@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
   }
 
 
-public User update(User user) {
+public int update(User user) {
 	
 	return userDao.update(user);
 	
