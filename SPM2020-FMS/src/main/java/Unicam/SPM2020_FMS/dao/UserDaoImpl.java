@@ -87,14 +87,18 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User update(User user) {
-
+	public int update(User user) {
 		
 		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
-
+		
+		try {
 		System.out.println(jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
 				user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() }));
-		return user;
+		} catch (Exception e) {
+			return 0;
+		}
+		
+		return 1;
 	}
 
 	class UserMapper implements RowMapper<User> {

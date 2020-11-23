@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Car;
+import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.service.CarService;
 
@@ -22,18 +23,24 @@ public class CarRegistrationController {
 
 	  @RequestMapping(value = "/addCar", method = RequestMethod.GET)
 	  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
-	    ModelAndView mav = new ModelAndView("addCar");
+		
 	    User user = (User) session.getAttribute("user");
-	    
-	    mav.addObject("cars", carService.showCars(user.getIdUser()));
-	    mav.addObject("car", new Car());
-	    return mav;
+	    if (user!=null) {
+	    	ModelAndView mav = new ModelAndView("addCar");
+	    	mav.addObject("cars", carService.showCars(user.getIdUser()));
+	    	mav.addObject("car", new Car());
+	    	return mav;
+	    } else {
+	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
+	    	mav.addObject("message", "Please login");		
+	    	return new ModelAndView("login", "login", new Login());
+	    }
 	  }
 
 	  @RequestMapping(value = "/addCar", method = RequestMethod.POST)
-	  public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	  public ModelAndView addCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 	      @ModelAttribute("car") Car car) {
-		  User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		car.setDriver(user.getIdUser());
 		
 	    carService.register(car);
