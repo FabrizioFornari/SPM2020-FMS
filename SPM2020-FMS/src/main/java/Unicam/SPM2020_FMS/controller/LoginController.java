@@ -28,8 +28,8 @@ public class LoginController {
 
     return mav;
   }
-
-  @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+  
+  @RequestMapping(value = "/welcome", method = RequestMethod.POST)
   public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
   @ModelAttribute("login") Login login) {
     ModelAndView mav = null;

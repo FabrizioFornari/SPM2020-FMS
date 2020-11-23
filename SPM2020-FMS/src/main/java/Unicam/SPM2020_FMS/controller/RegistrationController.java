@@ -28,7 +28,7 @@ public class RegistrationController {
     return mav;
   }
 
-  @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
+  @RequestMapping(value = "/_welcome", method = RequestMethod.POST)
   public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
       @ModelAttribute("user") User user) {
 

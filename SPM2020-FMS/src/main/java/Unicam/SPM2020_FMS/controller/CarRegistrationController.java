@@ -37,8 +37,10 @@ public class CarRegistrationController {
 		car.setDriver(user.getIdUser());
 		
 	    carService.register(car);
-
-	    return new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
+	    ModelAndView mav = new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
+	    mav.addObject("cars", carService.showCars(user.getIdUser()));
+	    
+	    return mav;
 	  }
 
 }
