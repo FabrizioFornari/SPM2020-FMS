@@ -1,7 +1,7 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core"%>
 
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html>
 
@@ -12,8 +12,34 @@
 <title>Registration</title>
 </head>
 <body>
-<jsp:include page="navBar.jsp"></jsp:include>
+	<jsp:include page="navBar.jsp"></jsp:include>
 	<div class="container" id="app">
+
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Number</th>
+					<th scope="col">Model</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			 <c:forEach var="item" items="${cars}">
+               	<tr>
+					<th scope="row">${cars.indexOf(item)+1}</th>
+					<td> ${item.licensePlateNumber}</td>
+					<td>${item.model}</td>
+					<td>Delete or modify</td>
+				</tr>
+            </c:forEach>
+            
+
+	
+			</tbody>
+		</table>
+
+	
 		<h2 class="text-center">
 			<strong>Add a new car</strong>
 		</h2>
@@ -23,7 +49,7 @@
 
 				<!--Form with header-->
 
-				<form:form id="carForm" modelAttribute="car" action="addCarProcess"
+				<form:form id="carForm" modelAttribute="car" action="addCar"
 					method="post">
 					<div class="card border-primary rounded-0">
 						<div class="card-header p-0">
@@ -82,9 +108,9 @@
 		</div>
 	</div>
 
-	<table  align="center">
+	<table align="center">
 		<tr>
-			<td style="font-style: italic; color: red;"> ${message} </td>
+			<td style="font-style: italic; color: red;">${message}</td>
 		</tr>
 	</table>
 
@@ -94,11 +120,6 @@
 
 
 <script>
-var app = new Vue({
-	  el: '#app',
-	  data: {
-	    type: ''
-	  }
-	})
+
 </script>
 </html>

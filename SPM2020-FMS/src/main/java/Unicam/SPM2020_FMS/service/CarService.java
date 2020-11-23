@@ -1,5 +1,9 @@
 package Unicam.SPM2020_FMS.service;
 
+
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import Unicam.SPM2020_FMS.dao.CarDao;
@@ -13,5 +17,10 @@ public class CarService {
   public int register(Car car) {
     return carDao.register(car);
   }
+
+public List<Car> showCars(Integer idUser) {
+	return carDao.showCars(idUser);
+	
+}
 
 }
