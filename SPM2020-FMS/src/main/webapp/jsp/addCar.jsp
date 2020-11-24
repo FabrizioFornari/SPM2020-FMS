@@ -36,7 +36,10 @@
 							<form:input path="myCars[${tagStatus.index}].model" value="${item.model}"/>
 						</td>
 						<td>
-							<button type="button" class="btn btn-danger"><span class="fas fa-trash-alt"></span></button>
+							<form:form method="post" action="deleteCar" modelAttribute="carToTrash">
+								<form:input type="hidden" path="licensePlateNumber" value="${item.licensePlateNumber}"/>
+								<form:button type="submit" id="delete[${tagStatus.index}]" class="btn btn-danger"><span class="fas fa-trash-alt"></span></form:button>
+							</form:form>
 						</td>	
 					</tr>
 				</c:forEach>
@@ -44,7 +47,7 @@
 	</form:form>
 
 				<tr>
-					<td colspan="5"><form:form id="carForm" modelAttribute="car"
+					<td colspan="5"><form:form id="carForm" modelAttribute="carToAdd"
 							action="addCar" method="post">
 							<div class="input-group">
 								<form:input path="licensePlateNumber" name="licensePlate"

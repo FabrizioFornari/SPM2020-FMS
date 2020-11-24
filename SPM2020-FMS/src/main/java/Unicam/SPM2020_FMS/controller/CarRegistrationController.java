@@ -33,7 +33,8 @@ public class CarRegistrationController {
 	    	UserCars userCars = new UserCars();
 	    	userCars.setMyCars(carService.showCars(user.getIdUser()));
 	    	mav.addObject("userCars", userCars);
-	    	mav.addObject("car", new Car());
+	    	mav.addObject("carToAdd", new Car());
+	    	mav.addObject("carToTrash", new Car());
 	    	return mav;
 	    } else {
 	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
@@ -44,37 +45,57 @@ public class CarRegistrationController {
 
 	  @RequestMapping(value = "/addCar", method = RequestMethod.POST)
 	  public ModelAndView addCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-	      @ModelAttribute("car") Car car) {
+			  @ModelAttribute("carToAdd") Car car) {
 		User user = (User) session.getAttribute("user");
 		car.setDriver(user.getIdUser());
 		
 	    carService.register(car);
-	    ModelAndView mav = new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
+	    ModelAndView mav = new ModelAndView("addCar");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
     	mav.addObject("userCars", userCars);
-    	mav.addObject("car", new Car());
+    	mav.addObject("carToAdd", new Car());
+    	mav.addObject("carToTrash", new Car());
 	    
 	    return mav;
 	  }
 	  
 	  @RequestMapping(value = "/modifyCars", method = RequestMethod.POST)
 	  public ModelAndView modifyCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-	      @ModelAttribute("cars") UserCars cars, @ModelAttribute("car") Car car) {
+	      @ModelAttribute("cars") UserCars cars) {
 		  
 		List<Car> carsList = cars.getMyCars();
 		User user = (User) session.getAttribute("user");
 		
-	    //carService.modifyCars(carsList);
-		for (Car aCar : carsList) {
-			System.out.println(aCar.getLicensePlateNumber()+"-"+aCar.getModel());
-		}
+	    System.out.println(carService.modifyCars(carsList, carService.showCars(user.getIdUser())));
 	    
 	    ModelAndView mav = new ModelAndView("addCar");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
     	mav.addObject("userCars", userCars);
-    	mav.addObject("car", new Car());
+    	mav.addObject("carToAdd", new Car());
+    	mav.addObject("carToTrash", new Car());
+	    
+	    return mav;
+	  }
+	  
+	  @RequestMapping(value = "/deleteCar", method = RequestMethod.POST)
+	  public ModelAndView deleteCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	      @ModelAttribute("carToTrash") Car car) {
+		  
+		User user = (User) session.getAttribute("user");
+		car.setDriver(user.getIdUser());
+		
+		System.out.println(car.getLicensePlateNumber()+"-"+car.getDriver());
+		
+	    System.out.println(carService.deleteCar(car));
+	    
+	    ModelAndView mav = new ModelAndView("addCar");
+    	UserCars userCars = new UserCars();
+    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+    	mav.addObject("userCars", userCars);
+    	mav.addObject("carToAdd", new Car());
+    	mav.addObject("carToTrash", new Car());
 	    
 	    return mav;
 	  }

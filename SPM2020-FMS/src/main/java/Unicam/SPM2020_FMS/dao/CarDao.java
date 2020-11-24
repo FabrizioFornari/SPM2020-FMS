@@ -42,6 +42,45 @@ public class CarDao {
 	
 	return cars;
   }
+  
+  public int updateCar(Car newCar, Car oldCar){
+	  	
+	String sql = "UPDATE car SET LicensePlateNumber = ?, Model = ? WHERE Driver = ? and LicensePlateNumber= ? ";
+	int updated;
+		
+	try {
+		updated = jdbcTemplate.update(
+				sql,
+				new Object[] {
+					newCar.getLicensePlateNumber(),
+					newCar.getModel(),
+					oldCar.getDriver(),
+					oldCar.getLicensePlateNumber()
+				}
+		);
+	} catch (Exception e) {
+		return -1;
+	}		
+	return updated;
+  }
+  
+  public int deleteCar(Car car) {
+	    String sql = "DELETE FROM car WHERE Driver = ? and LicensePlateNumber= ? ";
+	    int deleted;
+
+	    try {
+		    deleted= jdbcTemplate.update(
+		    	sql,
+		    	new Object[]{ 
+		    			car.getDriver(),
+		    			car.getLicensePlateNumber(),
+		    	}
+		    );
+	    } catch (Exception e) {
+	    	return -1;
+	    }
+	    return deleted;
+	  }
 
   class CarMapper implements RowMapper<Car> {
 
