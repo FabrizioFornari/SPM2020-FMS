@@ -1,7 +1,7 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html>
 
@@ -12,79 +12,71 @@
 <title>Registration</title>
 </head>
 <body>
-<jsp:include page="navBar.jsp"></jsp:include>
+	<jsp:include page="navBar.jsp"></jsp:include>
 	<div class="container" id="app">
-		<h2 class="text-center">
-			<strong>Add a new car</strong>
-		</h2>
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 col-lg-6 pb-5">
 
+<h2 align="center">License Plates</h2>
+<h5 align="center">Here you can add a new License plate (add new car) or see the ones already added.</h5>
+	<form:form method="post" action="modifyCars" modelAttribute="userCars">
+		<table class="table table-striped table-dark">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Number</th>
+						<th scope="col">Model</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+			<tbody>
+				<c:forEach var="item" items="${userCars.myCars}" varStatus="tagStatus">
+					<tr>
+						<td>
+							<form:input path="myCars[${tagStatus.index}].licensePlateNumber" value="${item.licensePlateNumber}"/>
+						</td>
+						<td>
+							<form:input path="myCars[${tagStatus.index}].model" value="${item.model}"/>
+						</td>
+						<td>
+							<form:form method="post" action="deleteCar" modelAttribute="carToTrash">
+								<form:input type="hidden" path="licensePlateNumber" value="${item.licensePlateNumber}"/>
+								<form:button type="submit" id="delete[${tagStatus.index}]" class="btn btn-danger"><span class="fas fa-trash-alt"></span></form:button>
+							</form:form>
+						</td>	
+					</tr>
+				</c:forEach>
+		<input type="submit" value="Save" />
+	</form:form>
 
-				<!--Form with header-->
+				<tr>
+					<td colspan="5"><form:form id="carForm" modelAttribute="carToAdd"
+							action="addCar" method="post">
+							<div class="input-group">
+								<form:input path="licensePlateNumber" name="licensePlate"
+									id="licensePlate" class="form-control"
+									placeholder="License plate number" type="text" required ="required" />
+								<form:input path="model" name="model" id="model"
+									class="form-control" placeholder="Car model" type="text" />
+								<div class="input-group-append">
+									<form:button id="addCarButton" name="addCarButton"
+										type="submit" class="btn btn-outline-success btn-block">Add car</form:button>
 
-				<form:form id="carForm" modelAttribute="car" action="addCarProcess"
-					method="post">
-					<div class="card border-primary rounded-0">
-						<div class="card-header p-0">
-							<div class="bg-info text-white text-center py-2">
-								<h3>
-									<i class="fas fa-parking"></i> Please insert your license plate
-									number!
-								</h3>
-
-							</div>
-						</div>
-						<div class="card-body p-3">
-
-							<!--Body-->
-							<div class="form-group">
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<div class="input-group-text">
-											<i class="fas fa-minus-square"></i>
-										</div>
-									</div>
-									<form:input path="licensePlateNumber" name="licensePlate"
-										id="licensePlate" class="form-control"
-										placeholder="License plate number" type="text" />
 								</div>
 							</div>
+						</form:form></td>
 
-							<!-- End of form-group -->
-							<div class="form-group">
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<div class="input-group-text">
-											<i class="fas fa-car"></i>
-										</div>
-									</div>
-									<form:input path="model" name="model" id="model"
-										class="form-control" placeholder="Car model" type="text" />
-								</div>
-							</div>
+				</tr>
+
+			</tbody>
+		</table>
 
 
 
-							<div class="text-center">
-								<form:button id="addCarButton" name="addCarButton" type="submit"
-									class="btn btn-primary btn-block">Add car</form:button>
-							</div>
-						</div>
-
-					</div>
-				</form:form>
-				<!--Form with header-->
 
 
-
-			</div>
-		</div>
 	</div>
 
-	<table  align="center">
+	<table align="center">
 		<tr>
-			<td style="font-style: italic; color: red;"> ${message} </td>
+			<td style="font-style: italic; color: red;">${message}</td>
 		</tr>
 	</table>
 
@@ -94,11 +86,6 @@
 
 
 <script>
-var app = new Vue({
-	  el: '#app',
-	  data: {
-	    type: ''
-	  }
-	})
+	
 </script>
 </html>

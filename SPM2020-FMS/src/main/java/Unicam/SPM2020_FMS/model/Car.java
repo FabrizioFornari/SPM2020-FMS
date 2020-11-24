@@ -17,6 +17,27 @@ public class Car {
 		this.model = model;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (this==obj) {
+			return true;
+		}
+		if (super.equals(obj)) {
+			if (obj != null && this.getClass() == obj.getClass()) {
+	            Car car=(Car)obj;
+	            if(this.driver==car.getDriver()) {
+	            	if(this.licensePlateNumber==car.getLicensePlateNumber()) {
+	            		if(this.model==car.getModel()) {
+	            			return true;
+	            		}
+	            	}
+	            }
+			}
+		}
+		return false;
+    }
+
 	public String getLicensePlateNumber() {
 		return licensePlateNumber;
 	}
