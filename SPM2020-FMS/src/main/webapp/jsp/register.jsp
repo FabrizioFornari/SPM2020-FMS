@@ -20,163 +20,107 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/css/loginStyle.css"
+	rel="stylesheet">
 <title>Registration</title>
 </head>
 <body>
 
-	<div class="card bg-light" id="app">
-		<article class="card-body mx-auto" style="max-width: 400px;">
-			<h4 class="card-title mt-3 text-center">Create an account</h4>
+	<div class="login-wrap" id="app">
+		<div class="login-html">
+			<input id="tab-1" type="radio" name="tab" class="sign-in"><label
+				style="display: none" for="tab-1" class="tab">Sign In</label> <input
+				id="tab-2" type="radio" name="tab" class="sign-up" checked><label
+				for="tab-2" class="tab">Sign Up</label>
+			<div class="login-form">
+				<form:form id="regForm" modelAttribute="user"
+					action="registerProcess" method="post">
+					<div class="sign-up-htm">
+						<div class="group">
+							<label for="firstname" class="label">First Name:</label>
+							<form:input path="name" name="name" id="firstname" class="input"
+								type="text" required="true" />
+						</div>
+						<div class="group">
+							<label for="surname" class="label">Last Name:</label>
+							<form:input path="surname" name="surname" id="surname"
+								class="input" type="text" required="true" />
+						</div>
+						<div class="group">
+							<label for="email" class="label">Email Address:</label>
+							<form:input path="email" name="email" id="email" class="input"
+								type="email" required="true" />
+						</div>
+						<div class="group">
+							<label for="password" class="label">Password:</label>
+							<form:password path="password" v-model="password" name="password"
+								id="password" class="input" required="true" />
+						</div>
+						<div class="group">
+							<label for="repeatPassword" class="label">Repeat
+								Password:</label> <input name="repeatPassword" v-model="repeatPassword"
+								v-on:keyup="checkPassword" type="password" id="repeatPassword"
+								class="input" required />
+						</div>
 
-			<form:form id="regForm" modelAttribute="user"
-				action="registerProcess" method="post">
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-user"></i>
-						</span>
+						<div class="group">
+							<label for="userType" class="label">Type:</label>
+							<form:select v-model="type" class="input" path="userType"
+								id="userType" required="true">
+								<option value="" disabled selected>I am a ...</option>
+								<option>Driver</option>
+								<option>Policeman</option>
+								<option>Municipality</option>
+							</form:select>
+						</div>
+
+						<div class="group">
+							<label for="taxCode" class="label">Tax Code:</label>
+							<form:input path="taxCode" name="taxCode" id="taxCode"
+								class="input" type="text" required="true" />
+						</div>
+
+						<div class="group" v-if="type == 'Policeman' ">
+							<label for="taxCode" class="label">ID number:</label>
+							<form:input path="idNumber" name="idNumber" id="idNumber"
+								class="input" type="text" required="true" />
+						</div>
+
+						<div class="group" v-if="type == 'Municipality' ">
+							<label for="authNumber" class="label">Authorization
+								number:</label>
+							<form:input path="authNumber" name="authNumber" id="authNumber"
+								class="input" type="text" required="true" />
+						</div>
+
+						<div class="group">
+							<label for="phone" class="label">Phone number:</label>
+							<form:input path="phoneNumber" name="phone" id="phone"
+								class="input" type="text" required="true" />
+						</div>
+
+						<div class="group">
+							<form:button id="register" name="register" type="submit"
+						class="button">Create Account</form:button>
+						</div>
+						<table align="center">
+							<tr>
+								<td style="font-style: italic; color: red;">${message}</td>
+								<td v-if="isPasswordValid == false"
+									style="font-style: italic; color: red;">The passwords
+									don't match!</td>
+							</tr>
+						</table>
+						<div class="hr"></div>
+						<div class="foot-lnk">
+							<label for="tab-1">Already Member?</a>
+						</div>
 					</div>
-
-					<form:input path="name" name="name" id="firstname"
-						class="form-control" placeholder="First name" type="text"
-						required="true" />
-
-				</div>
-				<!-- form-group// -->
-
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-user"></i>
-						</span>
-					</div>
-
-
-					<form:input path="surname" name="surname" id="surname"
-						class="form-control" placeholder="Last name" type="text"
-						required="true" />
-				</div>
-				<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-envelope"></i>
-						</span>
-					</div>
-					<form:input path="email" name="email" id="email"
-						class="form-control" placeholder="Email address" type="email"
-						required="true" />
-
-				</div>
-
-				<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-key"></i>
-						</span>
-					</div>
-					<form:password path="password" v-model="password" name="password"
-						id="password" class="form-control" placeholder="Password"
-						required="true" />
-				</div>
-				
-				<!-- form-group// -->
-				<div class="form-group input-group">
-
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-key"></i>
-						</span>
-					</div>
-
-					<input name="repeatPassword" v-model="repeatPassword"
-						v-on:keyup="checkPassword" type="password" id="repeatPassword"
-						class="form-control" placeholder="Reapeat password" required />
-				</div>
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span v-if="type == ''" class="input-group-text"> <i
-							class="fas fa-minus-square"></i>
-						</span> <span v-if="type == 'Driver'" class="input-group-text"> <i
-							class="fas fa-truck-monster"></i>
-						</span> <span v-if="type == 'Policeman'" class="input-group-text">
-							<i class="fas fa-traffic-light"></i>
-						</span> <span v-if="type == 'Municipality'" class="input-group-text">
-							<i class="fas fa-building"></i>
-						</span>
-					</div>
-					<form:select v-model="type" class="form-control" path="userType"
-						id="userType" required="true">
-						<option value="" disabled selected>I am a ...</option>
-						<option>Driver</option>
-						<option>Policeman</option>
-						<option>Municipality</option>
-					</form:select>
-				</div>
-				<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-card"></i>
-						</span>
-					</div>
-					<form:input path="taxCode" name="taxCode" id="taxCode"
-						class="form-control" placeholder="Tax code" type="text"
-						required="true" />
-
-				</div>
-
-				<!-- form-group// -->
-				<div v-if="type == 'Policeman' " class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-badge"></i>
-						</span>
-					</div>
-					<form:input path="idNumber" name="idNumber" id="idNumber"
-						class="form-control" placeholder="ID number" type="text"
-						required="true" />
-
-				</div>
-
-				<!-- form-group// -->
-				<div v-if="type == 'Municipality'" class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-city"></i>
-						</span>
-					</div>
-					<form:input path="authNumber" name="authNumber" id="authNumber"
-						class="form-control" placeholder="Authorization number"
-						type="text" required="true" />
-
-				</div>
-
-				<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-phone"></i>
-						</span>
-					</div>
-					<form:input path="phoneNumber" name="phone" id="phone"
-						class="form-control" placeholder="Phone number" type="text"
-						required="true" />
-
-				</div>
-				<table align="center">
-					<tr>
-						<td style="font-style: italic; color: red;">${message}</td>
-						<td v-if="isPasswordValid == false" style="font-style: italic; color: red;">The passwords don't match!</td>
-					</tr>
-				</table>
-
-
-				<div id="app" class="form-group">
-					<form:button id="register" name="register" type="submit"
-						class="btn btn-primary btn-block">Create Account</form:button>
-
-				</div>
-				<!-- form-group// -->
-				<p class="text-center">
-					Have an account? <a href="login">Log In</a>
-				</p>
-			</form:form>
-		</article>
+				</form:form>
+			</div>
+		</div>
 	</div>
-	<!-- card.// -->
 
 
 
