@@ -33,6 +33,7 @@ public class LoginController {
 	    Object message= session.getAttribute("message");
 	    if(message!=null) {
 	    	mav.addObject("message", (String) message);
+	    	session.removeAttribute("message");
 	    }	
 	    return mav;
     }

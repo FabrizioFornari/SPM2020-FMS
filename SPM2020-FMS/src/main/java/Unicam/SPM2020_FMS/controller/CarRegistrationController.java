@@ -1,5 +1,7 @@
 package Unicam.SPM2020_FMS.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import Unicam.SPM2020_FMS.model.Car;
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.User;
+import Unicam.SPM2020_FMS.model.UserCars;
 import Unicam.SPM2020_FMS.service.CarService;
 
 @Controller
@@ -27,7 +30,9 @@ public class CarRegistrationController {
 	    User user = (User) session.getAttribute("user");
 	    if (user!=null) {
 	    	ModelAndView mav = new ModelAndView("addCar");
-	    	mav.addObject("cars", carService.showCars(user.getIdUser()));
+	    	UserCars userCars = new UserCars();
+	    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+	    	mav.addObject("userCars", userCars);
 	    	mav.addObject("car", new Car());
 	    	return mav;
 	    } else {
@@ -45,7 +50,31 @@ public class CarRegistrationController {
 		
 	    carService.register(car);
 	    ModelAndView mav = new ModelAndView("addCar", "message", "License plate number "+car.getLicensePlateNumber()+" inserted!");
-	    mav.addObject("cars", carService.showCars(user.getIdUser()));
+    	UserCars userCars = new UserCars();
+    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+    	mav.addObject("userCars", userCars);
+    	mav.addObject("car", new Car());
+	    
+	    return mav;
+	  }
+	  
+	  @RequestMapping(value = "/modifyCars", method = RequestMethod.POST)
+	  public ModelAndView modifyCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	      @ModelAttribute("cars") UserCars cars, @ModelAttribute("car") Car car) {
+		  
+		List<Car> carsList = cars.getMyCars();
+		User user = (User) session.getAttribute("user");
+		
+	    //carService.modifyCars(carsList);
+		for (Car aCar : carsList) {
+			System.out.println(aCar.getLicensePlateNumber()+"-"+aCar.getModel());
+		}
+	    
+	    ModelAndView mav = new ModelAndView("addCar");
+    	UserCars userCars = new UserCars();
+    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+    	mav.addObject("userCars", userCars);
+    	mav.addObject("car", new Car());
 	    
 	    return mav;
 	  }

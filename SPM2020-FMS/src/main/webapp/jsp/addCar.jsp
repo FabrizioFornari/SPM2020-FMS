@@ -17,29 +17,31 @@
 
 <h2 align="center">License Plates</h2>
 <h5 align="center">Here you can add a new License plate (add new car) or see the ones already added.</h5>
+	<form:form method="post" action="modifyCars" modelAttribute="userCars">
 		<table class="table table-striped table-dark">
-			<c:if test="${cars.size() > 0 }">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">#</th>
 						<th scope="col">Number</th>
 						<th scope="col">Model</th>
-						<th scope="col"  >Action</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
-			</c:if>
 			<tbody>
-				<c:forEach var="item" items="${cars}">
+				<c:forEach var="item" items="${userCars.myCars}" varStatus="tagStatus">
 					<tr>
-						<th scope="row">${cars.indexOf(item)+1}</th>
-						<td>${item.licensePlateNumber}</td>
-						<td>${item.model}</td>
-						<td><button type="button" class="btn btn-danger">
-								<span class="fas fa-trash-alt"></span>
-							</button>
-							</td>	
+						<td>
+							<form:input path="myCars[${tagStatus.index}].licensePlateNumber" value="${item.licensePlateNumber}"/>
+						</td>
+						<td>
+							<form:input path="myCars[${tagStatus.index}].model" value="${item.model}"/>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger"><span class="fas fa-trash-alt"></span></button>
+						</td>	
 					</tr>
 				</c:forEach>
+		<input type="submit" value="Save" />
+	</form:form>
 
 				<tr>
 					<td colspan="5"><form:form id="carForm" modelAttribute="car"
