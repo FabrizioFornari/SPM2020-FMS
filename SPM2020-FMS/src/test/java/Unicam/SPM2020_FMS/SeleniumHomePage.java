@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-class SeleniumHomePageChrome {
+class SeleniumHomePage {
 	
 	static String projectPath;
 	static WebDriver driver;

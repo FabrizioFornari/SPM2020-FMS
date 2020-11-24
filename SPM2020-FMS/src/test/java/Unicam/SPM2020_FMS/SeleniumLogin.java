@@ -21,7 +21,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumLoginChrome {
+class SeleniumLogin {
 	
 	static String projectPath;
 	static WebDriver driver;
@@ -97,6 +97,7 @@ class SeleniumLoginChrome {
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
 		
+		//Checking if Welcome Page has been reached
 		assertTrue(driver.getPageSource().contains("Welcome"));
 	}
 
