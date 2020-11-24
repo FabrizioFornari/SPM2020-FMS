@@ -38,7 +38,7 @@ body {
         <a class="nav-link" href="welcome"><span class="fas fa-home"></span> Home </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="addCar"><span class="fas fa-id-badge"></span> License plates</a>
+        <a class="nav-link" href="myCars"><span class="fas fa-id-badge"></span> My Cars</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="profile"><span class="fas fa-user-secret"></span> Profile</a>

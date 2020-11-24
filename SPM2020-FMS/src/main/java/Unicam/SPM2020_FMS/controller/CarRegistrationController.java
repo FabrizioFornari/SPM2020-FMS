@@ -24,12 +24,12 @@ public class CarRegistrationController {
 	  @Autowired
 	  public CarService carService;
 
-	  @RequestMapping(value = "/addCar", method = RequestMethod.GET)
+	  @RequestMapping(value = "/myCars", method = RequestMethod.GET)
 	  public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		
 	    User user = (User) session.getAttribute("user");
 	    if (user!=null) {
-	    	ModelAndView mav = new ModelAndView("addCar");
+	    	ModelAndView mav = new ModelAndView("myCars");
 	    	UserCars userCars = new UserCars();
 	    	userCars.setMyCars(carService.showCars(user.getIdUser()));
 	    	mav.addObject("userCars", userCars);
@@ -50,7 +50,7 @@ public class CarRegistrationController {
 		car.setDriver(user.getIdUser());
 		
 	    carService.register(car);
-	    ModelAndView mav = new ModelAndView("addCar");
+	    ModelAndView mav = new ModelAndView("myCars");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
     	mav.addObject("userCars", userCars);
@@ -67,9 +67,9 @@ public class CarRegistrationController {
 		List<Car> carsList = cars.getMyCars();
 		User user = (User) session.getAttribute("user");
 		
-	    System.out.println(carService.modifyCars(carsList, carService.showCars(user.getIdUser())));
+	    carService.modifyCars(carsList, carService.showCars(user.getIdUser()));
 	    
-	    ModelAndView mav = new ModelAndView("addCar");
+	    ModelAndView mav = new ModelAndView("myCars");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
     	mav.addObject("userCars", userCars);
@@ -86,11 +86,9 @@ public class CarRegistrationController {
 		User user = (User) session.getAttribute("user");
 		car.setDriver(user.getIdUser());
 		
-		System.out.println(car.getLicensePlateNumber()+"-"+car.getDriver());
-		
-	    System.out.println(carService.deleteCar(car));
+	    carService.deleteCar(car);
 	    
-	    ModelAndView mav = new ModelAndView("addCar");
+	    ModelAndView mav = new ModelAndView("myCars");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
     	mav.addObject("userCars", userCars);
