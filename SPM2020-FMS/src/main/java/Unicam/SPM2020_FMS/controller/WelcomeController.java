@@ -15,7 +15,7 @@ import Unicam.SPM2020_FMS.model.User;
 @Controller
 public class WelcomeController {
 
-  @RequestMapping(value = "/welcome", method = RequestMethod.GET)
+  @RequestMapping(value = "/", method = RequestMethod.GET)
   public ModelAndView showWelcome(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
     
     User user = (User)session.getAttribute("user");

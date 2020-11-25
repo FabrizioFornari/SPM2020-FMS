@@ -27,24 +27,34 @@
 </head>
 <body>
 	<div class="login-wrap">
+
 		<div class="login-html">
+			<div align="center" class="logo">
+				<img
+					src="${pageContext.request.contextPath}/resources/images/logo.png"
+					alt="" width="200" height="200"></img>
+			</div>
+
 			<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label
 				for="tab-1" class="tab">Sign In</label> <input id="tab-2"
 				type="radio" name="tab" class="sign-up"><label
 				style="display: none" for="tab-2" class="tab">Sign Up</label>
 			<div class="login-form">
+			
 				<form:form id="loginForm" modelAttribute="login"
 					action="loginProcess" method="post">
 					<div class="sign-in-htm">
 						<div class="group">
-							<label for="username" class="label">Username</label>
+						
+							<label for="username" class="label">Email:</label>
+							
 							<form:input path="username" name="username" id="username"
-								class="input" placeholder="Email" type="email" />
+								class="input" type="email" />
 						</div>
 						<div class="group">
-							<label for="password" class="label">Password</label>
+							<label for="password" class="label">Password:</label>
 							<form:password path="password" name="password" id="password"
-								class="input" placeholder="Password" />
+								class="input" />
 						</div>
 						<!--  <div class="group">
 							<input id="check" type="checkbox" class="check" checked>
