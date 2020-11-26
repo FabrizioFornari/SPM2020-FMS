@@ -27,8 +27,13 @@
 </head>
 <body>
 
-	<div class="login-wrap" id="app">
+	<div class="register-wrap" id="app">
 		<div class="login-html">
+			<div align="center" class="logo">
+				<img
+					src="${pageContext.request.contextPath}/resources/images/logo.png"
+					alt="" width="200" height="200"></img>
+			</div>
 			<input id="tab-1" type="radio" name="tab" class="sign-in"><label
 				style="display: none" for="tab-1" class="tab">Sign In</label> <input
 				id="tab-2" type="radio" name="tab" class="sign-up" checked><label
@@ -102,7 +107,7 @@
 
 						<div class="group">
 							<form:button id="register" name="register" type="submit"
-						class="button">Create Account</form:button>
+								class="button">Create Account</form:button>
 						</div>
 						<table align="center">
 							<tr>
@@ -114,7 +119,7 @@
 						</table>
 						<div class="hr"></div>
 						<div class="foot-lnk">
-							<label for="tab-1">Already Member?</a>
+							<a href="login">Already Member?</a>
 						</div>
 					</div>
 				</form:form>

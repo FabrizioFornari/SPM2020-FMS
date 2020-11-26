@@ -54,7 +54,7 @@ public class RegistrationController {
     if (regResult>0) {
         user.setIdUser(regResult);
         session.setAttribute("user", user);
-        return "redirect:/welcome";
+        return "redirect:/";
     } else {
     	regResult*=-1;
     	session.setAttribute("message", messages[regResult]);

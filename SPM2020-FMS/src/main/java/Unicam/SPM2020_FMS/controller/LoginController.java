@@ -47,7 +47,7 @@ public class LoginController {
 
     if (user != null) {
       session.setAttribute("user", user);
-      return "redirect:/welcome";
+      return "redirect:/";
     } else {
       session.setAttribute("message", "Email or Password is wrong!!");
       return "redirect:/login";
