@@ -8,13 +8,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
-
+<link
+	href="${pageContext.request.contextPath}/resources/css/profileStyle.css"
+	rel="stylesheet">
 <title>Profile</title>
 </head>
 <body>
 
 	<jsp:include page="navBar.jsp"></jsp:include>
-	<div class="card bg-light" id="app">
+	<div id="app">
+	
 		<article class="card-body mx-auto" style="max-width: 400px;">
 			<h4 class="card-title mt-3 text-center">Update your information:</h4>
 
@@ -27,7 +30,7 @@
 					</div>
 
 					<form:input path="name" name="name" id="firstname"
-						class="form-control" placeholder="First name" type="text"
+						class="input" placeholder="First name" type="text"
 						required="true" />
 
 				</div>
@@ -35,13 +38,13 @@
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-user"></i>
+						<span class="input-group-text"> <i class="fas fa-user "></i>
 						</span>
 					</div>
 
 
 					<form:input path="surname" name="surname" id="surname"
-						class="form-control" placeholder="Last name" type="text"
+						class="input" placeholder="Last name" type="text"
 						required="true" />
 				</div>
 				<!-- form-group// -->
@@ -51,7 +54,7 @@
 						</span>
 					</div>
 					<form:input path="email" name="email" id="email"
-						class="form-control" placeholder="Email address" type="email"
+						class="input" placeholder="Email address" type="email"
 						required="true" />
 
 				</div>
@@ -65,7 +68,7 @@
 						</span>
 					</div>
 					<form:input path="taxCode" name="taxCode" id="taxCode"
-						class="form-control" placeholder="Tax code" type="text"
+						class="input" placeholder="Tax code" type="text"
 						required="true" />
 
 				</div>
@@ -77,7 +80,7 @@
 						</span>
 					</div>
 					<form:input path="idNumber" name="idNumber" id="idNumber"
-						class="form-control" placeholder="ID number" type="text"
+						class="input" placeholder="ID number" type="text"
 						required="true" />
 
 				</div>
@@ -85,11 +88,11 @@
 				<!-- form-group// -->
 				<div v-if="type == 'Municipality'" class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-card"></i>
+						<span class="input-group-text"> <i class="fas fa-id-card "></i>
 						</span>
 					</div>
 					<form:input path="authNumber" name="authNumber" id="authNumber"
-						class="form-control" placeholder="Authorization number"
+						class="input" placeholder="Authorization number"
 						type="text" required="true" />
 
 				</div>
@@ -101,23 +104,15 @@
 						</span>
 					</div>
 					<form:input path="phoneNumber" name="phone" id="phone"
-						class="form-control" placeholder="Phone number" type="text"
+						class="input" placeholder="Phone number" type="text"
 						required="true" />
 
 				</div>
 
+				<div class="hr"></div>
 				<!-- form-group// -->
-				<!--  	<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fa fa-lock"></i>
-						</span>
-					</div>
-					<input class="form-control" placeholder="Repeat password"
-						type="password">
-				</div>-->
-
-				<!-- form-group// -->
-				<div id="app" class="form-group">
+				<div class="form-group">
+				
 					<form:button id="register" name="register" type="submit"
 						class="btn btn-primary btn-block">Update information</form:button>
 
