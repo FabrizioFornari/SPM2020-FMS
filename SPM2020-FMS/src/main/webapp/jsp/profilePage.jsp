@@ -17,7 +17,7 @@
 
 	<jsp:include page="navBar.jsp"></jsp:include>
 	<div id="app">
-	
+
 		<article class="card-body mx-auto" style="max-width: 400px;">
 			<h4 class="card-title mt-3 text-center">Update your information:</h4>
 
@@ -29,9 +29,8 @@
 						</span>
 					</div>
 
-					<form:input path="name" name="name" id="firstname"
-						class="input" placeholder="First name" type="text"
-						required="true" />
+					<form:input path="name" name="name" id="firstname" class="input"
+						placeholder="First name" type="text" required="true" />
 
 				</div>
 				<!-- form-group// -->
@@ -44,8 +43,7 @@
 
 
 					<form:input path="surname" name="surname" id="surname"
-						class="input" placeholder="Last name" type="text"
-						required="true" />
+						class="input" placeholder="Last name" type="text" required="true" />
 				</div>
 				<!-- form-group// -->
 				<div class="form-group input-group">
@@ -53,9 +51,8 @@
 						<span class="input-group-text"> <i class="fas fa-envelope"></i>
 						</span>
 					</div>
-					<form:input path="email" name="email" id="email"
-						class="input" placeholder="Email address" type="email"
-						required="true" />
+					<form:input path="email" name="email" id="email" class="input"
+						placeholder="Email address" type="email" required="true" />
 
 				</div>
 
@@ -69,7 +66,9 @@
 					</div>
 					<form:input path="taxCode" name="taxCode" id="taxCode"
 						class="input" placeholder="Tax code" type="text"
+						pattern="^[A-Za-z]{6}\d{2}[A-Za-z]\d{2}[A-Za-z]\d{3}[A-Za-z]$"
 						required="true" />
+
 
 				</div>
 
@@ -81,7 +80,8 @@
 					</div>
 					<form:input path="idNumber" name="idNumber" id="idNumber"
 						class="input" placeholder="ID number" type="text"
-						required="true" />
+						pattern="\w{6,20}" required="true" />
+
 
 				</div>
 
@@ -92,8 +92,8 @@
 						</span>
 					</div>
 					<form:input path="authNumber" name="authNumber" id="authNumber"
-						class="input" placeholder="Authorization number"
-						type="text" required="true" />
+						class="input" placeholder="Authorization number" type="text"
+						pattern="\w{6,20}" required="true" />
 
 				</div>
 
@@ -104,15 +104,15 @@
 						</span>
 					</div>
 					<form:input path="phoneNumber" name="phone" id="phone"
-						class="input" placeholder="Phone number" type="text"
-						required="true" />
+						class="input" placeholder="Phone number" type="tel"
+						pattern="\d{6,20}" required="true" />
 
 				</div>
 
 				<div class="hr"></div>
 				<!-- form-group// -->
 				<div class="form-group">
-				
+
 					<form:button id="register" name="register" type="submit"
 						class="btn btn-primary btn-block">Update information</form:button>
 

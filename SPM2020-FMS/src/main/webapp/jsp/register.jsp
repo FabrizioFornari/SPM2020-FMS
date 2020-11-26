@@ -83,26 +83,26 @@
 						<div class="group">
 							<label for="taxCode" class="label">Tax Code:</label>
 							<form:input path="taxCode" name="taxCode" id="taxCode"
-								class="input" type="text" required="true" />
+								class="input" type="text" pattern="^[A-Za-z]{6}\d{2}[A-Za-z]\d{2}[A-Za-z]\d{3}[A-Za-z]$" required="true" />
 						</div>
 
 						<div class="group" v-if="type == 'Policeman' ">
 							<label for="taxCode" class="label">ID number:</label>
 							<form:input path="idNumber" name="idNumber" id="idNumber"
-								class="input" type="text" required="true" />
+								class="input" type="text" pattern="\w{6,20}" required="true" />
 						</div>
 
 						<div class="group" v-if="type == 'Municipality' ">
 							<label for="authNumber" class="label">Authorization
 								number:</label>
 							<form:input path="authNumber" name="authNumber" id="authNumber"
-								class="input" type="text" required="true" />
+								class="input" type="text" pattern="\w{6,20}" required="true" />
 						</div>
 
 						<div class="group">
 							<label for="phone" class="label">Phone number:</label>
 							<form:input path="phoneNumber" name="phone" id="phone"
-								class="input" type="text" required="true" />
+								class="input" type="tel" pattern="\d{6,20}" required="true" />
 						</div>
 
 						<div class="group">
