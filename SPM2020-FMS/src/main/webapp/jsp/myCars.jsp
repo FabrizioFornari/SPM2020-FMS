@@ -9,19 +9,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
-<title>Registration</title>
+<title>My Cars</title>
 </head>
 <body>
 	<jsp:include page="navBar.jsp"></jsp:include>
 	<div class="container" id="app">
 
-<h2 align="center">License Plates</h2>
-<h5 align="center">Here you can add a new License plate (add new car) or see the ones already added.</h5>
-	<form:form method="post" action="modifyCars" modelAttribute="userCars">
+<h2 align="center">My Cars</h2>
+<h5 align="center">Here you can see and modify the list of your cars</h5>
 		<table class="table table-striped table-dark">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">Number</th>
+						<th scope="col">Plate Number</th>
 						<th scope="col">Model</th>
 						<th scope="col">Action</th>
 					</tr>
@@ -30,10 +29,10 @@
 				<c:forEach var="item" items="${userCars.myCars}" varStatus="tagStatus">
 					<tr>
 						<td>
-							<form:input path="myCars[${tagStatus.index}].licensePlateNumber" value="${item.licensePlateNumber}"/>
+							${item.licensePlateNumber}
 						</td>
 						<td>
-							<form:input path="myCars[${tagStatus.index}].model" value="${item.model}"/>
+							${item.model}
 						</td>
 						<td>
 							<form:form method="post" action="deleteCar" modelAttribute="carToTrash">
@@ -43,8 +42,6 @@
 						</td>	
 					</tr>
 				</c:forEach>
-		<input type="submit" value="Save" />
-	</form:form>
 
 				<tr>
 					<td colspan="5"><form:form id="carForm" modelAttribute="carToAdd"
@@ -52,7 +49,7 @@
 							<div class="input-group">
 								<form:input path="licensePlateNumber" name="licensePlate"
 									id="licensePlate" class="form-control"
-									placeholder="License plate number" type="text" required ="required" />
+									placeholder="Plate number" type="text" required ="required" />
 								<form:input path="model" name="model" id="model"
 									class="form-control" placeholder="Car model" type="text" />
 								<div class="input-group-append">

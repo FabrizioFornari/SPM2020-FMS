@@ -18,40 +18,25 @@
      <div class="container">
          <div class="row justify-content-center">
             <div class="col=12 mt-3">
-                <div class="jumbotron ">
-                  <h1 class="display-4">Welcome ${user.name} ${user.surname} !</h1>
-                  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                <div class="jumbotron" style="background-color: #826137ab;" >
+                  <h1 class="display-4">Hello ${user.name} !</h1>
+             
                   <hr class="my-4">
-                  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                
                   <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    <button class="btn btn-outline-warning btn-lg"  >Find a place</button>
+                      <button class="btn btn-outline-warning btn-lg"  >My Reservations</button>
                   </p>
+                    <p class="lead">
+                
+                   <a href="myCars">   <button class="btn btn-outline-warning btn-lg" style="width:100%;" >My Cars</button></a>
+                  </p>
+                
             </div>
          </div>
         </div>
      </div>
-      <div class="container">
-       <div class="row">
-          <div class="col-sm-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Choose a parking place</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Manage your reservations</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-        </div>
-     </div>
+ 
     </main>
   
 </body>

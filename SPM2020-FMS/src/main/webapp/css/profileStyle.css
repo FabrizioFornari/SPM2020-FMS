@@ -1,0 +1,44 @@
+/*input {
+	border-radius: 20px !important;
+	background-color: #231a9757 !important;
+	text-align:center;
+	color:yellow !important;
+}*/
+.input {
+	width: 100%;
+	color: #fff;
+	display: block;
+	border: none;
+	padding: 15px 60px;
+	border-radius: 25px;
+	background: rgba(22, 45, 66, 0.86);
+
+}
+
+.input-group-prepend {
+	position: absolute;
+	margin: 11px;
+}
+
+.input-group-prepend span {
+	border-radius: 50px !important;
+	background-color: #e9ece200 !important;
+	color: #b7b722;
+}
+
+.hr {
+	height: 2px;
+	margin: 28px 0 25px 0;
+	background: rgba(255, 255, 255, .2);
+}
+
+#register {
+	
+	border: none;
+	padding: 15px 20px;
+	border-radius: 25px;
+	background: rgba(45, 198, 23, 0.77);
+	width: 100%;
+	color: #fff;
+	display: block;
+}
