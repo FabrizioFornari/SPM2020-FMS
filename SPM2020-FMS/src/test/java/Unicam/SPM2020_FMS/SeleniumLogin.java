@@ -30,6 +30,7 @@ class SeleniumLogin {
 	static String rightPassword;
 	static String wrongPassword;
 	static String pathToLinuxDriver;
+	static String pathToWindowsDriver;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -45,7 +46,8 @@ class SeleniumLogin {
             user=prop.getProperty("user");
             wrongPassword=prop.getProperty("wrongPassword");
             rightPassword=prop.getProperty("rightPassword");
-            pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
+          //  pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
+            pathToWindowsDriver=prop.getProperty("pathToWindowsDriver");
 		} catch (IOException ex) {
             ex.printStackTrace();
 		}
@@ -58,7 +60,8 @@ class SeleniumLogin {
 	@BeforeEach
 	void setUp() throws Exception {
 		//Setting up WebDriver options
-		System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+		//System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+		System.setProperty("webdriver.chrome.driver", projectPath+pathToWindowsDriver);
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");

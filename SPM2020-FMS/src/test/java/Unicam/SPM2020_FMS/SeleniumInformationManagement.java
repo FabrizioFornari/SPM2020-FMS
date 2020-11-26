@@ -25,6 +25,7 @@ class SeleniumInformationManagement {
 	
 	static String projectPath;
 	static String pathToLinuxDriver;
+	static String pathToWindowsDriver;
 	static WebDriver driver;
 	static String URLbase;
 	static String user;
@@ -46,6 +47,7 @@ class SeleniumInformationManagement {
 		       password=prop.getProperty("rightPassword");
 		       newPhoneNumber=prop.getProperty("newPhoneNumber");
 		       pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
+		       pathToWindowsDriver=prop.getProperty("pathToWindowsDriver");
 		} catch (IOException ex) {
 				ex.printStackTrace();
 		}
@@ -61,7 +63,8 @@ class SeleniumInformationManagement {
 	@BeforeEach
 	void setUp() throws Exception {
 		//Setting up WebDriver options
-		System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+	//	System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+		System.setProperty("webdriver.chrome.driver", projectPath+pathToWindowsDriver);
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");

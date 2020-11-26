@@ -26,6 +26,7 @@ class SeleniumRegistration {
 	
 	static String projectPath;
 	static String pathToLinuxDriver;
+	static String pathToWindowsDriver;
 	static WebDriver driver;
 	static String URLbase;
 	static String newUserFirstname;
@@ -54,6 +55,7 @@ class SeleniumRegistration {
 	           newUserPhone=prop.getProperty("newUserPhone");
 	           
 	           pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
+	           pathToWindowsDriver=prop.getProperty("pathToWindowsDriver");
 		} catch (IOException ex) {
 	           ex.printStackTrace();
 		}		
@@ -66,7 +68,8 @@ class SeleniumRegistration {
 	@BeforeEach
 	void setUp() throws Exception {
 		//Setting up WebDriver options
-		System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+		//System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
+		System.setProperty("webdriver.chrome.driver", projectPath+pathToWindowsDriver);
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
