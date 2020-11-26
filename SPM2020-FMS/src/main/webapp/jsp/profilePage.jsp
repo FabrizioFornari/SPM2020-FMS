@@ -65,8 +65,8 @@
 						</span>
 					</div>
 					<form:input path="taxCode" name="taxCode" id="taxCode"
-						class="form-control" placeholder="Tax code" type="text"
-						required="true" />
+						class="form-control" placeholder="Tax code" type="text" 
+						pattern="^[A-Za-z]{6}\d{2}[A-Za-z]\d{2}[A-Za-z]\d{3}[A-Za-z]$" required="true" />
 
 				</div>
 
@@ -77,8 +77,8 @@
 						</span>
 					</div>
 					<form:input path="idNumber" name="idNumber" id="idNumber"
-						class="form-control" placeholder="ID number" type="text"
-						required="true" />
+						class="form-control" placeholder="ID number" 
+						type="text" pattern="\w{6,20}" required="true" />
 
 				</div>
 
@@ -90,7 +90,7 @@
 					</div>
 					<form:input path="authNumber" name="authNumber" id="authNumber"
 						class="form-control" placeholder="Authorization number"
-						type="text" required="true" />
+						type="text" pattern="\w{6,20}" required="true" />
 
 				</div>
 
@@ -101,7 +101,7 @@
 						</span>
 					</div>
 					<form:input path="phoneNumber" name="phone" id="phone"
-						class="form-control" placeholder="Phone number" type="text"
+						class="form-control" placeholder="Phone number" type="tel" pattern="\d{6,20}"
 						required="true" />
 
 				</div>
