@@ -112,6 +112,12 @@
 				<div class="hr"></div>
 				<!-- form-group// -->
 				<div class="form-group">
+				<table align="center">
+							<tr>
+								<td style="font-style: italic; color: green;">${message}</td>
+						
+							</tr>
+						</table>
 
 					<form:button id="register" name="register" type="submit"
 						class="btn btn-primary btn-block">Update information</form:button>

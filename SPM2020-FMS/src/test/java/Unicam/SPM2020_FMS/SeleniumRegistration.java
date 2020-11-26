@@ -115,7 +115,7 @@ class SeleniumRegistration {
 		driver.findElement(By.id("register")).click();
 		
 		//Checking if Welcome Page has been reached
-		assertTrue(driver.getPageSource().contains("Welcome"));
+		assertTrue(driver.getPageSource().contains(newUserFirstname));
 		
 	}
 }

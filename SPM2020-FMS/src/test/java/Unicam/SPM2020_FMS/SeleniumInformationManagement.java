@@ -43,8 +43,8 @@ class SeleniumInformationManagement {
 	           Properties prop = new Properties();
 	           prop.load(input);
 
-		       user=prop.getProperty("user");
-		       password=prop.getProperty("rightPassword");
+		       user=prop.getProperty("newUserEmail");
+		       password=prop.getProperty("newUserPassword");
 		       newPhoneNumber=prop.getProperty("newPhoneNumber");
 		       pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
 		       pathToWindowsDriver=prop.getProperty("pathToWindowsDriver");
