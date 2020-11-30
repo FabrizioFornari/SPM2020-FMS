@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Car;
 import Unicam.SPM2020_FMS.model.Login;
+import Unicam.SPM2020_FMS.model.PolicemanUsers;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.model.UserCars;
 import Unicam.SPM2020_FMS.service.CarService;
@@ -96,6 +97,25 @@ public class CarRegistrationController {
     	mav.addObject("carToTrash", new Car());
 	    
 	    return mav;
+	  }
+	  
+	  
+	  
+	  @RequestMapping(value = "/cars", method = RequestMethod.GET)
+	  public ModelAndView showCars(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+		
+	    User user = (User) session.getAttribute("user");
+
+	    if (user!=null) {
+	    	ModelAndView mav = new ModelAndView("cars");
+	    	List<PolicemanUsers> cars = carService.showCars();
+	    	mav.addObject("cars",cars);
+	    	return mav;
+	    } else {
+	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
+	    	mav.addObject("message", "Please login");		
+	    	return new ModelAndView("login", "login", new Login());
+	    }
 	  }
 
 }
