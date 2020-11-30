@@ -22,10 +22,20 @@ public class CarDao {
 	JdbcTemplate jdbcTemplate;
 
 	public int register(Car car) {
+		/*
+		 * Try to insert a new car in DB if catch duplicate does not check which one cause could be only one and return 0. 
+		 * For other exceptions return -1
+		 */
+		
 		String sql = "INSERT INTO car VALUES (?,?,?)";
 
-		// try {
-		return jdbcTemplate.update(sql, new Object[] { car.getLicensePlateNumber(), car.getDriver(), car.getModel(), });
+		try {
+			return jdbcTemplate.update(sql, new Object[] { car.getLicensePlateNumber(), car.getDriver(), car.getModel(), });
+		} catch (org.springframework.dao.DuplicateKeyException e) {
+			return 0;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	public List<Car> showCars(Integer idUser) {
@@ -37,6 +47,7 @@ public class CarDao {
 		return cars;
 	}
 
+	//NOT USED
 	public int updateCar(Car newCar, Car oldCar) {
 
 		String sql = "UPDATE car SET LicensePlateNumber = ?, Model = ? WHERE Driver = ? and LicensePlateNumber= ? ";

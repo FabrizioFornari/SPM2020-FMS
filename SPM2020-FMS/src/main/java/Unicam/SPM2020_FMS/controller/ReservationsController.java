@@ -33,14 +33,18 @@ public class ReservationsController {
 	    User user = (User) session.getAttribute("user");
 
 	    if (user!=null) {
-	    	ModelAndView mav = new ModelAndView("reservationsToCheck");
-	    	List<PolicemanUsers> reservationsToCheck = reservationsService.showReservationsToCheck();
-	    	mav.addObject("reservationsToCheck",reservationsToCheck);
-	    	return mav;
+	    	if (user.getUserType()=="Policeman") {
+		    	ModelAndView mav = new ModelAndView("reservationsToCheck");
+		    	List<PolicemanUsers> reservationsToCheck = reservationsService.showReservationsToCheck();
+		    	mav.addObject("reservationsToCheck",reservationsToCheck);
+		    	return mav;
+	    	} else {
+	    		return new ModelAndView("welcome", "user", user);
+	    	}
 	    } else {
 	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
 	    	mav.addObject("message", "Please login");		
-	    	return new ModelAndView("login", "login", new Login());
+	    	return mav;
 	    }
 	  }
 }

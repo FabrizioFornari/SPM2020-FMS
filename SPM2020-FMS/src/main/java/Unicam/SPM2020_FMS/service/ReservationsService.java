@@ -10,11 +10,12 @@ import Unicam.SPM2020_FMS.model.PolicemanUsers;
 
 public class ReservationsService {
 
-	 @Autowired
-	  public ReservationsDao reservationsDao;
+	@Autowired
+	public ReservationsDao reservationsDao;
 	 
-	 public List<PolicemanUsers> showReservationsToCheck() {
+	public List<PolicemanUsers> showReservationsToCheck() {
 			return reservationsDao.showReservationsToCheck();
 			
-		}
+	}
+	
 }
