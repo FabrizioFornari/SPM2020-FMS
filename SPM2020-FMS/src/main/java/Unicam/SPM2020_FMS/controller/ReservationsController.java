@@ -24,8 +24,6 @@ public class ReservationsController {
 
 	 @Autowired
 	  public ReservationsService reservationsService;
-	 
-	 
 	  
 	  @RequestMapping(value = "/reservationsToCheck", method = RequestMethod.GET)
 	  public ModelAndView showReservationsToCheck(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
@@ -33,7 +31,7 @@ public class ReservationsController {
 	    User user = (User) session.getAttribute("user");
 
 	    if (user!=null) {
-	    	if (user.getUserType()=="Policeman") {
+	    	if (user.getUserType().equals("Policeman")) {
 		    	ModelAndView mav = new ModelAndView("reservationsToCheck");
 		    	List<PolicemanUsers> reservationsToCheck = reservationsService.showReservationsToCheck();
 		    	mav.addObject("reservationsToCheck",reservationsToCheck);

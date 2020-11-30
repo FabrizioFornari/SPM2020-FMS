@@ -32,7 +32,7 @@ public class CarRegistrationController {
 		
 	    User user = (User) session.getAttribute("user");
 	    if (user!=null) {
-	    	if (user.getUserType()=="Driver") {
+	    	if (user.getUserType().equals("Driver")) {
 		    	ModelAndView mav = new ModelAndView("myCars");
 		    	UserCars userCars = new UserCars();
 		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
