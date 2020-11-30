@@ -7,19 +7,25 @@ public class ParkingSpace {
 	private String address;
 	private String coordinates;
 	private Integer spotsCapacity;
+	private Integer coveredSpots;
+	private Integer handicapSpots;
+	private boolean isGuarded;
 	
 	public ParkingSpace() {
 		super();
 	}
 	
 	public ParkingSpace(Integer idParkingSpace, String name, String address, String coordinates,
-			Integer spotsCapacity) {
+			Integer spotsCapacity, Integer coveredSpots, Integer handicapSpots, boolean isGuarded ) {
 		super();
 		this.idParkingSpace = idParkingSpace;
 		this.name = name;
 		this.address = address;
 		this.coordinates = coordinates;
 		this.spotsCapacity = spotsCapacity;
+		this.coveredSpots = coveredSpots;
+		this.handicapSpots = handicapSpots;
+		this.isGuarded = isGuarded;
 	}
 
 	public Integer getIdParkingSpace() {
@@ -61,11 +67,36 @@ public class ParkingSpace {
 	public void setSpotsCapacity(Integer spotsCapacity) {
 		this.spotsCapacity = spotsCapacity;
 	}
+	
+	public Integer getCoveredSpots() {
+		return coveredSpots;
+	}
+
+	public void setCoveredSpots(Integer coveredSpots) {
+		this.coveredSpots = coveredSpots;
+	}
+
+	public Integer getHandicapSpots() {
+		return handicapSpots;
+	}
+
+	public void setHandicapSpots(Integer handicapSpots) {
+		this.handicapSpots = handicapSpots;
+	}
+
+	public boolean isGuarded() {
+		return isGuarded;
+	}
+
+	public void setGuarded(boolean isGuarded) {
+		this.isGuarded = isGuarded;
+	}
 
 	@Override
 	public String toString() {
 		return "ParkingSpace [idParkingSpace=" + idParkingSpace + ", name=" + name + ", address=" + address
-				+ ", coordinates=" + coordinates + ", spotsCapacity=" + spotsCapacity + "]";
+				+ ", coordinates=" + coordinates + ", spotsCapacity=" + spotsCapacity + ", coveredSpots=" + coveredSpots
+				+ ", handicapSpots=" + handicapSpots + ", isGuarded=" + isGuarded + "]";
 	}
 	
 }

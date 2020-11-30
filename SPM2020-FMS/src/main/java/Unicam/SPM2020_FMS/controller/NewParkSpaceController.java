@@ -19,7 +19,6 @@ import Unicam.SPM2020_FMS.service.ParkSpaceService;
 @Controller
 public class NewParkSpaceController {
 	  @Autowired
-	  //public ParkSpaceService parkSpaceService;
 	  public ParkSpaceService parkService;
 
 	  @RequestMapping(value = "/newParkArea", method = RequestMethod.GET)
