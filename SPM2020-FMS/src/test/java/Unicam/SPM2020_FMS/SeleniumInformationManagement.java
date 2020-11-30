@@ -12,6 +12,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,9 +25,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 class SeleniumInformationManagement {
 	
 	static String projectPath;
-	static String pathToLinuxDriver;
-	static String pathToWindowsDriver;
+	static String pathToDriver;
 	static WebDriver driver;
+	static String runningOS;
 	static String URLbase;
 	static String user;
 	static String password;
@@ -34,23 +35,31 @@ class SeleniumInformationManagement {
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+		//Checking running OS
+		runningOS = (System.getProperty("os.name"));
+		
 		//Setting up system properties
 		projectPath = System.getProperty("user.dir");
 		URLbase = "http://localhost:8080/SPM2020-FMS/";
-				
+		
 		//Reading data from a configuration file
 		try (InputStream input = new FileInputStream( projectPath+"/src/main/resources/config.properties")) {
-	           Properties prop = new Properties();
-	           prop.load(input);
-
-		       user=prop.getProperty("newUserEmail");
-		       password=prop.getProperty("newUserPassword");
-		       newPhoneNumber=prop.getProperty("newPhoneNumber");
-		       pathToLinuxDriver=prop.getProperty("pathToLinuxDriver");
-		       pathToWindowsDriver=prop.getProperty("pathToWindowsDriver");
+            Properties prop = new Properties();
+            prop.load(input);
+            
+            if (runningOS.equals("Linux")) {
+            	pathToDriver = prop.getProperty("pathToLinuxDriver");
+            }
+            else if (runningOS.equals("Windows")) {
+            	pathToDriver = prop.getProperty("pathToWindowsDriver");
+            }
+            
+            user=prop.getProperty("newUserEmail");
+		    password=prop.getProperty("newUserPassword");
+		    newPhoneNumber=prop.getProperty("newPhoneNumber");
 		} catch (IOException ex) {
-				ex.printStackTrace();
-		}
+            ex.printStackTrace();
+		}	       
 	}
 
 	@AfterAll
@@ -64,10 +73,14 @@ class SeleniumInformationManagement {
 	void setUp() throws Exception {
 		//Setting up WebDriver options
 	//	System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
-		System.setProperty("webdriver.chrome.driver", projectPath+pathToWindowsDriver);
+		System.setProperty("webdriver.chrome.driver", projectPath+pathToDriver);
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
+		
+		//Remove comment prefix on the next line if you want to run test in headless mode
+		//options.addArguments("--headless");
+		
 		driver = new ChromeDriver(options);
 	}
 
@@ -76,9 +89,13 @@ class SeleniumInformationManagement {
 	}
 
 	@Test
-	void test() throws InterruptedException {
-		//Connecting to the login page and trying to login with a wrong password
-		driver.get(URLbase+"login");
+	// Waits are properly managed with the WebDriverWait class
+	// Every sleep in the following code can be easily removed without compromising the test
+	// Sleeps are there just for showing purpose
+	@DisplayName("Check whether changing phone number succeeds")
+	void checkChangingOfPhoneNumber() throws InterruptedException {
+		//Logging in
+		driver.get(URLbase);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
