@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import Unicam.SPM2020_FMS.dao.CarDao;
 import Unicam.SPM2020_FMS.model.Car;
-import Unicam.SPM2020_FMS.model.PolicemanUsers;
+
 
 public class CarService {
 
@@ -39,9 +39,6 @@ public class CarService {
 	    return carDao.deleteCar(car);
   }
 
-public List<PolicemanUsers> showCars() {
-	return carDao.showCars();
-	
-}
+
 
 }

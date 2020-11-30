@@ -100,22 +100,6 @@ public class CarRegistrationController {
 	  }
 	  
 	  
-	  
-	  @RequestMapping(value = "/cars", method = RequestMethod.GET)
-	  public ModelAndView showCars(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
-		
-	    User user = (User) session.getAttribute("user");
-
-	    if (user!=null) {
-	    	ModelAndView mav = new ModelAndView("cars");
-	    	List<PolicemanUsers> cars = carService.showCars();
-	    	mav.addObject("cars",cars);
-	    	return mav;
-	    } else {
-	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
-	    	mav.addObject("message", "Please login");		
-	    	return new ModelAndView("login", "login", new Login());
-	    }
-	  }
+	
 
 }
