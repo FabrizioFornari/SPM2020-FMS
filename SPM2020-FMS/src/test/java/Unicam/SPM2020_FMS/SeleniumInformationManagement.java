@@ -72,7 +72,6 @@ class SeleniumInformationManagement {
 	@BeforeEach
 	void setUp() throws Exception {
 		//Setting up WebDriver options
-	//	System.setProperty("webdriver.chrome.driver", projectPath+pathToLinuxDriver);
 		System.setProperty("webdriver.chrome.driver", projectPath+pathToDriver);
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");

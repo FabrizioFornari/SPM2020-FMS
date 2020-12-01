@@ -51,10 +51,10 @@ class SeleniumRegistration {
 	           Properties prop = new Properties();
 	           prop.load(input);
 	           
-	           if (runningOS.equals("Linux")) {
+	           if (runningOS.contains("Linux")) {
 	            	pathToDriver = prop.getProperty("pathToLinuxDriver");
 	            }
-	            else if (runningOS.equals("Windows")) {
+	            else if (runningOS.contains("Windows")) {
 	            	pathToDriver = prop.getProperty("pathToWindowsDriver");
 	            }
 

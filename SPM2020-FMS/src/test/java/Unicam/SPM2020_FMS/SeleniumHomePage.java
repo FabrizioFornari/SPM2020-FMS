@@ -39,10 +39,10 @@ class SeleniumHomePage {
             Properties prop = new Properties();
             prop.load(input);
             
-            if (runningOS.equals("Linux")) {
+            if (runningOS.contains("Linux")) {
             	pathToDriver = prop.getProperty("pathToLinuxDriver");
             }
-            else if (runningOS.equals("Windows")) {
+            else if (runningOS.contains("Windows")) {
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
 		} catch (IOException ex) {
@@ -60,6 +60,7 @@ class SeleniumHomePage {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
+		
 		//Remove comment prefix on the next line if you want to run test in headless mode
 		//options.addArguments("--headless");
 		
