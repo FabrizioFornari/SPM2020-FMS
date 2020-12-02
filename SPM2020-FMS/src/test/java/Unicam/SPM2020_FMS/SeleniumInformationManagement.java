@@ -54,9 +54,9 @@ class SeleniumInformationManagement {
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
             
-            user=prop.getProperty("newUserEmail");
-		    password=prop.getProperty("newUserPassword");
-		    newPhoneNumber=prop.getProperty("newPhoneNumber");
+            user = prop.getProperty("newUserEmail");
+		    password = prop.getProperty("newUserPassword");
+		    newPhoneNumber = prop.getProperty("newPhoneNumber");
 		} catch (IOException ex) {
             ex.printStackTrace();
 		}	       

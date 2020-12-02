@@ -115,6 +115,7 @@ class SeleniumLogin {
 		driver.findElement(By.id("password")).sendKeys(rightPassword);
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		
 		//Checking whether login has succeeded
 		assertTrue(driver.getPageSource().contains("Hello"));

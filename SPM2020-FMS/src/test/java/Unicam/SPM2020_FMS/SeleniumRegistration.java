@@ -109,7 +109,7 @@ class SeleniumRegistration {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='register']"))).click();
 		
 		//Compiling form
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("firstname"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("firstname")));
 		driver.findElement(By.id("firstname")).sendKeys(newUserFirstname);
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("surname")).sendKeys(newUserSurname);
@@ -128,6 +128,7 @@ class SeleniumRegistration {
 		driver.findElement(By.id("phone")).sendKeys(newUserPhone);
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		
 		//Checking if welcome page has been reached
 		assertTrue(driver.getPageSource().contains(newUserFirstname));
