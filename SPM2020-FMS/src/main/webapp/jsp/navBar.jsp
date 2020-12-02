@@ -1,5 +1,9 @@
+<%@page import="Unicam.SPM2020_FMS.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% User user = (User)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,10 +51,19 @@ body {
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
+			
 				<li class="nav-item "><a class="nav-link" href="./"><span
 						class="fas fa-home"></span> Home </a></li>
-				<li class="nav-item"><a class="nav-link" href="myCars"><span
+					
+						<c:if test="${user.getUserType() == 'Driver' }">
+						<li class="nav-item"><a class="nav-link" href="myCars"><span
 						class="fas fa-id-badge"></span> My Cars</a></li>
+						</c:if>
+						<c:if test="${user.getUserType() == 'Municipality' }">
+						<li class="nav-item"><a class="nav-link" href="newParkArea"><span
+						class="fas fa-id-badge"></span>Park areas</a></li>
+						</c:if>
+				
 				<li class="nav-item"><a class="nav-link" href="profile"><span
 						class="fas fa-user-secret"></span> Profile</a></li>
 				<li class="nav-item"><a class="nav-link" href="logout"><span
