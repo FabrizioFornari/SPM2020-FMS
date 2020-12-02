@@ -21,7 +21,7 @@
 				action="addParkSpace" method="post">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-user"></i>
+						<span class="input-group-text"> <i class="fas fa-signature"></i>
 						</span>
 					</div>
 
@@ -33,7 +33,7 @@
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-user "></i>
+						<span class="input-group-text"> <i class="fas fa-map "></i>
 						</span>
 					</div>
 
@@ -44,7 +44,7 @@
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-envelope"></i>
+						<span class="input-group-text"> <i class="fas fa-map-marker-alt"></i>
 						</span>
 					</div>
 					<form:input path="coordinates" name="coordinates" id="coordinates"
@@ -58,7 +58,7 @@
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-card"></i>
+						<span class="input-group-text"> <i class="fas fa-list-ol"></i>
 						</span>
 					</div>
 					<form:input path="spotsCapacity" name="spotsCapacity"
@@ -71,7 +71,7 @@
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-card"></i>
+						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
 						</span>
 					</div>
 					<form:input path="coveredSpots" name="coveredSpots"
@@ -84,7 +84,7 @@
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-id-card "></i>
+						<span class="input-group-text"> <i class="fas fa-wheelchair "></i>
 						</span>
 					</div>
 					<form:input path="handicapSpots" name="handicapSpots"
@@ -92,13 +92,25 @@
 						placeholder="Number of handicap spots" type="text" required="true" />
 
 				</div>
-
 				<!-- form-group// -->
-				<div class=" form-check">
+				<div class="form-group input-group">
+					
+				
+						<div class="funkyradio">
+							<div class="funkyradio-default">
+								<form:checkbox path="guarded" name="guarded" id="checkbox1" />
+								<label for="checkbox1">Is guarded? (Check the box)</label>
+							</div>
 
-
-					<form:checkbox path="guarded" name="guarded" id="guarded" />
+						</div>
+				
 				</div>
+				<!-- form-group// -->
+
+
+
+
+
 
 				<div class="hr"></div>
 				<!-- form-group// -->
@@ -110,8 +122,8 @@
 						</tr>
 					</table>
 
-					<form:button id="addParkingSpace" name="addParkingSpace"
-						type="submit" class="btn btn-primary btn-block">Add</form:button>
+					<form:button id="register" name="addParkingSpace" type="submit"
+						class="button">Add</form:button>
 
 				</div>
 

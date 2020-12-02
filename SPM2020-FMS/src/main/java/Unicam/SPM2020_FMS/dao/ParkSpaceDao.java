@@ -21,7 +21,7 @@ public class ParkSpaceDao {
   JdbcTemplate jdbcTemplate;
 	  
   public int add(ParkingSpace newParkSpace) {
-    String sql = "INSERT INTO parkingspace (`Name`, `Address`, `Coordnates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`) VALUES (?,?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO parkingspace (`Name`, `Address`, `Coordinates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`) VALUES (?,?,?,?,?,?,?)";
 
 	KeyHolder parkSpaceKeyHolder = new GeneratedKeyHolder();
 	int err=0;
@@ -40,7 +40,8 @@ public class ParkSpaceDao {
 		}, parkSpaceKeyHolder);
 	} catch (org.springframework.dao.DuplicateKeyException e) {
 		String msg=e.getMessage();
-		if (msg.contains("parkspace.coordnates")) {
+
+		if (msg.contains("parkingspace.Coordinates")) {
 			err=-1;
 		}
 		return err;

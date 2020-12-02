@@ -46,7 +46,7 @@ public class NewParkSpaceController {
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace) {
 		
 		int addResult=parkService.add(newParkSpace);
-		
+
 	    String[] messages = {
     			"Registration error!",
     			"Position specified has been already used"
