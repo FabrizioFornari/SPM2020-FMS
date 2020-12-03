@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
-import Unicam.SPM2020_FMS.model.PolicemanUsers;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
-import Unicam.SPM2020_FMS.service.ReservationsService;
+import Unicam.SPM2020_FMS.service.ReservationService;
 
 
 
 @Controller
-public class ReservationsController {
+public class ReservationController {
 
 	 @Autowired
-	  public ReservationsService reservationsService;
+	  public ReservationService reservationService;
 	  
 	  @RequestMapping(value = "/reservationsToCheck", method = RequestMethod.GET)
 	  public ModelAndView showReservationsToCheck(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
@@ -33,7 +33,7 @@ public class ReservationsController {
 	    if (user!=null) {
 	    	if (user.getUserType().equals("Policeman")) {
 		    	ModelAndView mav = new ModelAndView("reservationsToCheck");
-		    	List<PolicemanUsers> reservationsToCheck = reservationsService.showReservationsToCheck();
+		    	List<Reservation> reservationsToCheck = reservationService.showReservationsToCheck();
 		    	mav.addObject("reservationsToCheck",reservationsToCheck);
 		    	return mav;
 	    	} else {

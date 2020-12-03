@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import Unicam.SPM2020_FMS.model.PolicemanUsers;
+import Unicam.SPM2020_FMS.model.Reservation;
 
-public class ReservationsDao {
+public class ReservationDao {
 
 	@Autowired
 	DataSource datasource;
@@ -20,19 +20,19 @@ public class ReservationsDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	public List<PolicemanUsers> showReservationsToCheck() {
+	public List<Reservation> showReservationsToCheck() {
 
 		String sql = "SELECT LicensePlateNumber, ParkingSpot, parkingspace.Name as ParkingSpace, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingSpace.ID and Parking_start <= NOW() and Parking_end >= NOW()";
 
-		List<PolicemanUsers> reservationsToCheck = jdbcTemplate.query(sql, new CarAndUserMapper());
+		List<Reservation> reservationsToCheck = jdbcTemplate.query(sql, new CarAndUserMapper());
 
 		return reservationsToCheck;
 	}
 
-	class CarAndUserMapper implements RowMapper<PolicemanUsers> {
+	class CarAndUserMapper implements RowMapper<Reservation> {
 
-		public PolicemanUsers mapRow(ResultSet rs, int arg1) throws SQLException {
-			PolicemanUsers car = new PolicemanUsers(rs.getString("LicensePlateNumber"), rs.getString("ParkingSpot"),
+		public Reservation mapRow(ResultSet rs, int arg1) throws SQLException {
+			Reservation car = new Reservation(rs.getString("LicensePlateNumber"), rs.getString("ParkingSpot"),
 					rs.getString("ParkingSpace"), rs.getString("Parking_end"));
 
 			return car;
