@@ -63,6 +63,10 @@ body {
 						<li class="nav-item"><a class="nav-link" href="newParkArea"><span
 						class="fas fa-id-badge"></span>Park areas</a></li>
 						</c:if>
+						<c:if test="${user.getUserType() == 'Policeman' }">
+						<li class="nav-item"><a class="nav-link" href="reservationsToCheck"><span
+						class="fas fa-id-badge"></span>Reservations</a></li>
+						</c:if>
 				
 				<li class="nav-item"><a class="nav-link" href="profile"><span
 						class="fas fa-user-secret"></span> Profile</a></li>
