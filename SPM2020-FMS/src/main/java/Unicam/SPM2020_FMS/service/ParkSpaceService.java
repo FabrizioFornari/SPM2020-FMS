@@ -1,5 +1,7 @@
 package Unicam.SPM2020_FMS.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import Unicam.SPM2020_FMS.dao.ParkSpaceDao;
@@ -12,6 +14,10 @@ public class ParkSpaceService {
 
   public int add (ParkingSpace newParkSpace) {
     return parkSpaceDao.add(newParkSpace);
+  }
+  
+  public List<ParkingSpace> showParkSpaceList() {
+	return parkSpaceDao.showParkSpaceList();	
   }
 
 }

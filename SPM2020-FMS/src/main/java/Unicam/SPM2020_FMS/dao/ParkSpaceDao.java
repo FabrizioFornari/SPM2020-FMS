@@ -1,12 +1,16 @@
 package Unicam.SPM2020_FMS.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -49,6 +53,34 @@ public class ParkSpaceDao {
 	}
 	
 	return parkSpaceKeyHolder.getKey().intValue();
+  }
+  
+  public List<ParkingSpace> showParkSpaceList() {
+
+	String sql = "SELECT * FROM parkingspace";
+
+	List<ParkingSpace> parkSpaceList = jdbcTemplate.query(sql, new ParkSpaceMapper());
+
+	return parkSpaceList;
+  }
+
+  class ParkSpaceMapper implements RowMapper<ParkingSpace> {
+
+	public ParkingSpace mapRow(ResultSet rs, int arg1) throws SQLException {
+		
+		ParkingSpace parkSpace = new ParkingSpace(
+			rs.getInt("ID"),
+			rs.getString("Name"),
+			rs.getString("Address"),
+			rs.getString("Coordinates"),
+			rs.getInt("Spots_capacity"),
+			rs.getInt("Covered_spots"),
+			rs.getInt("Handicap_spots"),
+			rs.getBoolean("IsGuarded")
+		);
+
+		return parkSpace;
+	}
   }
   
 }
