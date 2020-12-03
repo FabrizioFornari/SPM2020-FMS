@@ -27,9 +27,13 @@ public class NewParkSpaceController {
 	    User user = (User) session.getAttribute("user");
 	    if (user!=null) {
 	    	if (user.getUserType().equals("Municipality")) {
-		    	ModelAndView mav = new ModelAndView("newParkArea");
-		  
+		    	ModelAndView mav = new ModelAndView("newParkArea");		  
 		    	mav.addObject("parkSpace", new ParkingSpace());
+			    Object message= session.getAttribute("message");
+			    if(message!=null) {
+			    	mav.addObject("message", (String) message);
+			    	session.removeAttribute("message");
+			    }
 		    	return mav;
 	    	} else {
 	    		return new ModelAndView("welcome", "user", user);

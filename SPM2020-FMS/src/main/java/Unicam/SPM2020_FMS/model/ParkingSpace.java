@@ -83,9 +83,6 @@ public class ParkingSpace {
 	public void setHandicapSpots(Integer handicapSpots) {
 		this.handicapSpots = handicapSpots;
 	}
-
-
-
 	
 	public boolean isGuarded() {
 		return guarded;
