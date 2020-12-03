@@ -60,6 +60,7 @@ class SeleniumHomePage {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
+		options.addArguments("--start-maximized");
 		
 		//Remove comment prefix on the next line if you want to run test in headless mode
 		//options.addArguments("--headless");

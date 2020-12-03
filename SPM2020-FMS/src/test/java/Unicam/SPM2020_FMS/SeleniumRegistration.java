@@ -30,12 +30,29 @@ class SeleniumRegistration {
 	static WebDriver driver;
 	static String URLbase;
 	static String runningOS;
+	//New Driver
 	static String newUserFirstname;
 	static String newUserSurname;
 	static String newUserEmail;
 	static String newUserPassword;
 	static String newUserTaxCode;
-	static String newUserPhone;
+	static String newUserPhoneNumber;
+	//New Policeman
+	static String newPolicemanFirstname;
+	static String newPolicemanSurname;
+	static String newPolicemanEmail;
+	static String newPolicemanPassword;
+	static String newPolicemanTaxCode;
+	static String newPolicemanIdNumber;
+	static String newPolicemanPhoneNumber;
+	//New Municipality
+	static String newMunicipalityFirstname;
+	static String newMunicipalitySurname;
+	static String newMunicipalityEmail;
+	static String newMunicipalityPassword;
+	static String newMunicipalityTaxCode;
+	static String newMunicipalityAuthNumber;
+	static String newMunicipalityPhoneNumber;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -51,6 +68,7 @@ class SeleniumRegistration {
 	           Properties prop = new Properties();
 	           prop.load(input);
 	           
+	           //Setting proper driver
 	           if (runningOS.contains("Linux")) {
 	            	pathToDriver = prop.getProperty("pathToLinuxDriver");
 	            }
@@ -58,12 +76,31 @@ class SeleniumRegistration {
 	            	pathToDriver = prop.getProperty("pathToWindowsDriver");
 	            }
 
-	           newUserFirstname=prop.getProperty("newUserFirstname");
-	           newUserSurname=prop.getProperty("newUserSurname");
-	           newUserEmail=prop.getProperty("newUserEmail");
-	           newUserPassword=prop.getProperty("newUserPassword");
-	           newUserTaxCode=prop.getProperty("newUserTaxCode");
-	           newUserPhone=prop.getProperty("newUserPhone");
+	           //Reading new Driver's data
+	           newUserFirstname = prop.getProperty("newUserFirstname");
+	           newUserSurname = prop.getProperty("newUserSurname");
+	           newUserEmail = prop.getProperty("newUserEmail");
+	           newUserPassword = prop.getProperty("newUserPassword");
+	           newUserTaxCode = prop.getProperty("newUserTaxCode");
+	           newUserPhoneNumber = prop.getProperty("newUserPhoneNumber");
+	           
+	           //Reading new Policeman's data
+	           newPolicemanFirstname = prop.getProperty("newPolicemanFirstname");
+	           newPolicemanSurname = prop.getProperty("newPolicemanSurname");
+	           newPolicemanEmail = prop.getProperty("newPolicemanEmail");
+	           newPolicemanPassword = prop.getProperty("newPolicemanPassword");
+	           newPolicemanTaxCode = prop.getProperty("newPolicemanTaxCode");
+	           newPolicemanIdNumber = prop.getProperty("newPolicemanIdNumber");
+	           newPolicemanPhoneNumber = prop.getProperty("newPolicemanPhoneNumber");
+	           
+	           //Reading new Municipality's data
+	           newMunicipalityFirstname = prop.getProperty("newMunicipalityFirstname");
+	           newMunicipalitySurname = prop.getProperty("newMunicipalitySurname");
+	           newMunicipalityEmail = prop.getProperty("newMunicipalityEmail");
+	           newMunicipalityPassword = prop.getProperty("newMunicipalityPassword");
+	           newMunicipalityTaxCode = prop.getProperty("newMunicipalityTaxCode");
+	           newMunicipalityAuthNumber = prop.getProperty("newMunicipalityAuthNumber");
+	           newMunicipalityPhoneNumber = prop.getProperty("newMunicipalityPhoneNumber");   
 		} catch (IOException ex) {
 	           ex.printStackTrace();
 		}		
@@ -80,11 +117,21 @@ class SeleniumRegistration {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
+		options.addArguments("--start-maximized");
 		
 		//Remove comment prefix on the next line if you want to run test in headless mode
 		//options.addArguments("--headless");
 		
 		driver = new ChromeDriver(options);
+		
+		//Connecting to the home page
+				driver.get(URLbase);
+				WebDriverWait wait = new WebDriverWait(driver, 10);
+				Thread.sleep(1500);  //Just for showing purpose
+				
+		//Connecting to the registration page
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='register']"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("firstname")));
 	}
 
 	@AfterEach
@@ -98,18 +145,9 @@ class SeleniumRegistration {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
-	@DisplayName("Check whether a new driver's registration succeeds")
+	@DisplayName("Check whether a new Driver's registration succeeds")
 	void checkDriverRegistration() throws InterruptedException {
-		//Connecting to the home page
-		driver.get(URLbase);
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		Thread.sleep(1500);  //Just for showing purpose
-		
-		//Connecting to the registration page
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='register']"))).click();
-		
 		//Compiling form
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("firstname")));
 		driver.findElement(By.id("firstname")).sendKeys(newUserFirstname);
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("surname")).sendKeys(newUserSurname);
@@ -125,13 +163,76 @@ class SeleniumRegistration {
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("taxCode")).sendKeys(newUserTaxCode);
 		Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).sendKeys(newUserPhone);
+		driver.findElement(By.id("phone")).sendKeys(newUserPhoneNumber);
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		
 		//Checking if welcome page has been reached
 		assertTrue(driver.getPageSource().contains(newUserFirstname));
 		
+	}
+	
+	@Test
+	@DisplayName("Check whether a new Policeman's registration succeeds")
+	void checkPolicemanRegistration() throws InterruptedException {
+		//Compiling form
+		driver.findElement(By.id("firstname")).sendKeys(newPolicemanFirstname);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("surname")).sendKeys(newPolicemanSurname);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("email")).sendKeys(newPolicemanEmail);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("password")).sendKeys(newPolicemanPassword);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("repeatPassword")).sendKeys(newPolicemanPassword);
+		Thread.sleep(1500);  //Just for showing purpose
+		Select selectElement = new Select(driver.findElement(By.id("userType")));
+		selectElement.selectByVisibleText("Policeman");
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("taxCode")).sendKeys(newPolicemanTaxCode);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("idNumber")).sendKeys(newPolicemanIdNumber);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("phone")).sendKeys(newPolicemanPhoneNumber);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("register")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
+		
+		//Checking if welcome page has been reached
+		assertTrue(driver.getPageSource().contains(newUserFirstname));
+	}
+	
+	@Test
+	@DisplayName("Check whether a new Municipality's registration succeeds")
+	void checkMunicipalityRegistration() throws InterruptedException {
+		//Compiling form
+		driver.findElement(By.id("firstname")).sendKeys(newMunicipalityFirstname);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("surname")).sendKeys(newMunicipalitySurname);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("email")).sendKeys(newMunicipalityEmail);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("password")).sendKeys(newMunicipalityPassword);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("repeatPassword")).sendKeys(newMunicipalityPassword);
+		Thread.sleep(1500);  //Just for showing purpose
+		Select selectElement = new Select(driver.findElement(By.id("userType")));
+		selectElement.selectByVisibleText("Municipality");
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("taxCode")).sendKeys(newMunicipalityTaxCode);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("authNumber")).sendKeys(newMunicipalityAuthNumber);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("phone")).sendKeys(newMunicipalityPhoneNumber);
+		Thread.sleep(1500);  //Just for showing purpose
+		driver.findElement(By.id("register")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
+		
+		//Checking if welcome page has been reached
+		assertTrue(driver.getPageSource().contains(newUserFirstname));		
 	}
 }
