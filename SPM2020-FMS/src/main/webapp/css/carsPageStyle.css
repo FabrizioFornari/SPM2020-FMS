@@ -1,0 +1,43 @@
+.row {
+	margin-top: 40px;
+	padding: 0 10px;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.container{
+	padding-right: 0 !important;
+padding-left: 0 !important;
+}
+
+.panel-heading div {
+	margin-top: -18px;
+	font-size: 15px;
+}
+
+.panel-heading div span {
+	margin-left: 5px;
+}
+
+
+
+.table {
+	color: #fdfdfd  !important;
+	background-color: #111519e0;
+	border-radius: 20px;
+}
+
+.table th{
+	color: #b51c1c !important;
+	background-color: #111519e0;
+	
+}
+
+.hr {
+	height: 2px;
+	margin: 28px 0 25px 0;
+	background: rgba(255, 255, 255, .2);
+}
+
