@@ -21,9 +21,7 @@ public class WelcomeController {
     User user = (User)session.getAttribute("user");
     if (user!=null) {
     	return new ModelAndView("welcome", "user", user);
-    } else {
-    	ModelAndView mav=new ModelAndView("login", "login", new Login());
-    	mav.addObject("message", "Please login");		
+    } else {	
     	return new ModelAndView("login", "login", new Login());
     }
   }

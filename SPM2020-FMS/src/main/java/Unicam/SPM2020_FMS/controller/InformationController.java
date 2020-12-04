@@ -31,7 +31,7 @@ public class InformationController {
 	    } else {
 	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
 	    	mav.addObject("message", "Please login");		
-	    	return new ModelAndView("login", "login", new Login());
+	    	return mav;
 	    }
 	  }
 	  

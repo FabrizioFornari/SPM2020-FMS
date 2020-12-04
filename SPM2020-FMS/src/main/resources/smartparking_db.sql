@@ -40,6 +40,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
+INSERT INTO `car` VALUES ('ABCD23',45,'Audi'),('ABCD23',47,'Audi'),('GJHJFDD',47,'Fiat');
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,11 +55,14 @@ CREATE TABLE `parkingspace` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(100) DEFAULT NULL,
   `Address` varchar(100) NOT NULL,
-  `Coordnates` varchar(255) NOT NULL,
+  `Coordinates` varchar(255) NOT NULL,
   `Spots_capacity` int NOT NULL,
+  `Covered_spots` int NOT NULL,
+  `Handicap_spots` int NOT NULL,
+  `IsGuarded` tinyint NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `Coordnates` (`Coordnates`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `Coordinates` (`Coordinates`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +71,7 @@ CREATE TABLE `parkingspace` (
 
 LOCK TABLES `parkingspace` WRITE;
 /*!40000 ALTER TABLE `parkingspace` DISABLE KEYS */;
+INSERT INTO `parkingspace` VALUES (1,'Parcheggio1','via Tot','blabla',30,5,4,0),(2,'Parchggio2','via Bo','fdkfdf',40,5,5,0),(3,'Parcheggio3','Via Mazzini','fdfgfd',50,10,5,1);
 /*!40000 ALTER TABLE `parkingspace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,6 +87,7 @@ CREATE TABLE `parkingspot` (
   `ParkingSpace` int NOT NULL,
   `IsReserved` tinyint(1) NOT NULL,
   `Restriction` varchar(20) DEFAULT NULL,
+  `isCovered` tinyint(1) NOT NULL,
   PRIMARY KEY (`SpotNumber`,`ParkingSpace`),
   KEY `FKParkingSpo748404` (`ParkingSpace`),
   CONSTRAINT `FKParkingSpo748404` FOREIGN KEY (`ParkingSpace`) REFERENCES `parkingspace` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -94,6 +100,7 @@ CREATE TABLE `parkingspot` (
 
 LOCK TABLES `parkingspot` WRITE;
 /*!40000 ALTER TABLE `parkingspot` DISABLE KEYS */;
+INSERT INTO `parkingspot` VALUES (1,1,0,NULL,1),(1,2,0,NULL,0),(2,1,0,NULL,1),(2,2,0,NULL,0),(3,1,0,NULL,0);
 /*!40000 ALTER TABLE `parkingspot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,18 +115,18 @@ CREATE TABLE `reservation` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `Id_driver` int NOT NULL,
   `LicensePlateNumber` varchar(20) NOT NULL,
-  `Id_parkingSpot` int NOT NULL,
+  `ParkingSpot` int NOT NULL,
   `ParkingSpace` int NOT NULL,
   `Parking_start` datetime NOT NULL,
   `Parking_end` datetime NOT NULL,
-  `Booking_time` int NOT NULL,
+  `Booking_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `Id_parkingSpot` (`Id_parkingSpot`,`ParkingSpace`,`Parking_start`),
-  UNIQUE KEY `Id_parkingSpot_2` (`Id_parkingSpot`,`ParkingSpace`,`Parking_end`),
+  UNIQUE KEY `Id_parkingSpot` (`ParkingSpot`,`ParkingSpace`,`Parking_start`),
+  UNIQUE KEY `Id_parkingSpot_2` (`ParkingSpot`,`ParkingSpace`,`Parking_end`),
   KEY `FKReservatio749584` (`LicensePlateNumber`,`Id_driver`),
   CONSTRAINT `FKReservatio749584` FOREIGN KEY (`LicensePlateNumber`, `Id_driver`) REFERENCES `car` (`LicensePlateNumber`, `Driver`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FKReservatio915184` FOREIGN KEY (`Id_parkingSpot`, `ParkingSpace`) REFERENCES `parkingspot` (`SpotNumber`, `ParkingSpace`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FKReservatio915184` FOREIGN KEY (`ParkingSpot`, `ParkingSpace`) REFERENCES `parkingspot` (`SpotNumber`, `ParkingSpace`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +135,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+INSERT INTO `reservation` VALUES (1,45,'ABCD23',1,2,'2020-11-30 17:00:00','2020-11-30 20:00:00','2020-11-30 16:24:26'),(2,47,'GJHJFDD',2,2,'2020-11-30 15:00:00','2020-11-30 17:00:00','2020-11-30 16:26:31');
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +162,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `Tax_code` (`Tax_code`),
   UNIQUE KEY `Id_number` (`Id_number`),
   UNIQUE KEY `Auth_number` (`Auth_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +171,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (21,'Mario','Lombardi','mario@hotmail.com','$2a$10$0rb9TtCwDQuPrmFeRZRqXeosfKg399RyXBkNykKvFrTX505566SI2','FDFDGDFGD','881','Driver',NULL,NULL),(26,'Mario','Lombardi','lombardi@hotmail.it','$2a$10$xFeUD1HXDq0BizsUn50UCuG671mJNiBlceFR/7Ylg/PDgTgQASnYu','756757','64646','Policeman','57657',NULL),(28,'Mario','Lombardi','lombardi@hotmail.com','$2a$10$sS.qhofh3yQFnF1pYvXunOalB2admiLWyBa0iRGRLBG5alDgdL2oi','giugigi','5353','Policeman','54453',NULL);
+INSERT INTO `user` VALUES (45,'Stef','Asch','prova4@gmail.com','$2a$10$a8ID.BYAmVxduY5l14BrLOhpdmBUQSobf6zt8CMltFXoIqxC3KCyC','abcdef74x15a277v','456789123','Driver',NULL,NULL),(47,'Mario','Lombardi','lombardi@gmail.com','$2a$10$C4XGn4KDHTx0/aBE1/cnxuqH5rA8gJBf68bQtFbRrB69YVgaUI.y6','abchef74x15a277v','456789123','Municipality',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -176,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-21 19:06:25
+-- Dump completed on 2020-12-02 15:55:22
