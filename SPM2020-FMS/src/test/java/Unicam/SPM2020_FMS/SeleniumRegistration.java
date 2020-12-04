@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -202,7 +200,7 @@ class SeleniumRegistration {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		
 		//Checking if welcome page has been reached
-		assertTrue(driver.getPageSource().contains(newUserFirstname));
+		assertTrue(driver.getPageSource().contains(newPolicemanFirstname));
 	}
 	
 	@Test
@@ -233,6 +231,6 @@ class SeleniumRegistration {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		
 		//Checking if welcome page has been reached
-		assertTrue(driver.getPageSource().contains(newUserFirstname));		
+		assertTrue(driver.getPageSource().contains(newMunicipalityFirstname));		
 	}
 }
