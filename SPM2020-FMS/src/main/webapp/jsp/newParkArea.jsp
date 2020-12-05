@@ -18,7 +18,7 @@
 			<h4 class="card-title mt-3 text-center">Insert a new park space:</h4>
 
 			<form:form id="addForm" modelAttribute="parkSpace"
-				action="addParkSpace" method="post">
+				action="addParkSpace" method="post" enctype = "multipart/form-data">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-signature"></i>
@@ -90,6 +90,43 @@
 					<form:input path="handicapSpots" name="handicapSpots"
 						id="handicapSpots" class="input"
 						placeholder="Number of handicap spots" type="text" required="true" />
+
+				</div>
+				
+					<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						</span>
+					</div>
+					<form:input path="specCovered" name="specHandicap"
+						id="coveredSpots" class="input"
+						placeholder="Specify the covered spots (- for range , for sequence )" type="text" required="true" />
+
+
+				</div>
+					<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						</span>
+					</div>
+					<form:input path="specHandicap" name="specHandicap"
+						id="specHandicap" class="input"
+						placeholder="Specify the covered spots (- for range , for sequence )" type="text" required="true" />
+
+
+				</div>
+							<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						</span>
+					</div>
+					<form:input path="" name=""
+						id="" class="input"
+						placeholder="Specify the covered spots (- for range , for sequence )" type="file" />
+
 
 				</div>
 				<!-- form-group// -->
