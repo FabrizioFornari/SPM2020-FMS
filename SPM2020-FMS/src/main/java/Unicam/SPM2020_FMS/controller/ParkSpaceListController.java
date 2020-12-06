@@ -25,14 +25,14 @@ public class ParkSpaceListController {
 	 @Autowired
 	  public ParkSpaceService parkSpaceService;
 	  
-	  @RequestMapping(value = "/seeParkSpaces", method = RequestMethod.GET)
+	  @RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
 	  public ModelAndView showParkSpaces(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		
 	    User user = (User) session.getAttribute("user");
 
 	    if (user!=null) {
 	    	if (user.getUserType().equals("Driver")) {
-		    	ModelAndView mav = new ModelAndView("seeParkSpaces");
+		    	ModelAndView mav = new ModelAndView("ParkSpaces");
 		    	List<ParkingSpace> parkSpaceList = parkSpaceService.showParkSpaceList();
 		    	mav.addObject("parkSpaceList", parkSpaceList);
 		    	return mav;
