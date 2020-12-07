@@ -34,6 +34,7 @@ public class ParkSpaceListController {
 	    	if (user.getUserType().equals("Driver")) {
 		    	ModelAndView mav = new ModelAndView("ParkSpaces");
 		    	List<ParkingSpace> parkSpaceList = parkSpaceService.showParkSpaceList();
+		    	
 		    	mav.addObject("parkSpaceList", parkSpaceList);
 		    	return mav;
 	    	} else {

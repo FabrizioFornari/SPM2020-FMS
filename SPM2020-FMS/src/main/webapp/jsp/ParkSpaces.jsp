@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,35 +102,38 @@
 							</form>
 
 							<div class="filter-result">
-								<p class="mb-30 ff-montserrat">Total Parking Spaces : 00</p>
-
-								<div
-									class="job-box d-md-flex align-items-center justify-content-between mb-30">
+								<p class="mb-30 ff-montserrat">Total Parking Spaces :
+									${parkSpaceList.size()}</p>
+								<c:forEach var="parkSpace" items="${parkSpaceList}"
+									varStatus="tagStatus">
 									<div
-										class="job-left my-4 d-md-flex align-items-center flex-wrap">
+										class="job-box d-md-flex align-items-center justify-content-between mb-30">
 										<div
-											class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-											FMS</div>
-										<div class="job-content">
-											<h5 class="text-center text-md-left">Front End Developer</h5>
-											<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans" style="padding: 0;">
-												<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-													Capacity: 00</li>
-												<li class="mr-md-4"><i class="zmdi zmdi-money mr-2"></i>
-													Available: 00</li>
-												<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-													Handicap: 00</li>
-												<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-													Is guarded</li>
-											</ul>
+											class="job-left my-4 d-md-flex align-items-center flex-wrap">
+											<div
+												class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
+												P${parkSpaceList.indexOf(parkSpace)+1}</div>
+											<div class="job-content">
+												<h5 class="text-center text-md-left">${parkSpace.getName()} - ${parkSpace.getAddress()}</h5>
+												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
+													style="padding: 0;">
+													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
+														Capacity: ${parkSpace.getSpotsCapacity()}</li>
+													<li class="mr-md-4"><i class="zmdi zmdi-money mr-2"></i>
+														Available: 00</li>
+													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
+														Handicap: ${parkSpace.getHandicapSpots()}</li>
+													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
+														Is guarded </li>
+												</ul>
+											</div>
+										</div>
+										<div class="job-right my-4 flex-shrink-0">
+											<a href="#"
+												class="btn d-block w-100 d-sm-inline-block btn-light">Reserve</a>
 										</div>
 									</div>
-									<div class="job-right my-4 flex-shrink-0">
-										<a href="#"
-											class="btn d-block w-100 d-sm-inline-block btn-light">Reserve</a>
-									</div>
-								</div>
-
+								</c:forEach>
 							</div>
 						</div>
 
@@ -162,6 +166,23 @@
 <script>
 
 
+var data = {
+        <c:forEach var="parkSpace" items="${parkSpaceList}"
+			varStatus="tagStatus">
+            ${parkSpace.getIdParkingSpace()}: '${parkSpace.getCoordinates()}'${!tagStatus.last ? ',' : ''}
+        </c:forEach>
+    };
+
+function getCoordinate(coordinates){
+	
+	
+	var arr = [];
+	var sub1 = coordinates.substr(0,coordinates.indexOf(","));
+	arr[0] = parseFloat(sub1);
+	arr[1] = parseFloat(coordinates.substr(sub1.length+1));
+
+	return arr;
+}
 
 /**
  * Creates a new marker and adds it to a group
@@ -183,7 +204,7 @@ function addMarkerToGroup(group, coordinate, html) {
  */
 function addMarkersToMap(map) {
  
-
+	
 	 var group = new H.map.Group();
 
 	  map.addObject(group);
@@ -200,13 +221,13 @@ function addMarkersToMap(map) {
 	    ui.addBubble(bubble);
 	  }, false);
 
-	  addMarkerToGroup(group, {lat:43.1387, lng:13.0721},
-	    '<div><a href="http://maps.google.com/maps?q=43.1387,13.0721" target="_blank">Parcheggio1</a>' +
-	    '</div><div >Via Le Mosse<br>Capacity: 30; Handicap: 3</div>');
-
-	  addMarkerToGroup(group, {lat:43.1437, lng:13.0832},
-	    '<div><a href="#" target="_blank">Parcheggio2</a>' +
-	    '</div><div >Anfield<br>Capacity: 45,362</div>');
+	  Object.keys(data).forEach(key => {
+		
+		  addMarkerToGroup(group, {lat:getCoordinate(data[key])[0], lng:getCoordinate(data[key])[1]},
+				    '<div><a href="http://maps.google.com/maps?q=data[key]" target="_blank">Parcheggio1</a>' +
+				    '</div><div >Via Le Mosse<br>Capacity: 30; Handicap: 3</div>');
+		});
+	
 
 	// get geo bounding box for the group and set it to the map
 	  map.getViewModel().setLookAtData({
