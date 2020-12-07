@@ -18,7 +18,7 @@
 			<h4 class="card-title mt-3 text-center">Insert a new park space:</h4>
 
 			<form:form id="addForm" modelAttribute="parkSpace"
-				action="addParkSpace" method="post" enctype = "multipart/form-data">
+				action="addParkSpace" method="post" >
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-signature"></i>
@@ -99,9 +99,9 @@
 						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
 						</span>
 					</div>
-					<form:input path="specCovered" name="specHandicap"
-						id="coveredSpots" class="input"
-						placeholder="Specify the covered spots (- for range , for sequence )" type="text" required="true" />
+					<form:input path="specCovered" name="specCovered" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
+						id="specCovered" class="input"
+						placeholder="Specify spots separated by , (use - for ranges)" type="text" required="true" />
 
 
 				</div>
@@ -111,24 +111,13 @@
 						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
 						</span>
 					</div>
-					<form:input path="specHandicap" name="specHandicap"
+					<form:input path="specHandicap" name="specHandicap" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
 						id="specHandicap" class="input"
-						placeholder="Specify the covered spots (- for range , for sequence )" type="text" required="true" />
+						placeholder="Specify spots separated by , (use - for ranges)" type="text" required="true" />
 
 
 				</div>
-							<!-- form-group// -->
-				<div class="form-group input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
-						</span>
-					</div>
-					<form:input path="" name=""
-						id="" class="input"
-						placeholder="Specify the covered spots (- for range , for sequence )" type="file" />
 
-
-				</div>
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					
@@ -148,16 +137,15 @@
 
 
 
-
+				<table align="center">
+					<tr>
+						<td style="font-style: italic; color: green;">${message}</td>
+					</tr>
+				</table>
 				<div class="hr"></div>
+				
 				<!-- form-group// -->
 				<div class="form-group">
-					<table align="center">
-						<tr>
-							<td style="font-style: italic; color: green;">${message}</td>
-
-						</tr>
-					</table>
 
 					<form:button id="register" name="addParkingSpace" type="submit"
 						class="button">Add</form:button>

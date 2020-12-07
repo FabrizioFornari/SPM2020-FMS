@@ -45,6 +45,7 @@ public class ParkSpaceDao {
 		}
 		return err;
 	} catch (Exception e) {
+		System.out.println(e.getMessage());
 		return err;
 	}
 	
