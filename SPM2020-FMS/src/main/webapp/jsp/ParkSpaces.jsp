@@ -73,26 +73,8 @@
 										</div>
 									</div>
 
-									<div class="col-md-6 col-lg-3 my-3">
-										<div class="select-container">
-											<select class="custom-select">
-												<option selected="selected" disabled>Any</option>
-												<option value="1">Guarded</option>
-												<option value="2">Not guarded</option>
-
-											</select>
-										</div>
-									</div>
-									<div class="col-md-6 col-lg-3 my-3">
-										<div class="select-container">
-											<select class="custom-select">
-												<option selected="" disabled>Any</option>
-												<option value="1">Covered</option>
-												<option value="2">Not covered</option>
-
-											</select>
-										</div>
-									</div>
+								
+							
 									<div class="col-md-6 col-lg-3 my-3">
 										<button type="button"
 											class="btn btn-lg btn-block btn-light btn-custom"
@@ -114,7 +96,8 @@
 												class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
 												P${parkSpaceList.indexOf(parkSpace)+1}</div>
 											<div class="job-content">
-												<h5 class="text-center text-md-left">${parkSpace.getName()} - ${parkSpace.getAddress()}</h5>
+												<h5 class="text-center text-md-left">${parkSpace.getName()}
+													- ${parkSpace.getAddress()}</h5>
 												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
@@ -124,10 +107,11 @@
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
 														Handicap: ${parkSpace.getHandicapSpots()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-														Is guarded </li>
+														Is guarded</li>
 												</ul>
 											</div>
 										</div>
+										
 										<div class="job-right my-4 flex-shrink-0">
 											<a href="#"
 												class="btn d-block w-100 d-sm-inline-block btn-light">Reserve</a>
@@ -169,7 +153,7 @@
 var data = {
         <c:forEach var="parkSpace" items="${parkSpaceList}"
 			varStatus="tagStatus">
-            ${parkSpace.getIdParkingSpace()}: '${parkSpace.getCoordinates()}'${!tagStatus.last ? ',' : ''}
+            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}','${parkSpace.getName()} - ${parkSpace.getAddress()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
         </c:forEach>
     };
 
@@ -209,6 +193,7 @@ function addMarkersToMap(map) {
 
 	  map.addObject(group);
 
+
 	  // add 'tap' event listener, that opens info bubble, to the group
 	  group.addEventListener('tap', function (evt) {
 	    // event target is the marker itself, group is a parent event target
@@ -223,12 +208,13 @@ function addMarkersToMap(map) {
 
 	  Object.keys(data).forEach(key => {
 		
-		  addMarkerToGroup(group, {lat:getCoordinate(data[key])[0], lng:getCoordinate(data[key])[1]},
-				    '<div><a href="http://maps.google.com/maps?q=data[key]" target="_blank">Parcheggio1</a>' +
-				    '</div><div >Via Le Mosse<br>Capacity: 30; Handicap: 3</div>');
+		  addMarkerToGroup(group, {lat:getCoordinate(data[key][0])[0], lng:getCoordinate(data[key][0])[1]},
+				    '<div><a href="http://maps.google.com/maps?q='+data[key][0]+'" target="_blank">'+data[key][1]+'</a>' +
+				    '</div><div >Capacity: '+data[key][2]+'<br>Handicap spots: '+data[key][3]+'</div>');
 		});
 	
-
+	 
+	
 	// get geo bounding box for the group and set it to the map
 	  map.getViewModel().setLookAtData({
 	    bounds: group.getBoundingBox()
@@ -249,8 +235,6 @@ var defaultLayers = platform.createDefaultLayers();
 //Step 2: initialize a map - this map is centered over Europe
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.vector.normal.map,{
-  center: {lat:43.1408, lng:13.0701},
-  zoom: 15,
   pixelRatio: window.devicePixelRatio || 1
 });
 // add a resize listener to make sure that the map occupies the whole container

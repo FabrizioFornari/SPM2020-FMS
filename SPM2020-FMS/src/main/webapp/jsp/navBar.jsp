@@ -59,6 +59,10 @@ body {
 						<li class="nav-item"><a class="nav-link" href="myCars"><span
 						class="fas fa-id-badge"></span> My Cars</a></li>
 						</c:if>
+						<c:if test="${user.getUserType() == 'Driver' }">
+						<li class="nav-item"><a class="nav-link" href="ParkSpaces"><span
+						class="fas fa-parking"></span> Park spaces</a></li>
+						</c:if>
 						<c:if test="${user.getUserType() == 'Municipality' }">
 						<li class="nav-item"><a class="nav-link" href="newParkArea"><span
 						class="fas fa-id-badge"></span> Park areas</a></li>
