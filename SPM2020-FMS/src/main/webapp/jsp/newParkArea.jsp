@@ -63,7 +63,7 @@
 					</div>
 					<form:input path="spotsCapacity" name="spotsCapacity"
 						id="spotsCapacity" class="input" placeholder="Capacity"
-						type="text" required="true" />
+						type="number" required="true" />
 
 
 				</div>
@@ -76,7 +76,7 @@
 					</div>
 					<form:input path="coveredSpots" name="coveredSpots"
 						id="coveredSpots" class="input"
-						placeholder="Number of covered spots" type="text" required="true" />
+						placeholder="Number of covered spots" type="number" required="true" />
 
 
 				</div>
@@ -89,7 +89,7 @@
 					</div>
 					<form:input path="handicapSpots" name="handicapSpots"
 						id="handicapSpots" class="input"
-						placeholder="Number of handicap spots" type="text" required="true" />
+						placeholder="Number of handicap spots" type="number" required="true" />
 
 				</div>
 				
@@ -108,7 +108,7 @@
 					<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						<span class="input-group-text"> <i class="fas fa-wheelchair "></i>
 						</span>
 					</div>
 					<form:input path="specHandicap" name="specHandicap" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
