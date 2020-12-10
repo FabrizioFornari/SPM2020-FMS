@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ParkingSpace {
 
 	private Integer idParkingSpace;
+	private String city;
 	private String name;
 	private String address;
 	private String coordinates;
@@ -25,11 +26,12 @@ public class ParkingSpace {
 		super();
 	}
 
-	public ParkingSpace(Integer idParkingSpace, String name, String address, String coordinates, Integer spotsCapacity,
+	public ParkingSpace(Integer idParkingSpace,String city, String name, String address, String coordinates, Integer spotsCapacity,
 			Integer coveredSpots, Integer handicapSpots, boolean guarded, String specCovered, String specHandicap, String image) {
 		
 		super();
 		this.idParkingSpace = idParkingSpace;
+		this.city= city;
 		this.name = name;
 		this.address = address;
 		this.coordinates = coordinates;
@@ -57,6 +59,14 @@ public class ParkingSpace {
 
 	public void setIdParkingSpace(Integer idParkingSpace) {
 		this.idParkingSpace = idParkingSpace;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getName() {

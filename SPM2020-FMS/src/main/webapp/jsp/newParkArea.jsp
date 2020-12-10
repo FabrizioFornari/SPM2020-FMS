@@ -19,6 +19,18 @@
 
 			<form:form id="addForm" modelAttribute="parkSpace"
 				action="addParkSpace" method="post"  enctype = "multipart/form-data">
+				<!--  form-group -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-map "></i>
+						</span>
+					</div>
+
+
+					<form:input path="city" name="city" id="city"
+						class="input" placeholder="City" type="text" required="true" />
+				</div>
+				<!--  form-group -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-signature"></i>
@@ -101,7 +113,7 @@
 					</div>
 					<form:input path="specCovered" name="specCovered" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
 						id="specCovered" class="input"
-						placeholder="Specify spots separated by , (use - for ranges)" type="text" required="true" />
+						placeholder="Specify spots separated by , (use - for ranges)" type="text" />
 
 
 				</div>
@@ -113,7 +125,7 @@
 					</div>
 					<form:input path="specHandicap" name="specHandicap" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
 						id="specHandicap" class="input"
-						placeholder="Specify spots separated by , (use - for ranges)" type="text" required="true" />
+						placeholder="Specify spots separated by , (use - for ranges)" type="text" />
 
 
 				</div>
@@ -121,7 +133,7 @@
 				<!-- form-group// -->
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						<span class="input-group-text"> <i class="fas fa-file"></i>
 						</span>
 					</div>
 					<form:input path="imageFile" name="imageFile"

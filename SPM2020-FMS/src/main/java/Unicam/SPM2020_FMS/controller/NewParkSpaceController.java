@@ -19,66 +19,65 @@ import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
 import Unicam.SPM2020_FMS.service.StorageService;
 
-
 @Controller
 public class NewParkSpaceController {
-	
-	  @Autowired
-	  public ParkSpaceService parkService;
-	  
-	  @Autowired
-	  public ParkSpotService spotService;
-	  
-	  @Autowired
-	  public StorageService storageService;
 
-	  @RequestMapping(value = "/newParkArea", method = RequestMethod.GET)
-	  public ModelAndView newParkSpace(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
-		
-	    User user = (User) session.getAttribute("user");
-	    if (user!=null) {
-	    	if (user.getUserType().equals("Municipality")) {
-	    		
-		    	ModelAndView mav = new ModelAndView("newParkArea");
-		    	
-		    	//if coming from an error try to reload old information
-		    	
-			    Object oldSpace= session.getAttribute("oldSpace");
-			    if(oldSpace!=null) {
-			    	mav.addObject("parkSpace", (ParkingSpace) oldSpace);
-			    	session.removeAttribute("oldSpace");
-			    } else {
-			    	mav.addObject("parkSpace", new ParkingSpace());
-			    }
-			    
-			    //and to show the error message
-			    
-			    Object message= session.getAttribute("message");
-			    if(message!=null) {
-			    	mav.addObject("message", (String) message);
-			    	session.removeAttribute("message");
-			    }
-			    
-		    	return mav;
-		    	
-	    	} else {
-	    		session.removeAttribute("message");
-	    		return new ModelAndView("welcome", "user", user);
-	    	}
-	    } else {
-	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
-	    	session.removeAttribute("message");
-	    	mav.addObject("message", "Please login");		
-	    	return mav;
-	    }
-	  }
-	  
-	  
+	@Autowired
+	public ParkSpaceService parkService;
 
-	  @RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
+	@Autowired
+	public ParkSpotService spotService;
+
+	@Autowired
+	public StorageService storageService;
+
+	@RequestMapping(value = "/newParkArea", method = RequestMethod.GET)
+	public ModelAndView newParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+			if (user.getUserType().equals("Municipality")) {
+
+				ModelAndView mav = new ModelAndView("newParkArea");
+
+				// if coming from an error try to reload old information
+
+				Object oldSpace = session.getAttribute("oldSpace");
+				if (oldSpace != null) {
+					mav.addObject("parkSpace", (ParkingSpace) oldSpace);
+					session.removeAttribute("oldSpace");
+				} else {
+					mav.addObject("parkSpace", new ParkingSpace());
+				}
+
+				// and to show the error message
+
+				Object message = session.getAttribute("message");
+				if (message != null) {
+					mav.addObject("message", (String) message);
+					session.removeAttribute("message");
+				}
+
+				return mav;
+
+			} else {
+				session.removeAttribute("message");
+				return new ModelAndView("welcome", "user", user);
+			}
+		} else {
+			ModelAndView mav = new ModelAndView("login", "login", new Login());
+			session.removeAttribute("message");
+			mav.addObject("message", "Please login");
+			return mav;
+		}
+	}
+
+	@RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
 	  public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
 		  
+		  
+    	
 		  String errMsg="";
 		  Boolean fileNotUploaded=false;
 		  
@@ -94,6 +93,8 @@ public class NewParkSpaceController {
 			  
 		  } else {			  
 			  
+			  String filename = System.currentTimeMillis()+newParkSpace.getImageFile().getOriginalFilename();
+			  newParkSpace.setImageName(filename);
 			  int addResult=parkService.add(newParkSpace);			
 			  String[] spaceMessages = {
 					  "Creating Park Space has not been possible!",
@@ -113,10 +114,7 @@ public class NewParkSpaceController {
 				  
 				  //try to store the uploaded file
 				  try {
-					  String filename = newParkSpace.getIdParkingSpace()+newParkSpace.getImageFile().getOriginalFilename();
 					  storageService.store(newParkSpace.getImageFile(),filename);
-					  newParkSpace.setImageName(newParkSpace.getImageFile().getOriginalFilename());
-					  System.out.println(newParkSpace.getImageName());
 				  } catch (Exception e) {
 					  fileNotUploaded=true;
 				  }
@@ -131,9 +129,8 @@ public class NewParkSpaceController {
 				  } else {
 					  if (fileNotUploaded) {
 						  errMsg = "Park Space correctly created without map";
-					  } else {
-						  errMsg = "Park Space correctly created with Parking spots and map"; 
 					  }
+					  errMsg = "Park Space correctly created with Parking spots and map"; 
 				  }
 				  
 			  }
@@ -142,7 +139,5 @@ public class NewParkSpaceController {
 	    
 		session.setAttribute("message", errMsg);
     	return "redirect:/newParkArea";
-    	
-	  }
-	  
+	}
 }
