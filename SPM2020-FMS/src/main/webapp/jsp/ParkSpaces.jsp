@@ -64,7 +64,7 @@
 					<div class="col-lg-10 mx-auto">
 						<div class="career-search mb-60">
 
-							<form action="#" class="career-form mb-60">
+				<!--  		<form action="#" class="career-form mb-60">
 								<div class="row">
 									<div class="col-md-6 col-lg-3 my-3">
 										<div class="input-group position-relative">
@@ -81,7 +81,7 @@
 											id="contact-submit">Search</button>
 									</div>
 								</div>
-							</form>
+							</form>-->
 
 							<div class="filter-result">
 								<p class="mb-30 ff-montserrat">Total Parking Spaces :
@@ -102,12 +102,10 @@
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
 														Capacity: ${parkSpace.getSpotsCapacity()}</li>
-													<li class="mr-md-4"><i class="zmdi zmdi-money mr-2"></i>
-														Available: 00</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
 														Handicap: ${parkSpace.getHandicapSpots()}</li>
-													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-														Is guarded</li>
+							<c:if test="${parkSpace.isGuarded() == true}">						<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
+														Is guarded</li></c:if>
 												</ul>
 											</div>
 										</div>
