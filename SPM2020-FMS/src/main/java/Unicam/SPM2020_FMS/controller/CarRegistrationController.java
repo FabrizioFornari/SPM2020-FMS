@@ -80,8 +80,7 @@ public class CarRegistrationController {
 		List<Car> carsList = cars.getMyCars();
 		User user = (User) session.getAttribute("user");
 		
-	    carService.modifyCars(carsList, carService.showCars(user.getIdUser()));
-	    
+	    carService.modifyCars(carsList, carService.showCars(user.getIdUser()));   
 	    ModelAndView mav = new ModelAndView("myCars");
     	UserCars userCars = new UserCars();
     	userCars.setMyCars(carService.showCars(user.getIdUser()));
