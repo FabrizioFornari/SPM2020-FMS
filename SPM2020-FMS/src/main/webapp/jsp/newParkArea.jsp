@@ -18,7 +18,7 @@
 			<h4 class="card-title mt-3 text-center">Insert a new park space:</h4>
 
 			<form:form id="addForm" modelAttribute="parkSpace"
-				action="addParkSpace" method="post" >
+				action="addParkSpace" method="post"  enctype = "multipart/form-data">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"> <i class="fas fa-signature"></i>
@@ -114,6 +114,19 @@
 					<form:input path="specHandicap" name="specHandicap" pattern="^(\d+(-\d+)?)(,\d+(-\d+)?)*$"
 						id="specHandicap" class="input"
 						placeholder="Specify spots separated by , (use - for ranges)" type="text" required="true" />
+
+
+				</div>
+				
+				<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-warehouse"></i>
+						</span>
+					</div>
+					<form:input path="imageFile" name="imageFile"
+						id="imageFile" class="input"
+						placeholder="Upload map of the park" type="file" />
 
 
 				</div>

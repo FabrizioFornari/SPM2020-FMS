@@ -23,6 +23,7 @@ public class App
 			);
 		}
 		IntStream.rangeClosed(5, 5).forEach(a->System.out.println(a));
+		System.out.println(System.getProperty("user.dir"));
 		//print;
 		//System.out.println(print.distinct().count());
     }

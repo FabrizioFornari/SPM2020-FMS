@@ -17,6 +17,8 @@ import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
+import Unicam.SPM2020_FMS.service.StorageService;
+
 
 @Controller
 public class NewParkSpaceController {
@@ -26,6 +28,9 @@ public class NewParkSpaceController {
 	  
 	  @Autowired
 	  public ParkSpotService spotService;
+	  
+	  @Autowired
+	  public StorageService storageService;
 
 	  @RequestMapping(value = "/newParkArea", method = RequestMethod.GET)
 	  public ModelAndView newParkSpace(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
@@ -75,6 +80,7 @@ public class NewParkSpaceController {
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
 		  
 		  String errMsg="";
+		  Boolean fileNotUploaded=false;
 		  
 		  if (bindingResult.hasFieldErrors()){
 			  
@@ -86,16 +92,17 @@ public class NewParkSpaceController {
 			  }
 			  session.setAttribute("oldSpace", newParkSpace);
 			  
-		  } else {
+		  } else {			  
 			  
 			  int addResult=parkService.add(newParkSpace);			
 			  String[] spaceMessages = {
-					  "Operation not completed",
+					  "Creating Park Space has not been possible!",
 					  "Position specified has been already used"
 			  };
 
 			  if (addResult<=0) {
 				  
+				  //deleteImageFile
 				  addResult*=-1;
 				  errMsg=spaceMessages[addResult];
 				  session.setAttribute("oldSpace", newParkSpace);
@@ -103,11 +110,30 @@ public class NewParkSpaceController {
 			  } else {
 				  
 				  newParkSpace.setIdParkingSpace(addResult);
+				  
+				  //try to store the uploaded file
+				  try {
+					  String filename = newParkSpace.getIdParkingSpace()+newParkSpace.getImageFile().getOriginalFilename();
+					  storageService.store(newParkSpace.getImageFile(),filename);
+					  newParkSpace.setImageName(newParkSpace.getImageFile().getOriginalFilename());
+					  System.out.println(newParkSpace.getImageName());
+				  } catch (Exception e) {
+					  fileNotUploaded=true;
+				  }
+				  
+				  //try to generate spots
 				  int genResult = spotService.generateSpots(newParkSpace.getSpots());
 				  if (genResult<0) {
-					  errMsg = "Automatic generation of parking spots has not been possible";
+					  if (fileNotUploaded) {
+						  errMsg = "Operation not completed: Park Area has been created without spots and without map";
+					  }
+					  errMsg = "Operation not completed: Park Area has been created without spots";
 				  } else {
-					  errMsg = "Park Space correctly added and spots generated";
+					  if (fileNotUploaded) {
+						  errMsg = "Park Space correctly created without map";
+					  } else {
+						  errMsg = "Park Space correctly created with Parking spots and map"; 
+					  }
 				  }
 				  
 			  }

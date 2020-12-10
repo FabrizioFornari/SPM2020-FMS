@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ParkingSpace {
 
 	private Integer idParkingSpace;
@@ -16,7 +18,8 @@ public class ParkingSpace {
 	private boolean guarded = false;
 	private String specCovered;
 	private String specHandicap;
-	private String image;
+	private String imageName;
+	private MultipartFile imageFile;
 	
 	public ParkingSpace() {
 		super();
@@ -36,7 +39,7 @@ public class ParkingSpace {
 		this.guarded = guarded;
 		this.specCovered = specCovered;
 		this.specHandicap = specHandicap;
-		this.image = image;
+		this.imageName = image;
 		
 		if (this.getCoveredSpotsNumbers().count() != this.coveredSpots) {
 			throw new IllegalArgumentException("Wrong covered spots specification");
@@ -150,12 +153,20 @@ public class ParkingSpace {
 			}
 	}
 	
-	public String getImage() {
-		return image;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImageName(String image) {
+		this.imageName = image;
+	}
+	
+	public MultipartFile getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
 	}
 	
 	@Override
@@ -163,7 +174,7 @@ public class ParkingSpace {
 		return "ParkingSpace [idParkingSpace=" + idParkingSpace + ", name=" + name + ", address=" + address
 				+ ", coordinates=" + coordinates + ", spotsCapacity=" + spotsCapacity + ", coveredSpots=" + coveredSpots
 				+ ", handicapSpots=" + handicapSpots + ", guarded=" + guarded + ", specCovered=" + specCovered
-				+ ", specHandicap=" + specHandicap + ", image=" + image + "]";
+				+ ", specHandicap=" + specHandicap + ", image=" + imageName + "]";
 	}
 
 	public IntStream getCoveredSpotsNumbers() {
@@ -240,6 +251,5 @@ public class ParkingSpace {
 		
 		return spots;	
 	}
-
 }
 
