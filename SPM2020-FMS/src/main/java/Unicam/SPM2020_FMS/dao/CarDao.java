@@ -30,7 +30,7 @@ public class CarDao {
 		String sql = "INSERT INTO car VALUES (?,?,?)";
 
 		try {
-			return jdbcTemplate.update(sql, new Object[] { car.getLicensePlateNumber(), car.getDriver(), car.getModel(), });
+			return jdbcTemplate.update(sql, new Object[] { car.getLicensePlateNumber(), car.getDriver(), car.getModel()});
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			return 0;
 		} catch (Exception e) {

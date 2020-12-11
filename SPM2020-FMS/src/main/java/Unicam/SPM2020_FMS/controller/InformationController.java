@@ -27,7 +27,13 @@ public class InformationController {
 		  
 	    User user = (User)session.getAttribute("user");
 	    if (user!=null) {
-		    return new ModelAndView("profilePage", "user", user);
+		    ModelAndView mav = new ModelAndView("profilePage", "user", user);
+		    Object message= session.getAttribute("message");
+		    if(message!=null) {
+		    	mav.addObject("message", (String) message);
+		    	session.removeAttribute("message");
+		    }
+		    return mav;	
 	    } else {
 	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
 	    	mav.addObject("message", "Please login");		
@@ -37,9 +43,10 @@ public class InformationController {
 	  
 	  
 	  @RequestMapping(value = "/updateUserProcess", method = RequestMethod.POST)
-	  public ModelAndView updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user, HttpSession session) {
+	  public String updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user, HttpSession session) {
 	    User oldUser = (User) session.getAttribute("user");
 	    user.setIdUser(oldUser.getIdUser());
+	    user.setUserType(oldUser.getUserType());
 	    int updated=userService.update(user);
 	    String msg;
 	    session.removeAttribute("user");
@@ -49,7 +56,7 @@ public class InformationController {
 	    } else {
 	    	msg="Information update could not be possible";
 	    }
-
-	    return new ModelAndView("profilePage", "message", msg);
+	    session.setAttribute("message", msg);
+	    return "redirect:/profile";
 	  }
 }

@@ -25,7 +25,7 @@ public class ParkSpaceDao {
   JdbcTemplate jdbcTemplate;
 	  
   public int add(ParkingSpace newParkSpace) {
-    String sql = "INSERT INTO parkingspace (`Name`, `Address`, `Coordinates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`) VALUES (?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO parkingspace (`City`,`Name`, `Address`, `Coordinates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`,`Image`) VALUES (?,?,?,?,?,?,?,?,?)";
 
 	KeyHolder parkSpaceKeyHolder = new GeneratedKeyHolder();
 	int err=0;
@@ -33,13 +33,15 @@ public class ParkSpaceDao {
 	try {
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, newParkSpace.getName());
-			ps.setString(2, newParkSpace.getAddress());
-			ps.setString(3, newParkSpace.getCoordinates());
-			ps.setObject(4, newParkSpace.getSpotsCapacity());
-			ps.setObject(5, newParkSpace.getCoveredSpots());
-			ps.setObject(6, newParkSpace.getHandicapSpots());
-			ps.setObject(7, newParkSpace.isGuarded());
+			ps.setString(1, newParkSpace.getCity());
+			ps.setString(2, newParkSpace.getName());
+			ps.setString(3, newParkSpace.getAddress());
+			ps.setString(4, newParkSpace.getCoordinates());
+			ps.setObject(5, newParkSpace.getSpotsCapacity());
+			ps.setObject(6, newParkSpace.getCoveredSpots());
+			ps.setObject(7, newParkSpace.getHandicapSpots());
+			ps.setObject(8, newParkSpace.isGuarded());
+			ps.setObject(9, newParkSpace.getImageName());
 			return ps;
 		}, parkSpaceKeyHolder);
 	} catch (org.springframework.dao.DuplicateKeyException e) {
@@ -49,6 +51,7 @@ public class ParkSpaceDao {
 		}
 		return err;
 	} catch (Exception e) {
+		System.out.println(e.getMessage());
 		return err;
 	}
 	
@@ -70,13 +73,18 @@ public class ParkSpaceDao {
 		
 		ParkingSpace parkSpace = new ParkingSpace(
 			rs.getInt("ID"),
+			rs.getString("City"),
 			rs.getString("Name"),
 			rs.getString("Address"),
 			rs.getString("Coordinates"),
 			rs.getInt("Spots_capacity"),
 			rs.getInt("Covered_spots"),
 			rs.getInt("Handicap_spots"),
-			rs.getBoolean("IsGuarded")
+			rs.getBoolean("IsGuarded"),
+			null,
+			null,
+			rs.getString("Image")
+
 		);
 
 		return parkSpace;

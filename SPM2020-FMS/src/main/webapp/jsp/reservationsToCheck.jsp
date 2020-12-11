@@ -17,7 +17,7 @@
 	<jsp:include page="navBar.jsp"></jsp:include>
 
 	<div class="container" align="center">
-		<h1>Find a driver</h1>
+		<h1>Check a park</h1>
 		<div class="row">
 
 			<div class="col-sm-12">

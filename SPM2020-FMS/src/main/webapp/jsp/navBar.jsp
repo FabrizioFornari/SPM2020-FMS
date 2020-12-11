@@ -65,7 +65,7 @@ body {
 						</c:if>
 						<c:if test="${user.getUserType() == 'Municipality' }">
 						<li class="nav-item"><a class="nav-link" href="newParkArea"><span
-						class="fas fa-id-badge"></span> Park areas</a></li>
+						class="fas fa-id-badge"></span> Add Park space</a></li>
 						</c:if>
 						<c:if test="${user.getUserType() == 'Policeman' }">
 						<li class="nav-item"><a class="nav-link" href="reservationsToCheck"><span

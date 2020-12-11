@@ -22,7 +22,9 @@ public class ReservationDao {
 
 	public List<Reservation> showReservationsToCheck() {
 
-		String sql = "SELECT LicensePlateNumber, ParkingSpot, parkingspace.Name as ParkingSpace, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end >= NOW()";
+
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, parkingspace.Name as ParkingSpace, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end is null";
+
 
 		List<Reservation> reservationsToCheck = jdbcTemplate.query(sql, new ReservationsMapper());
 
