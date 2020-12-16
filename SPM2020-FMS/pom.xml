@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<name>SPM2020-FMS</name>
 	<!--  FIXME change it to the project's website  -->
-	<url>http://www.example.com</url>
+	<!-- <url>http://www.example.com</url> -->
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -245,13 +245,24 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        		<plugin>
-				    <artifactId>maven-war-plugin</artifactId>
-				    <version>2.6</version>
-				    <configuration>
-				        <failOnMissingWebXml>false</failOnMissingWebXml>
-				    </configuration>
-				</plugin>
+        <plugin>
+		    <artifactId>maven-war-plugin</artifactId>
+		    <version>2.6</version>
+		    <configuration>
+		        <failOnMissingWebXml>false</failOnMissingWebXml>
+		    </configuration>
+		</plugin>
+		<plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                    <username>war-deployer</username>
+                    <password>jenkins-tomcat-plugin</password>
+                    <update>true</update>
+                    <url>http://localhost:8080/manager/text</url>
+                    </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
