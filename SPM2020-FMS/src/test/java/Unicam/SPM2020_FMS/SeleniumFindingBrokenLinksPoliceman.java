@@ -30,12 +30,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SeleniumFindingBrokenLinksMunicipality {
+class SeleniumFindingBrokenLinksPoliceman {
 	
 	static String projectPath;
 	static WebDriver driver;
 	static String URLbase;
-	static String municipality;
+	static String policeman;
 	static String rightPassword;
 	static String runningOS;
 	static String pathToDriver;
@@ -70,7 +70,7 @@ class SeleniumFindingBrokenLinksMunicipality {
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
 
-            municipality = prop.getProperty("municipality");
+            policeman = prop.getProperty("policeman");
             rightPassword = prop.getProperty("rightPassword");
 		} catch (IOException ex) {
             ex.printStackTrace();
@@ -89,7 +89,7 @@ class SeleniumFindingBrokenLinksMunicipality {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
-		element.sendKeys(municipality);
+		element.sendKeys(policeman);
 		driver.findElement(By.id("password")).sendKeys(rightPassword);
 		driver.findElement(By.id("login")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
@@ -136,12 +136,12 @@ class SeleniumFindingBrokenLinksMunicipality {
 	}
 	
 	@Test
-	@DisplayName("Check broken links in parking spaces page")
+	@DisplayName("Check broken links in reservations page")
 	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
-		//Getting the parking spaces page
-		driver.get(URLbase+"newParkArea");
-		assertTrue(driver.getPageSource().contains("Insert a new park space"));
+		//Getting the reservations page
+		driver.get(URLbase+"reservationsToCheck");
+		assertTrue(driver.getPageSource().contains("Check a park"));
 		
 		//Finding all anchor tags
 		List<WebElement> links = driver.findElements(By.tagName("a"));
