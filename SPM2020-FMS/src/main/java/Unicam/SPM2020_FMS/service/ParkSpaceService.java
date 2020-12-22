@@ -20,4 +20,9 @@ public class ParkSpaceService {
 	return parkSpaceDao.showParkSpaceList();	
   }
 
+public int edit(ParkingSpace parkingSpace) {
+	// TODO Auto-generated method stub
+	return parkSpaceDao.edit(parkingSpace);
+}
+
 }

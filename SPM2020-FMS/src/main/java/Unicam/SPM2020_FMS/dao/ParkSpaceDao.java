@@ -66,6 +66,32 @@ public class ParkSpaceDao {
 
 	return parkSpaceList;
   }
+  
+  
+  public int edit(ParkingSpace parkingSpace) {
+		
+	  
+	    String sql = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Image = ? WHERE ID = ? ";
+
+		int parkSpaceKeyHolder;
+		int err=0;
+
+		try {
+			 parkSpaceKeyHolder = jdbcTemplate.update(sql,new Object[] { parkingSpace.getCity(),parkingSpace.getName(),parkingSpace.getAddress(), parkingSpace.getCoordinates(), parkingSpace.getSpotsCapacity(),
+					parkingSpace.getCoveredSpots(), parkingSpace.getHandicapSpots(), parkingSpace.isGuarded(), parkingSpace.getImageName(),parkingSpace.getIdParkingSpace() });
+		} catch (org.springframework.dao.DuplicateKeyException e) {
+			String msg=e.getMessage();
+			if (msg.contains("parkingspace.Coordinates")) {
+				err=-1;
+			}
+			return err;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return err;
+		}
+		
+		return parkSpaceKeyHolder;
+	}
 
   class ParkSpaceMapper implements RowMapper<ParkingSpace> {
 
@@ -90,5 +116,7 @@ public class ParkSpaceDao {
 		return parkSpace;
 	}
   }
+
+
   
 }
