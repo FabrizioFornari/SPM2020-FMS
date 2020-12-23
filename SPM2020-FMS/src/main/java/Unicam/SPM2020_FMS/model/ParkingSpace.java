@@ -261,5 +261,65 @@ public class ParkingSpace {
 		
 		return spots;	
 	}
+	
+	
+	
+	public boolean isSucc(int num1, int num2) {
+
+		if (num1 + 1 == num2) {
+			return true;
+		} else
+			return false;
+
+	}
+	
+	
+	public String transformIntoString(List<ParkingSpot> spotsList) {
+
+		
+		List<String> stringList = new ArrayList<String>();
+		
+		List<String> rangeList = new ArrayList<String>();
+		String string = null;
+		int i = 0;
+		while (i < spotsList.size() && i + 1 != spotsList.size()) {
+
+			int num1 = spotsList.get(i).getSpotNumber();
+			int num2 = spotsList.get(i + 1).getSpotNumber();
+
+			if (isSucc(num1, num2)) {
+				rangeList.add(String.valueOf(num1));
+				rangeList.add(String.valueOf(num2));
+				i++;
+			} else if (rangeList.size() > 2) {
+				string = rangeList.get(0) + "-" + rangeList.get(rangeList.size() - 1);
+				stringList.add(string);
+				rangeList.clear();
+				i++;
+			} else {
+				stringList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
+				i++;
+			}
+
+		}
+
+		if (rangeList.size() > 2) {
+			string = rangeList.get(0) + "-" + rangeList.get(rangeList.size() - 1);
+			stringList.add(string);
+			rangeList.clear();
+		} else if (rangeList.size() == 2) {
+
+			stringList.add(rangeList.get(0));
+			stringList.add(rangeList.get(1));
+		}
+
+		else {
+
+			stringList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
+		}
+
+		return String.join(",", stringList);
+
+	}
 }
 

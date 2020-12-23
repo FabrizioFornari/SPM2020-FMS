@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
+import Unicam.SPM2020_FMS.model.ParkingSpot;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
@@ -67,6 +68,16 @@ public class ParkSpaceListController {
 			if (user.getUserType().equals("Municipality")) {
 				ModelAndView mav = new ModelAndView("ParksManagement");
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
+				for (ParkingSpace parkingSpace : parkSpaceList) {
+					if (parkingSpace.getCoveredSpots() > 0 && parkingSpace.getHandicapSpots() > 0) {
+						String specCovered = parkingSpace
+								.transformIntoString(spotService.showCoveredSpots(parkingSpace.getIdParkingSpace()));
+						parkingSpace.setSpecCovered(specCovered);
+						String specHandicap = parkingSpace
+								.transformIntoString(spotService.showHandicapSpots(parkingSpace.getIdParkingSpace()));
+						parkingSpace.setSpecHandicap(specHandicap);
+					}
+				}
 				mav.addObject("parkSpaceToEdit", new ParkingSpace());
 				mav.addObject("parkSpaceList", parkSpaceList);
 				return mav;
@@ -80,76 +91,69 @@ public class ParkSpaceListController {
 		}
 	}
 
-	/** Retrieve the list of the parking spaces from the database (Municipality) */
+	
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.POST)
 	public String editParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToEdit") ParkingSpace parkingSpace, BindingResult bindingResult) {
 
-		
-		
-		String errMsg="";
-		  Boolean fileNotUploaded=false;
-		  
-		  if (bindingResult.hasFieldErrors()){
-			  
-			  String field = bindingResult.getFieldError().getField();
-			  if ( field.contains("Covered")||field.contains("Handicap")) {
-				  errMsg = bindingResult.getFieldError().getDefaultMessage().split(":")[1];
-			  } else {
-				  errMsg = "Operation not completed: invalid information!";  
-			  }
-			  session.setAttribute("oldSpace", parkingSpace);
-			  
-		  } else {			  
-			  
-			  String filename = System.currentTimeMillis()+parkingSpace.getImageFile().getOriginalFilename();
-			  parkingSpace.setImageName(filename);
-			  int addResult=parkService.edit(parkingSpace);			
-			  String[] spaceMessages = {
-					  "Creating Park Space has not been possible!",
-					  "Position specified has been already used"
-			  };
+		String errMsg = "";
+		Boolean fileNotUploaded = false;
 
-			  if (addResult<=0) {
-				  
-				  //deleteImageFile
-				  addResult*=-1;
-				  errMsg=spaceMessages[addResult];
-				  session.setAttribute("oldSpace", parkingSpace);
-				  
-			  } else {
-				  
-				 
-				  
-				  //try to store the uploaded file
-				  try {
-					  storageService.store(parkingSpace.getImageFile(),filename);
-				  } catch (Exception e) {
-					  fileNotUploaded=true;
-				  }
-				  
-				  //try to generate spots
-				  int genResult = spotService.generateSpots(parkingSpace.getSpots());
-				  if (genResult<0) {
-					  if (fileNotUploaded) {
-						  errMsg = "Operation not completed: Park Area has been created without spots and without map";
-					  }
-					  errMsg = "Operation not completed: Park Area has been created without spots";
-				  } else {
-					  if (fileNotUploaded) {
-						  errMsg = "Park Space correctly created without map";
-					  }
-					  errMsg = "Park Space correctly created with Parking spots and map"; 
-				  }
-				  
-			  }
-			
-		  }
-	    
+		if (bindingResult.hasFieldErrors()) {
+
+			String field = bindingResult.getFieldError().getField();
+			if (field.contains("Covered") || field.contains("Handicap")) {
+				errMsg = bindingResult.getFieldError().getDefaultMessage().split(":")[1];
+			} else {
+				errMsg = "Operation not completed: invalid information!";
+			}
+			session.setAttribute("oldSpace", parkingSpace);
+
+		} else {
+
+			String filename = System.currentTimeMillis() + parkingSpace.getImageFile().getOriginalFilename();
+			parkingSpace.setImageName(filename);
+			int addResult = parkService.edit(parkingSpace);
+			String[] spaceMessages = { "Updating Park Space has not been possible!",
+					"Position specified has been already used" };
+
+			if (addResult <= 0) {
+
+				// deleteImageFile
+				addResult *= -1;
+				errMsg = spaceMessages[addResult];
+				session.setAttribute("oldSpace", parkingSpace);
+
+			} else {
+
+				// try to store the uploaded file
+				try {
+					storageService.store(parkingSpace.getImageFile(), filename);
+				} catch (Exception e) {
+					fileNotUploaded = true;
+				}
+
+				// try to generate spots
+				int genResult = spotService.updateSpots(parkingSpace.getSpots());
+				if (genResult < 0) {
+					if (fileNotUploaded) {
+						errMsg = "Operation not completed: Park Area has been created without spots and without map";
+					}
+					errMsg = "Operation not completed: Park Area has been created without spots";
+				} else {
+					if (fileNotUploaded) {
+						errMsg = "Park Space correctly created without map";
+					}
+					errMsg = "Park Space correctly created with Parking spots and map";
+				}
+
+			}
+
+		}
+
 		session.setAttribute("message", errMsg);
-  	return "redirect:/ParksManagement";
-		
-		
+		return "redirect:/ParksManagement";
+
 	}
 
 }
