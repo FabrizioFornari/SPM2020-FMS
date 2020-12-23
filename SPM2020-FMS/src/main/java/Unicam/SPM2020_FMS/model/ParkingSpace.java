@@ -278,44 +278,30 @@ public class ParkingSpace {
 
 		
 		List<String> stringList = new ArrayList<String>();
-		
+
 		List<String> rangeList = new ArrayList<String>();
 		String string = null;
-		int i = 0;
-		while (i < spotsList.size() && i + 1 != spotsList.size()) {
 
-			int num1 = spotsList.get(i).getSpotNumber();
-			int num2 = spotsList.get(i + 1).getSpotNumber();
+		for (int i = 0; i < spotsList.size(); i++) {
 
-			if (isSucc(num1, num2)) {
-				rangeList.add(String.valueOf(num1));
-				rangeList.add(String.valueOf(num2));
-				i++;
+			if (i + 1 != spotsList.size() && isSucc(spotsList.get(i).getSpotNumber(), spotsList.get(i + 1).getSpotNumber())) {
+				rangeList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
+				rangeList.add(String.valueOf(spotsList.get(i + 1).getSpotNumber()));
+			
 			} else if (rangeList.size() > 2) {
 				string = rangeList.get(0) + "-" + rangeList.get(rangeList.size() - 1);
 				stringList.add(string);
 				rangeList.clear();
-				i++;
+		
+			} else if (rangeList.size() == 2) {
+				stringList.addAll(rangeList);
+				rangeList.clear();
+			
 			} else {
 				stringList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
-				i++;
+			
 			}
 
-		}
-
-		if (rangeList.size() > 2) {
-			string = rangeList.get(0) + "-" + rangeList.get(rangeList.size() - 1);
-			stringList.add(string);
-			rangeList.clear();
-		} else if (rangeList.size() == 2) {
-
-			stringList.add(rangeList.get(0));
-			stringList.add(rangeList.get(1));
-		}
-
-		else {
-
-			stringList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
 		}
 
 		return String.join(",", stringList);

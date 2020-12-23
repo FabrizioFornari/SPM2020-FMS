@@ -82,14 +82,14 @@ public class ParkSpotDao {
 		int diff = spotsList.size() - spots.size();
 		// If the number of the parking spots already present are more than the modified
 		// one, delete those in excess
-		int index = spotsList.size()+1;
-		while ( diff != 0) {
-			
+		int index = spotsList.size() + 1;
+		while (diff != 0) {
+
 			if (diff > 0) {
 
 				String sql2 = "DELETE FROM parkingspot where ParkingSpace = '" + spots.get(0).getParkingSpace()
 						+ "' order by SpotNumber desc limit 1 ";
-				
+
 				try {
 					jdbcTemplate.update(sql2);
 					res++;
@@ -97,29 +97,45 @@ public class ParkSpotDao {
 					System.out.println(e.getMessage());
 					return res *= -1;
 				}
-				
+
 				diff--;
 				// If the number of the parking spots already present are less than the modified
 				// one, insert them
-			}else {
-				
+			} else {
+
 				String sql2 = "INSERT INTO parkingspot VALUES (?,?,?,?,?)";
-				
-						try {
-							jdbcTemplate.update(sql2, new Object[] { spots.get(index-1).getSpotNumber(), spots.get(index-1).getParkingSpace(),
-									spots.get(index-1).getOccupied(), spots.get(index-1).getIsRestricted(), spots.get(index-1).getIsCovered() });
-							res++;
-						} catch (Exception e) {
-							System.out.println(e.getMessage());
-							return res *= -1;
-						}
-			 diff++;			
-			 index++;	
+
+				try {
+					jdbcTemplate.update(sql2,
+							new Object[] { spots.get(index - 1).getSpotNumber(), spots.get(index - 1).getParkingSpace(),
+									spots.get(index - 1).getOccupied(), spots.get(index - 1).getIsRestricted(),
+									spots.get(index - 1).getIsCovered() });
+					res++;
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					return res *= -1;
+				}
+				diff++;
+				index++;
 			}
 		}
 		
+		
+for (ParkingSpot parkingSpot : spots) {
+	
+	String sql3 = "UPDATE parkingspot SET isRestricted = ?, isCovered = ?  WHERE ParkingSpace = ? and SpotNumber = ? ";
+	try {
+		 res = jdbcTemplate.update(sql3,new Object[] { parkingSpot.getIsRestricted(),parkingSpot.getIsCovered(),parkingSpot.getParkingSpace(),parkingSpot.getSpotNumber() });
+	}  catch (Exception e) {
+		System.out.println(e.getMessage());
+		return res *= -1;
+	}
+}
+		
+		
+		
 
-		return 0;
+		return res;
 	}
 
 }
