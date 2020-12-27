@@ -17,6 +17,26 @@ nav > div a.nav-item.nav-link.active
     border-radius:0;
 }
 
+.input {
+	width: 100%;
+	color: #fff;
+	display: block;
+	border: none;
+	padding: 15px 60px;
+	border-radius: 25px;
+	background: rgba(22, 45, 66, 0.86);
+}
+
+.input-group-prepend {
+	position: absolute;
+	margin: 11px;
+}
+
+.input-group-prepend span {
+	border-radius: 50px !important;
+	background-color: #e9ece200 !important;
+	color: #b7b722;
+}
 
 .tab-content{
   background: #171111ed;

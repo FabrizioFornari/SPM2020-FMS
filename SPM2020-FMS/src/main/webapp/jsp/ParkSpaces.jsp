@@ -37,14 +37,27 @@
 
 		</div>
 	</nav>
+
 	<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+
 		<div class="tab-pane fade show active" id="nav-map" role="tabpanel"
 			aria-labelledby="nav-map-tab">
 
 
-			<div id="map" align="center"></div>
 
+			<div id="map" align="center" ontouchstart="blurInput()"></div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"> <i class="fas fa-search "></i>
+					</span>
+				</div>
+
+
+				<input type="text" class="input" id="mapFilter"
+					onkeyup="filterMap()" placeholder="Filter by Address" />
+			</div>
 		</div>
+
 		<div class="tab-pane fade" id="nav-list" role="tabpanel"
 			aria-labelledby="nav-list-tab">
 
@@ -64,24 +77,16 @@
 					<div class="col-lg-10 mx-auto">
 						<div class="career-search mb-60">
 
-				<!--  		<form action="#" class="career-form mb-60">
-								<div class="row">
-									<div class="col-md-6 col-lg-3 my-3">
-										<div class="input-group position-relative">
-											<input type="text" class="form-control"
-												placeholder="Enter the address" id="inputAddress">
-										</div>
-									</div>
-
-								
-							
-									<div class="col-md-6 col-lg-3 my-3">
-										<button type="button"
-											class="btn btn-lg btn-block btn-light btn-custom"
-											id="contact-submit">Search</button>
-									</div>
+							<div class="form-group input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> <i
+										class="fas fa-search "></i>
+									</span>
 								</div>
-							</form>-->
+
+
+								<input class="input" placeholder="Filter by Address" type="text" />
+							</div>
 
 							<div class="filter-result">
 								<p class="mb-30 ff-montserrat">Total Parking Spaces :
@@ -96,20 +101,26 @@
 												class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
 												P${parkSpaceList.indexOf(parkSpace)+1}</div>
 											<div class="job-content">
-												<h5 class="text-center text-md-left">${parkSpace.getName()}
-													- ${parkSpace.getAddress()}</h5>
+												<h5 class="text-center text-md-left">
+													<strong>${parkSpace.getCity()} </strong> |
+													${parkSpace.getName()} - ${parkSpace.getAddress()}
+												</h5>
 												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
 														Capacity: ${parkSpace.getSpotsCapacity()}</li>
+													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
+														Covered: ${parkSpace.getCoveredSpots()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
 														Handicap: ${parkSpace.getHandicapSpots()}</li>
-							<c:if test="${parkSpace.isGuarded() == true}">						<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-														Is guarded</li></c:if>
+													<c:if test="${parkSpace.isGuarded() == true}">
+														<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
+															Is guarded</li>
+													</c:if>
 												</ul>
 											</div>
 										</div>
-										
+
 										<div class="job-right my-4 flex-shrink-0">
 											<a href="#"
 												class="btn d-block w-100 d-sm-inline-block btn-light">Reserve</a>
@@ -151,9 +162,10 @@
 var data = {
         <c:forEach var="parkSpace" items="${parkSpaceList}"
 			varStatus="tagStatus">
-            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}','${parkSpace.getName()} - ${parkSpace.getAddress()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
+            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}','${parkSpace.getName()}', '${parkSpace.getAddress()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
         </c:forEach>
     };
+
 
 function getCoordinate(coordinates){
 	
@@ -164,6 +176,14 @@ function getCoordinate(coordinates){
 	arr[1] = parseFloat(coordinates.substr(sub1.length+1));
 
 	return arr;
+}
+
+
+
+function blurInput(){
+	
+	let el = document.querySelector( ':focus' );
+	if( el ) el.blur();
 }
 
 /**
@@ -178,6 +198,9 @@ function addMarkerToGroup(group, coordinate, html) {
   marker.setData(html);
   group.addObject(marker);
 }
+ 
+ var group;
+ var container ;
 /**
  * Adds markers to the map highlighting the locations of the captials of
  * France, Italy, Germany, Spain and the United Kingdom.
@@ -187,7 +210,7 @@ function addMarkerToGroup(group, coordinate, html) {
 function addMarkersToMap(map) {
  
 	
-	 var group = new H.map.Group();
+	  group = new H.map.Group();
 
 	  map.addObject(group);
 
@@ -208,7 +231,7 @@ function addMarkersToMap(map) {
 		
 		  addMarkerToGroup(group, {lat:getCoordinate(data[key][0])[0], lng:getCoordinate(data[key][0])[1]},
 				    '<div><a href="http://maps.google.com/maps?q='+data[key][0]+'" target="_blank">'+data[key][1]+'</a>' +
-				    '</div><div >Capacity: '+data[key][2]+'<br>Handicap spots: '+data[key][3]+'</div>');
+				    '</div><div >Address: '+data[key][2]+'<br>Capacity: '+data[key][3]+'<br>Handicap spots: '+data[key][4]+'</div>');
 		});
 	
 	 
@@ -218,6 +241,70 @@ function addMarkersToMap(map) {
 	    bounds: group.getBoundingBox()
 	  });
 }
+ 
+ // Filter the markers on the map. According to the address inserted, the map will show all the parking spaces
+ // in a radius of one kilometer of that address.
+ function filterMap(){
+		
+	 
+
+	
+		// Declare variables
+		var input, filter;
+		input = document.getElementById("mapFilter");
+		
+		
+		filter = input.value.toUpperCase();
+		 // create container for objects
+		  
+		 // If the container has been inizialized (so at least one search is made) and the input field is empty
+		 // remove the container already present and set the zoom to see all the parking spaces 
+		 if(container != null && filter == "" ){
+			 
+			 map.removeObject(container);
+			 container = null;
+			 map.getViewModel().setLookAtData({
+				    bounds: group.getBoundingBox()
+				  });
+			 return;
+		 }else if(container != null && filter != ""){
+			 map.removeObject(container);
+			 container = new H.map.Group();
+			 
+		 }else {
+			 container = new H.map.Group();
+		 } 
+
+		  var circle ;
+		  
+		group.getObjects().every(element => {
+			var str = element.data;
+			var address = str.substring(str.indexOf("Address:")+9,str.indexOf("<br>"));
+			var coordinates = str.substring(str.indexOf("q=")+2,str.indexOf("target")-2).split(",");
+			var latitude = parseFloat(coordinates[0]);
+		    var longitude = parseFloat(coordinates[1]);
+			var upperAddress = address.toUpperCase();
+			if(upperAddress.includes(filter)){
+			  console.log("Found!");
+			circle  = new H.map.Circle(
+					    new H.geo.Point(latitude, longitude), //center
+					    1000, // Radius proportional to 2.719 million population
+					    {style: {fillColor: 'rgba(0, 221, 255, 0.06)'}}
+					  );
+			container.addObject(circle);
+			return false;
+		
+			}else {console.log("Not present!"); return true; }
+			  
+			});
+		
+		
+		 map.addObject(container);
+		  map.getViewModel().setLookAtData({
+		    bounds: container.getBoundingBox()
+		  });
+		 
+	}
 
  /**
  * Boilerplate map initialization code starts below:
