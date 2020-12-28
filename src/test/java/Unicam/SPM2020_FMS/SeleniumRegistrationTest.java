@@ -179,6 +179,7 @@ class SeleniumRegistrationTest {
 	
 	@Test
 	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Policeman's registration succeeds")
 	void checkPolicemanRegistration() throws InterruptedException {
 		//Compiling form
@@ -210,6 +211,8 @@ class SeleniumRegistrationTest {
 	}
 	
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Municipality's registration succeeds")
 	void checkMunicipalityRegistration() throws InterruptedException {
 		//Compiling form
