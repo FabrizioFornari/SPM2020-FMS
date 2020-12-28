@@ -11,7 +11,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumRegistration {
+class SeleniumRegistrationTest {
 	
 	static String projectPath;
 	static String pathToDriver;
@@ -143,6 +145,8 @@ class SeleniumRegistration {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Driver's registration succeeds")
 	void checkDriverRegistration() throws InterruptedException {
 		//Compiling form

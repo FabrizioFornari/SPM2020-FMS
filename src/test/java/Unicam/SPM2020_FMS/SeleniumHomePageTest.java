@@ -12,12 +12,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-class SeleniumHomePage {
+class SeleniumHomePageTest {
 	
 	static String projectPath;
 	static WebDriver driver;
@@ -63,19 +64,20 @@ class SeleniumHomePage {
 		options.addArguments("--start-maximized");
 		
 		//Remove comment prefix on the next line if you want to run test in headless mode
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 		
 		driver = new ChromeDriver(options);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		Thread.sleep(5000);  //Just for showing purpose
+		//Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
 
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Home page should be reachable")
 	void checkHomePage() throws InterruptedException {
 		driver.get(URLbase);

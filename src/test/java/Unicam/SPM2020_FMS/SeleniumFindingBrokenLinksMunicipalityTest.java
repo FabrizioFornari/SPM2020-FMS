@@ -13,14 +13,6 @@ import java.util.Properties;
 
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,12 +22,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SeleniumFindingBrokenLinksDriver {
+class SeleniumFindingBrokenLinksMunicipalityTest {
 	
 	static String projectPath;
 	static WebDriver driver;
 	static String URLbase;
-	static String user;
+	static String municipality;
 	static String rightPassword;
 	static String runningOS;
 	static String pathToDriver;
@@ -70,7 +62,7 @@ class SeleniumFindingBrokenLinksDriver {
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
 
-            user = prop.getProperty("user");
+            municipality = prop.getProperty("municipality");
             rightPassword = prop.getProperty("rightPassword");
 		} catch (IOException ex) {
             ex.printStackTrace();
@@ -89,7 +81,7 @@ class SeleniumFindingBrokenLinksDriver {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
-		element.sendKeys(user);
+		element.sendKeys(municipality);
 		driver.findElement(By.id("password")).sendKeys(rightPassword);
 		driver.findElement(By.id("login")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
@@ -116,6 +108,7 @@ class SeleniumFindingBrokenLinksDriver {
 	//The following tests will be executed based on the @Order annotation
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in welcome page")
 	@Order(1)
 	void checkWelcomePage() throws IOException {
@@ -136,12 +129,13 @@ class SeleniumFindingBrokenLinksDriver {
 	}
 	
 	@Test
-	@DisplayName("Check broken links in license plate management page")
+	@Tag("AcceptanceTest")
+	@DisplayName("Check broken links in parking spaces page")
 	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
-		//Getting the license plate management page
-		driver.get(URLbase+"myCars");
-		assertTrue(driver.getPageSource().contains("list of your cars"));
+		//Getting the parking spaces page
+		driver.get(URLbase+"newParkArea");
+		assertTrue(driver.getPageSource().contains("Insert a new park space"));
 		
 		//Finding all anchor tags
 		List<WebElement> links = driver.findElements(By.tagName("a"));
@@ -156,6 +150,7 @@ class SeleniumFindingBrokenLinksDriver {
 	}
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in profile page")
 	@Order(3)
 	void checkProfilePage() throws IOException {
@@ -168,29 +163,6 @@ class SeleniumFindingBrokenLinksDriver {
 		
 		//Checking every link
 		for(int i=0; i<links.size(); i++)
-		{	
-			WebElement ele = links.get(i);
-			String url = ele.getAttribute("href");
-			checkLink(url);
-		}
-	}
-	
-	@Test
-	@DisplayName("Check broken links in registration page")
-	@Order(4)
-	void checkRegisterPage() throws IOException, InterruptedException {
-		//Logging out and getting the registration page
-		driver.get(URLbase+"logout");
-		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='register']"))).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("regForm")));
-		
-		//Finding all anchor tags
-		List<WebElement> links = driver.findElements(By.tagName("a"));
-		
-		//Checking every link
-		for(int i=0;i<links.size();i++)
 		{	
 			WebElement ele = links.get(i);
 			String url = ele.getAttribute("href");

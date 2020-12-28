@@ -13,6 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumLogin {
+class SeleniumDriverLoginTest {
 	
 	static String projectPath;
 	static WebDriver driver;
@@ -75,14 +76,14 @@ class SeleniumLogin {
 		options.addArguments("--no-sandbox");
 		
 		//Remove comment prefix on the next line if you want to run test in headless mode
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 		
 		driver = new ChromeDriver(options);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		Thread.sleep(5000);  //Just for showing purpose
+		//Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
@@ -91,6 +92,7 @@ class SeleniumLogin {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
+	@Tag("AcceptanceTest")
 	@DisplayName("User login should succeed only with the right credentials")
 	void checkUserLogin() throws InterruptedException {
 		//Connecting to the login page and trying to login with a wrong password
@@ -99,21 +101,21 @@ class SeleniumLogin {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(user);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(wrongPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		
 		assertTrue(driver.getPageSource().contains("Email or Password is wrong!!"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Logging with the right credentials
 		element.clear();
 		element.sendKeys(user);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(rightPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
 		

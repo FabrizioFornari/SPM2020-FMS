@@ -12,7 +12,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +24,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumLicensePlateManagement {
+class SeleniumLicensePlateManagementTest {
 	
 	static String projectPath;
 	static String pathToDriver;
@@ -73,7 +75,7 @@ class SeleniumLicensePlateManagement {
 				options.addArguments("--no-sandbox");
 						
 				//Remove comment prefix on the next line if you want to run test in headless mode
-				//options.addArguments("--headless");
+				options.addArguments("--headless");
 						
 				driver = new ChromeDriver(options);
 				
@@ -87,11 +89,11 @@ class SeleniumLicensePlateManagement {
 				Assert.assertEquals("Login", driver.getTitle());
 				WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 				element.sendKeys(user);
-				Thread.sleep(1500);  //Just for showing purpose
+				//Thread.sleep(1500);  //Just for showing purpose
 				driver.findElement(By.id("password")).sendKeys(password);
-				Thread.sleep(1500);  //Just for showing purpose
+				//Thread.sleep(1500);  //Just for showing purpose
 				driver.findElement(By.id("login")).click();
-				Thread.sleep(1500);  //Just for showing purpose
+				//Thread.sleep(1500);  //Just for showing purpose
 						
 				//Waiting for the welcome page and requesting the license plate management page
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='myCars']"))).click();
@@ -100,7 +102,7 @@ class SeleniumLicensePlateManagement {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		Thread.sleep(5000);  //Just for showing purpose
+		//Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
@@ -116,19 +118,21 @@ class SeleniumLicensePlateManagement {
 	}
 
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether adding a new car succeeds")
 	void checkLicensePlateInsertion() throws InterruptedException {
 			
 		// Testing whether the car is not yet in the list and adding a new car
 		if (!(driver.getPageSource().contains(licensePlate1))) {
 			//Compiling the form
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("licensePlate")).sendKeys(licensePlate1);
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("model")).sendKeys(model1);
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("addCarButton")).click();;
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 						
 			//Checking if the car has been added to the list
 			assertTrue(driver.getPageSource().contains(licensePlate1));
@@ -137,13 +141,13 @@ class SeleniumLicensePlateManagement {
 		// Testing whether the car is not yet in the list and adding another car
 		if (!(driver.getPageSource().contains(licensePlate2))) {
 			//Compiling the form
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("licensePlate")).sendKeys(licensePlate2);
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("model")).sendKeys(model2);
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("addCarButton")).click();;
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			
 			//Checking if the car has been added to the list
 			assertTrue(driver.getPageSource().contains(licensePlate2));
@@ -151,11 +155,13 @@ class SeleniumLicensePlateManagement {
 	}
 	
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether deleting a car succeeds")
 	void checkLicensePlateDeletion() throws InterruptedException {		
 		// Testing whether the car is already in the list and deleting it
 		if ((driver.getPageSource().contains(licensePlate1))) {
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("delete[0]")).click();;
 			//Thread.sleep(1500);  //Just for showing purpose
 			
@@ -165,7 +171,7 @@ class SeleniumLicensePlateManagement {
 			
 		// Testing whether the car is already in the list and deleting it
 		if ((driver.getPageSource().contains(licensePlate2))) {
-			Thread.sleep(1500);  //Just for showing purpose
+			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("delete[0]")).click();;
 			//Thread.sleep(1500);  //Just for showing purpose
 					

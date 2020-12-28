@@ -13,14 +13,6 @@ import java.util.Properties;
 
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,7 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SeleniumFindingBrokenLinksPoliceman {
+class SeleniumFindingBrokenLinksPolicemanTest {
 	
 	static String projectPath;
 	static WebDriver driver;
@@ -116,6 +108,7 @@ class SeleniumFindingBrokenLinksPoliceman {
 	//The following tests will be executed based on the @Order annotation
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in welcome page")
 	@Order(1)
 	void checkWelcomePage() throws IOException {
@@ -136,6 +129,7 @@ class SeleniumFindingBrokenLinksPoliceman {
 	}
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in reservations page")
 	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
@@ -156,6 +150,7 @@ class SeleniumFindingBrokenLinksPoliceman {
 	}
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in profile page")
 	@Order(3)
 	void checkProfilePage() throws IOException {
