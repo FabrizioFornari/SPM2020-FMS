@@ -39,6 +39,7 @@ class SeleniumLicensePlateManagementTest {
 	static String model2;
 
 	@BeforeAll
+	@Disabled
 	static void setUpBeforeClass() throws Exception {
 		//Checking running OS
 		runningOS = (System.getProperty("os.name"));

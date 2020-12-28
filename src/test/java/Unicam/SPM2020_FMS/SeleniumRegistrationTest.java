@@ -111,6 +111,7 @@ class SeleniumRegistrationTest {
 	}
 
 	@BeforeEach
+	@Disabled
 	void setUp() throws Exception {
 		//Setting up WebDriver options
 		System.setProperty("webdriver.chrome.driver", projectPath+pathToDriver);
@@ -177,6 +178,7 @@ class SeleniumRegistrationTest {
 	}
 	
 	@Test
+	@Disabled
 	@DisplayName("Check whether a new Policeman's registration succeeds")
 	void checkPolicemanRegistration() throws InterruptedException {
 		//Compiling form

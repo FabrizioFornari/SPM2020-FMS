@@ -43,6 +43,7 @@ class SeleniumInformationManagementTest {
 	static String updatedMunicipalityTaxCode;
 	
 	@BeforeAll
+	@Disabled
 	static void setUpBeforeClass() throws Exception {
 		//Checking running OS
 		runningOS = (System.getProperty("os.name"));
