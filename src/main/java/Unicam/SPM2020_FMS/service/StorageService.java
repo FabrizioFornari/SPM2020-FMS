@@ -35,6 +35,7 @@ public class StorageService {
 			}
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new Exception("Failed to store file " + file.getOriginalFilename());
 		}
 	}

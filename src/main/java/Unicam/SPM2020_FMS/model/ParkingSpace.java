@@ -156,7 +156,7 @@ public class ParkingSpace {
 	public void setSpecCovered(String specCovered) {
 		String temp=this.specCovered;
 		this.specCovered = specCovered;
-		if (handicapSpots!=null)
+		if (coveredSpots!=null)
 			if (this.getCoveredSpotsNumbers().count() != coveredSpots) {
 				this.specCovered=temp;
 				throw new IllegalArgumentException("Wrong covered spots specification");
@@ -190,27 +190,29 @@ public class ParkingSpace {
 	public IntStream getCoveredSpotsNumbers() {
         IntStream CoveredSpotsNumbers=IntStream.of();
         
-		String[] parts=specCovered.split(",");		
-		for (String part : parts) {
-			String[] spots = part.split("-");
-			int a,b;
-			try {
-				a=Integer.parseInt(spots[0]);
-				b=Integer.parseInt(spots[spots.length-1]);
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Wrong covered spots specification");
+        if (!specCovered.isEmpty()) {
+			String[] parts=specCovered.split(",");		
+			for (String part : parts) {
+				String[] spots = part.split("-");
+				int a,b;
+				try {
+					a=Integer.parseInt(spots[0]);
+					b=Integer.parseInt(spots[spots.length-1]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Wrong covered spots specification");
+				}
+				if (a>b) {
+					int temp=a;
+					a=b;
+					b=temp;
+				}
+				if (a<1 || (spotsCapacity!=null && b>spotsCapacity)) throw new IllegalArgumentException("Wrong covered spots specification");
+				CoveredSpotsNumbers = IntStream.concat(
+						CoveredSpotsNumbers, 
+						IntStream.rangeClosed(Integer.parseInt(spots[0]), Integer.parseInt(spots[spots.length-1]))
+				);
 			}
-			if (a>b) {
-				int temp=a;
-				a=b;
-				b=temp;
-			}
-			if (a<1 || (spotsCapacity!=null && b>spotsCapacity)) throw new IllegalArgumentException("Wrong covered spots specification");
-			CoveredSpotsNumbers = IntStream.concat(
-					CoveredSpotsNumbers, 
-					IntStream.rangeClosed(Integer.parseInt(spots[0]), Integer.parseInt(spots[spots.length-1]))
-			);
-		}
+        }
 		
 		return CoveredSpotsNumbers.distinct().sorted();
 	}
@@ -218,27 +220,29 @@ public class ParkingSpace {
 	public IntStream getHandicapSpotsNumbers() {
         IntStream handicapSpotsNumbers=IntStream.of();
 		
-        String[] parts=specHandicap.split(",");
-		for (String part : parts) {
-			String[] spots = part.split("-");
-			int a,b;
-			try {
-				a=Integer.parseInt(spots[0]);
-				b=Integer.parseInt(spots[spots.length-1]);
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Wrong restricted spots specification");
+        if (!specHandicap.isEmpty()) {
+	        String[] parts=specHandicap.split(",");
+			for (String part : parts) {
+				String[] spots = part.split("-");
+				int a,b;
+				try {
+					a=Integer.parseInt(spots[0]);
+					b=Integer.parseInt(spots[spots.length-1]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Wrong restricted spots specification");
+				}
+				if (a>b) {
+					int temp=a;
+					a=b;
+					b=temp;
+				}
+				if (a<1 || (spotsCapacity!=null && b>spotsCapacity) ) throw new IllegalArgumentException("Wrong restricted spots specification");
+				handicapSpotsNumbers = IntStream.concat(
+						handicapSpotsNumbers, 
+						IntStream.rangeClosed(a,b)
+				);
 			}
-			if (a>b) {
-				int temp=a;
-				a=b;
-				b=temp;
-			}
-			if (a<1 || (spotsCapacity!=null && b>spotsCapacity) ) throw new IllegalArgumentException("Wrong restricted spots specification");
-			handicapSpotsNumbers = IntStream.concat(
-					handicapSpotsNumbers, 
-					IntStream.rangeClosed(a,b)
-			);
-		}
+        }
 		
 		return handicapSpotsNumbers.distinct().sorted();
 	}
@@ -262,50 +266,34 @@ public class ParkingSpace {
 		return spots;	
 	}
 	
-	
-	
-	public boolean isSucc(int num1, int num2) {
-
-		if (num1 + 1 == num2) {
-			return true;
-		} else
-			return false;
-
-	}
-	
-	
-	public String transformIntoString(List<ParkingSpot> spotsList) {
-
+	public String getSpecFromList(List<Integer> spotsList) {
 		
-		List<String> stringList = new ArrayList<String>();
-
-		List<String> rangeList = new ArrayList<String>();
-		String string = null;
-
-		for (int i = 0; i < spotsList.size(); i++) {
-
-			if (i + 1 != spotsList.size() && isSucc(spotsList.get(i).getSpotNumber(), spotsList.get(i + 1).getSpotNumber())) {
-				rangeList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
-				rangeList.add(String.valueOf(spotsList.get(i + 1).getSpotNumber()));
-			
-			} else if (rangeList.size() > 2) {
-				string = rangeList.get(0) + "-" + rangeList.get(rangeList.size() - 1);
-				stringList.add(string);
-				rangeList.clear();
-		
-			} else if (rangeList.size() == 2) {
-				stringList.addAll(rangeList);
-				rangeList.clear();
-			
-			} else {
-				stringList.add(String.valueOf(spotsList.get(i).getSpotNumber()));
-			
-			}
-
+		if(spotsList.size()==0) {
+			return "";
 		}
-
-		return String.join(",", stringList);
-
+		
+		Boolean range=false;
+		String string = spotsList.get(0).toString();
+		
+		for (int i=0; i<spotsList.size()-1; i++) {
+			
+			if (spotsList.get(i+1)-spotsList.get(i)==1) {
+				//se ultimo elemento nel range lo scrivo ora
+				if(i==spotsList.size()-2) { 
+					string=string.concat("-"+spotsList.get(i+1).toString());
+				}
+				range=true;
+			} else {
+				if(range) {
+					string=string.concat("-"+spotsList.get(i).toString());
+					range=false;
+				}
+				string=string.concat(","+spotsList.get(i+1).toString());
+			}
+		}
+		
+		return string;
 	}
+	
 }
 

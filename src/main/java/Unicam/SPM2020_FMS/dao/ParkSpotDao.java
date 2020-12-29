@@ -40,101 +40,102 @@ public class ParkSpotDao {
 		return res;
 	}
 
-	public List<ParkingSpot> showCoveredSpots(Integer parkingSpace) {
+	public List<Integer> getCoveredSpotsNs(Integer parkingSpace) {
 
-		String sql = "SELECT * FROM parkingspot where ParkingSpace = '" + parkingSpace + "' and isCovered = 1";
+		String sql ="SELECT spotnumber FROM parkingspot where ParkingSpace = '" + parkingSpace + "' and isCovered = 1 order by 1";
 
-		List<ParkingSpot> coveredSpotsList = jdbcTemplate.query(sql, new ParkSpotMapper());
+		List<Integer> coveredSpotsNumList = jdbcTemplate.queryForList(sql, Integer.class);
 
-		return coveredSpotsList;
+		return coveredSpotsNumList;
 	}
 
-	public List<ParkingSpot> showHandicapSpots(Integer parkingSpace) {
+	public List<Integer> getHandicapSpotsNs(Integer parkingSpace) {
 
-		String sql = "SELECT * FROM parkingspot where ParkingSpace = '" + parkingSpace + "' and isRestricted = 1";
+		String sql = "SELECT spotnumber FROM parkingspot where ParkingSpace = '" + parkingSpace + "' and isRestricted = 1 order by 1";
 
-		List<ParkingSpot> handicapSpotsList = jdbcTemplate.query(sql, new ParkSpotMapper());
+		List<Integer> handicapSpotsNumList = jdbcTemplate.queryForList(sql, Integer.class);
 
-		return handicapSpotsList;
+		return handicapSpotsNumList;
 	}
 
 	class ParkSpotMapper implements RowMapper<ParkingSpot> {
 
 		public ParkingSpot mapRow(ResultSet rs, int arg1) throws SQLException {
 
-			ParkingSpot parkSpot = new ParkingSpot(rs.getInt("SpotNumber"), rs.getInt("ParkingSpace"),
-					rs.getInt("IsOccupied"), rs.getInt("IsRestricted"), rs.getInt("IsCovered")
-
+			ParkingSpot parkSpot = new ParkingSpot(
+					rs.getInt("SpotNumber"),
+					rs.getInt("ParkingSpace"),
+					rs.getInt("IsOccupied"),
+					rs.getInt("IsRestricted"),
+					rs.getInt("IsCovered")
 			);
 
 			return parkSpot;
 		}
 	}
 
+	
+	/**
+	 * @param spots
+	 * @return number affected rows: if positive is the sum of all rows affected (deleted/added + updated) if negative number of affected rows (added) before error
+	 */
 	public int updateSpots(List<ParkingSpot> spots) {
-		// Take the spots already present on database to check what values (if any) are
-		// changed
-		String sql = "SELECT * FROM parkingspot where ParkingSpace = '" + spots.get(0).getParkingSpace() + "' ";
-		List<ParkingSpot> spotsList = jdbcTemplate.query(sql, new ParkSpotMapper());
-		int res = 0;
-		// Take the difference between the capacity of the parking space already present
-		// and the modified one
-		int diff = spotsList.size() - spots.size();
-		// If the number of the parking spots already present are more than the modified
-		// one, delete those in excess
-		int index = spotsList.size() + 1;
-		while (diff != 0) {
-
-			if (diff > 0) {
-
-				String sql2 = "DELETE FROM parkingspot where ParkingSpace = '" + spots.get(0).getParkingSpace()
-						+ "' order by SpotNumber desc limit 1 ";
-
-				try {
-					jdbcTemplate.update(sql2);
-					res++;
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					return res *= -1;
-				}
-
-				diff--;
-				// If the number of the parking spots already present are less than the modified
-				// one, insert them
-			} else {
-
-				String sql2 = "INSERT INTO parkingspot VALUES (?,?,?,?,?)";
-
-				try {
-					jdbcTemplate.update(sql2,
-							new Object[] { spots.get(index - 1).getSpotNumber(), spots.get(index - 1).getParkingSpace(),
-									spots.get(index - 1).getOccupied(), spots.get(index - 1).getIsRestricted(),
-									spots.get(index - 1).getIsCovered() });
-					res++;
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					return res *= -1;
-				}
-				diff++;
-				index++;
+		
+		// Take the spots already existing in the DB
+		String sql = "SELECT * FROM parkingspot where ParkingSpace = '" + spots.get(0).getParkingSpace() + "' order by spotNumber ";
+		List<ParkingSpot> DBspotsList = jdbcTemplate.query(sql, new ParkSpotMapper());
+		
+		List<ParkingSpot> toUpdateList;
+		
+		int res;
+		
+		// Take the difference between the capacity of the parking space already present and the modified one
+		int diff = DBspotsList.size() - spots.size();
+		
+		// If the number of the parking spots already existing are higher than the new one, delete spot in excess
+		// and update remaining ones
+		if (diff > 0) {
+			sql = "DELETE FROM parkingspot WHERE ParkingSpace = '"
+						+ spots.get(0).getParkingSpace() + 
+						"' and spotNumber> '"
+						+ spots.size() +
+						"'";
+			try {
+				res=jdbcTemplate.update(sql);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
+			}
+			toUpdateList = spots.subList(0, spots.size());
+			
+		// If the number of the parking spots already existing are less than the modified one, insert the ones missing 
+		// and update only the others
+		} else { 
+			res=generateSpots(spots.subList(DBspotsList.size(), spots.size()));
+			
+			if (res<0) {
+				return res;
+			}
+			
+			toUpdateList = spots.subList(0, DBspotsList.size());
+		}		
+		
+		for (ParkingSpot parkingSpot : toUpdateList) {
+			
+			sql = "UPDATE parkingspot SET isRestricted = ?, isCovered = ?  WHERE ParkingSpace = ? and SpotNumber = ? ";
+			try {
+				 res += jdbcTemplate.update(sql,new Object[] { 
+						 parkingSpot.getIsRestricted(),
+						 parkingSpot.getIsCovered(),
+						 parkingSpot.getParkingSpace(),
+						 parkingSpot.getSpotNumber() 
+						});
+			}  catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
 			}
 		}
 		
-		
-for (ParkingSpot parkingSpot : spots) {
-	
-	String sql3 = "UPDATE parkingspot SET isRestricted = ?, isCovered = ?  WHERE ParkingSpace = ? and SpotNumber = ? ";
-	try {
-		 res = jdbcTemplate.update(sql3,new Object[] { parkingSpot.getIsRestricted(),parkingSpot.getIsCovered(),parkingSpot.getParkingSpace(),parkingSpot.getSpotNumber() });
-	}  catch (Exception e) {
-		System.out.println(e.getMessage());
-		return res *= -1;
-	}
-}
-		
-		
-		
-
 		return res;
 	}
 

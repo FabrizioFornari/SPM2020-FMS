@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
-import Unicam.SPM2020_FMS.model.ParkingSpot;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
@@ -43,8 +42,12 @@ public class ParkSpaceListController {
 		if (user != null) {
 			if (user.getUserType().equals("Driver")) {
 				ModelAndView mav = new ModelAndView("ParkSpaces");
+			    Object message= session.getAttribute("message");
+			    if(message!=null) {
+			    	mav.addObject("message", (String) message);
+			    	session.removeAttribute("message");
+			    }	
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
-
 				mav.addObject("parkSpaceList", parkSpaceList);
 				return mav;
 			} else {
@@ -66,18 +69,36 @@ public class ParkSpaceListController {
 
 		if (user != null) {
 			if (user.getUserType().equals("Municipality")) {
+				
 				ModelAndView mav = new ModelAndView("ParksManagement");
+			    Object message= session.getAttribute("message");
+			    if(message!=null) {
+			    	mav.addObject("message", (String) message);
+			    	session.removeAttribute("message");
+			    }
+			    
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
-					if (parkingSpace.getCoveredSpots() > 0 && parkingSpace.getHandicapSpots() > 0) {
-						String specCovered = parkingSpace
-								.transformIntoString(spotService.showCoveredSpots(parkingSpace.getIdParkingSpace()));
-						parkingSpace.setSpecCovered(specCovered);
-						String specHandicap = parkingSpace
-								.transformIntoString(spotService.showHandicapSpots(parkingSpace.getIdParkingSpace()));
-						parkingSpace.setSpecHandicap(specHandicap);
+					try {
+						parkingSpace.setSpecCovered(
+								parkingSpace.getSpecFromList(
+										spotService.getCoveredSpotsNs(parkingSpace.getIdParkingSpace())
+							));		
+					} catch (IllegalArgumentException e) {
+						parkingSpace.setCoveredSpots(0);
+						parkingSpace.setSpecCovered("");
+					}
+					try {
+						parkingSpace.setSpecHandicap(
+								parkingSpace.getSpecFromList(
+										spotService.getHandicapSpotsNs(parkingSpace.getIdParkingSpace())
+							));
+					} catch (IllegalArgumentException e) {
+						parkingSpace.setHandicapSpots(0);
+						parkingSpace.setSpecHandicap("");
 					}
 				}
+				
 				mav.addObject("parkSpaceToEdit", new ParkingSpace());
 				mav.addObject("parkSpaceList", parkSpaceList);
 				return mav;
@@ -110,41 +131,47 @@ public class ParkSpaceListController {
 			session.setAttribute("oldSpace", parkingSpace);
 
 		} else {
+			String filename="";
+			if (!parkingSpace.getImageFile().isEmpty()) {
+				filename = System.currentTimeMillis() + parkingSpace.getImageFile().getOriginalFilename();
+				parkingSpace.setImageName(filename);
+			}
+			int editResult = parkService.edit(parkingSpace);
+			String[] spaceMessages = { 
+					"Updating Park Space has not been possible!",
+					"Position specified has been already used"
+			};
 
-			String filename = System.currentTimeMillis() + parkingSpace.getImageFile().getOriginalFilename();
-			parkingSpace.setImageName(filename);
-			int addResult = parkService.edit(parkingSpace);
-			String[] spaceMessages = { "Updating Park Space has not been possible!",
-					"Position specified has been already used" };
-
-			if (addResult <= 0) {
-
-				// deleteImageFile
-				addResult *= -1;
-				errMsg = spaceMessages[addResult];
+			if (editResult <= 0) {
+				editResult *= -1;
+				errMsg = spaceMessages[editResult];
 				session.setAttribute("oldSpace", parkingSpace);
 
 			} else {
 
-				// try to store the uploaded file
-				try {
-					storageService.store(parkingSpace.getImageFile(), filename);
-				} catch (Exception e) {
-					fileNotUploaded = true;
+				//try to store uploaded file
+				if (!parkingSpace.getImageFile().isEmpty()) {
+					try {
+						storageService.store(parkingSpace.getImageFile(), filename);
+					} catch (Exception e) {
+						fileNotUploaded = true;
+					}
 				}
 
 				// try to generate spots
 				int genResult = spotService.updateSpots(parkingSpace.getSpots());
 				if (genResult < 0) {
 					if (fileNotUploaded) {
-						errMsg = "Operation not completed: Park Area has been created without spots and without map";
+						errMsg = "Operation not completed: Park spots and Park map are not updated";
+					} else {
+						errMsg = "Operation not completed: Park spots are not updated";
 					}
-					errMsg = "Operation not completed: Park Area has been created without spots";
 				} else {
 					if (fileNotUploaded) {
-						errMsg = "Park Space correctly created without map";
+						errMsg = "Operation not completed: Park map is not updated";
+					} else {
+						errMsg = "Park Space correctly updated";
 					}
-					errMsg = "Park Space correctly created with Parking spots and map";
 				}
 
 			}
@@ -153,7 +180,6 @@ public class ParkSpaceListController {
 
 		session.setAttribute("message", errMsg);
 		return "redirect:/ParksManagement";
-
 	}
 
 }

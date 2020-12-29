@@ -10,28 +10,23 @@ import Unicam.SPM2020_FMS.model.ParkingSpot;
 
 public class ParkSpotService {
 
-  @Autowired
-  public ParkSpotDao parkSpotDao;
+	@Autowired
+	public ParkSpotDao parkSpotDao;
 
-  public int generateSpots (List<ParkingSpot> spots) {
-    return parkSpotDao.generateSpots(spots);
-  }
+	public int generateSpots (List<ParkingSpot> spots) {
+	    return parkSpotDao.generateSpots(spots);
+	}
 
-public List<ParkingSpot> showCoveredSpots(Integer idParkingSpace) {
+	public List<Integer> getCoveredSpotsNs(Integer idParkingSpace) {
+		return parkSpotDao.getCoveredSpotsNs(idParkingSpace);
+	}
 	
-	return parkSpotDao.showCoveredSpots(idParkingSpace);
-}
-
-public List<ParkingSpot> showHandicapSpots(Integer idParkingSpace) {
+	public List<Integer> getHandicapSpotsNs(Integer idParkingSpace) {	
+		return parkSpotDao.getHandicapSpotsNs(idParkingSpace);
+	}
 	
-	return parkSpotDao.showHandicapSpots(idParkingSpace);
-}
-
-public int updateSpots(List<ParkingSpot> spots) {
-	// TODO Auto-generated method stub
-	return parkSpotDao.updateSpots(spots);
-}
-  
-  
+	public int updateSpots(List<ParkingSpot> spots) {
+		return parkSpotDao.updateSpots(spots);
+	}
 
 }
