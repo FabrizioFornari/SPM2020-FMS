@@ -93,14 +93,14 @@ class SeleniumInformationManagementTest {
 		options.addArguments("--no-sandbox");
 				
 		//Remove or add comment prefix on the next line if you want to run test in headless mode or not
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 				
 		driver = new ChromeDriver(options);
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		Thread.sleep(3000);  //Just for showing purpose
+		//Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
@@ -127,38 +127,38 @@ class SeleniumInformationManagementTest {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(user);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(userPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
 				
 		//Updating tax code and phone number
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedUserTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedUserPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.get(URLbase+"profile");
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
 		Assert.assertEquals(updatedUserPhoneNumber, element.getAttribute("value"));
 		element = driver.findElement(By.id("taxCode"));
 		Assert.assertEquals(updatedUserTaxCode, element.getAttribute("value"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 
 	@Test
@@ -172,11 +172,11 @@ class SeleniumInformationManagementTest {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(policeman);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(policemanPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
@@ -184,27 +184,27 @@ class SeleniumInformationManagementTest {
 		//Updating tax code and phone number
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedPolicemanTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedPolicemanPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.get(URLbase+"profile");
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
 		Assert.assertEquals(updatedPolicemanPhoneNumber, element.getAttribute("value"));
 		element = driver.findElement(By.id("taxCode"));;
 		Assert.assertEquals(updatedPolicemanTaxCode, element.getAttribute("value"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 	
 	@Test
@@ -218,11 +218,11 @@ class SeleniumInformationManagementTest {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(municipality);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(municipalityPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
@@ -230,15 +230,15 @@ class SeleniumInformationManagementTest {
 		//Updating tax code and phone number
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedMunicipalityTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedMunicipalityPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
@@ -250,6 +250,6 @@ class SeleniumInformationManagementTest {
 		Assert.assertEquals(updatedMunicipalityTaxCode, element.getAttribute("value"));
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 }
