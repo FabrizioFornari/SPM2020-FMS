@@ -87,8 +87,6 @@
 							</div>
 
 							<div class="filter-result" id="parkingSpacesList">
-								<p class="mb-30 ff-montserrat">Total Parking Spaces :
-									${parkSpaceList.size()}</p>
 								<c:forEach var="parkSpace" items="${parkSpaceList}"
 									varStatus="tagStatus">
 									<div
@@ -101,16 +99,19 @@
 											<div class="job-content">
 												<h5 class="text-center text-md-left">
 													<strong>${parkSpace.getCity()} </strong> |
-													${parkSpace.getName()} - ${parkSpace.getAddress()}
+													${parkSpace.getName()}
+												</h5>
+												<h5 class="text-center text-md-left">
+													${parkSpace.getAddress()}
 												</h5>
 												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-														Capacity: ${parkSpace.getSpotsCapacity()}</li>
+														Available: ${parkSpace.getFreeAll()}/${parkSpace.getSpotsCapacity()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-														Covered: ${parkSpace.getCoveredSpots()}</li>
+														Covered: ${parkSpace.getFreeCovered()}/${parkSpace.getCoveredSpots()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-														Handicap: ${parkSpace.getHandicapSpots()}</li>
+														Handicap: ${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
 													<c:if test="${parkSpace.isGuarded() == true}">
 														<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
 															Is guarded</li>
