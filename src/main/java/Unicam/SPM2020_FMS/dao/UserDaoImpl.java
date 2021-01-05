@@ -90,13 +90,13 @@ public class UserDaoImpl implements UserDao {
 	public int update(User user) {
 		
 		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
-		int updated;
+		int updated=0;
 		
 		try {
-		updated=jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
-				user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() });
+			updated=jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
+					user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() });
 		} catch (Exception e) {
-			return 0;
+			System.out.println(e.getMessage());
 		}
 		
 		return updated;
