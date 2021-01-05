@@ -5,6 +5,12 @@
 	width: 80% !important ;
 }
 
+
+#messageModal .modal-body{
+	
+	background-color: #201b14d1 !important;
+}
+
 .modal-header{
 	color:green !important;
 	

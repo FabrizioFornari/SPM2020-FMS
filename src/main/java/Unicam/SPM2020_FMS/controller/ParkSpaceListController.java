@@ -100,6 +100,7 @@ public class ParkSpaceListController {
 				}
 				
 				mav.addObject("parkSpaceToEdit", new ParkingSpace());
+				mav.addObject("parkSpaceToDelete", new ParkingSpace());
 				mav.addObject("parkSpaceList", parkSpaceList);
 				return mav;
 			} else {
@@ -181,5 +182,31 @@ public class ParkSpaceListController {
 		session.setAttribute("message", errMsg);
 		return "redirect:/ParksManagement";
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/DeleteParkSpace", method = RequestMethod.POST)
+	public String deleteParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("parkSpaceToDelete") ParkingSpace parkingSpace) {
+
+		int res = parkService.deleteParkSpace(parkingSpace.getIdParkingSpace());
+		
+		String msg = "";
+		if (res > 0) {
+			msg = "Parking space successfully deleted";
+		}else {
+			msg = "Cannot delete the selected parking space!";
+		}
+		
+		
+		session.setAttribute("message", msg);
+		return "redirect:/ParksManagement";
+	}
+	
+	
+	
 
 }

@@ -1,3 +1,4 @@
+<%@page import="Unicam.SPM2020_FMS.model.ParkingSpace"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -39,10 +40,37 @@
 					<td>${parkSpace.name}</td>
 					<td>${parkSpace.address}</td>
 					<td>
-						<!-- Button trigger modal -->
+						<!-- Button trigger modal for editing -->
 						<button type="button" class="btn btn-warning" data-toggle="modal"
 							data-target="#parkSpace${parkSpaceList.indexOf(parkSpace)+1}">
-							Edit</button> <!-- Modal -->
+							Edit</button> <!-- Button trigger modal for delete -->
+						<button type="button" class="btn btn-danger" data-toggle="modal"
+							data-target="#deleteModal${parkSpaceList.indexOf(parkSpace)+1}">Delete</button> <!-- Modal for delete -->
+						<div class="modal fade" id="deleteModal${parkSpaceList.indexOf(parkSpace)+1}" tabindex="-1"
+							role="dialog" aria-labelledby="deleteModalLabel${parkSpaceList.indexOf(parkSpace)+1}"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									
+									<div class="modal-body" style="color:black;">
+										<h4>Are you
+											sure to delete this parking space?</h4>( This action will be permanent! )
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Cancel</button>
+										<form:form modelAttribute="parkSpaceToDelete"
+											action="DeleteParkSpace" method="post">
+											<form:input path="idParkingSpace" name="idParkingSpace"
+													value="${parkSpace.idParkingSpace}" class="input"
+													type="hidden" />
+											<form:button id="delete${parkSpaceList.indexOf(parkSpace)+1}"
+												type="submit" class="btn btn-danger">Delete</form:button>
+										</form:form>
+									</div>
+								</div>
+							</div>
+						</div> <!-- Modal for editing -->
 						<div class="modal fade"
 							id="parkSpace${parkSpaceList.indexOf(parkSpace)+1}" tabindex="-1"
 							role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -71,7 +99,7 @@
 
 												<form:input path="idParkingSpace" name="idParkingSpace"
 													value="${parkSpace.idParkingSpace}" class="input"
-													type="hidden"  />
+													type="hidden" />
 												<form:input path="city" name="city"
 													value="${parkSpace.city}" class="input" placeholder="City"
 													type="text" required="true" />
@@ -211,9 +239,20 @@
 
 												<div class="funkyradio">
 													<div class="funkyradio-default">
-														<form:checkbox path="guarded"
-															id="checkbox${parkSpaceList.indexOf(parkSpace)+1}"
-															name="guarded" />
+
+														<c:choose>
+															<c:when test="${parkSpace.guarded}">
+																<form:checkbox path="guarded"
+																	id="checkbox${parkSpaceList.indexOf(parkSpace)+1}"
+																	name="guarded" checked="checked" />
+															</c:when>
+															<c:otherwise>
+																<form:checkbox path="guarded"
+																	id="checkbox${parkSpaceList.indexOf(parkSpace)+1}"
+																	name="guarded" />
+															</c:otherwise>
+														</c:choose>
+
 														<label for="checkbox${parkSpaceList.indexOf(parkSpace)+1}">Is
 															guarded? (Check the box)</label>
 													</div>
@@ -224,14 +263,6 @@
 											<!-- form-group// -->
 
 
-
-
-
-											<table align="center">
-												<tr>
-													<td style="font-style: italic; color: green;">${message}</td>
-												</tr>
-											</table>
 											<div class="hr"></div>
 
 											<!-- form-group// -->
@@ -239,7 +270,7 @@
 
 												<form:button id="edit${parkSpaceList.indexOf(parkSpace)+1}"
 													name="edit${parkSpaceList.indexOf(parkSpace)+1}"
-													type="submit" class="button">Add</form:button>
+													type="submit" class="button">Update</form:button>
 
 											</div>
 
@@ -256,9 +287,44 @@
 		</tbody>
 	</table>
 
+	<!-- Modal for message -->
+	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog"
+		aria-labelledby="messageModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+	
+				<div class="modal-body">
+				
+					<div id="messageAlert" class="alert " role="alert">
+						<h3>${message}</h3>
+					</div>
 
+				</div>
+			
+			</div>
+		</div>
+	</div>
 
 
 
 </body>
+
+
+<script type="text/javascript">
+	var message = "${message}";
+	if (message.startsWith("Park")) {
+		$("#messageAlert").addClass("alert-success");
+		$("#messageModal").modal('show');
+
+	} else if (message != "" && !message.startsWith("Park")) {
+
+		$("#messageAlert").addClass("alert-danger");
+		$("#messageModal").modal('show');
+	}
+	
+	
+</script>
+
+
+
 </html>

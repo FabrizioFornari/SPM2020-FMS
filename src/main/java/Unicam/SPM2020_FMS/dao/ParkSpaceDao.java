@@ -145,6 +145,18 @@ public class ParkSpaceDao {
 	}
   }
 
+public int delete(Integer idParkingSpace) {
+	String sql = "DELETE FROM parkingspace WHERE ID = ? ";
+	int deleted;
+
+	try {
+		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
+	} catch (Exception e) {
+		return -1;
+	}
+	return deleted;
+}
+
 
   
 }
