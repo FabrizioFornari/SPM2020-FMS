@@ -21,6 +21,9 @@ public class ParkingSpace {
 	private String specHandicap;
 	private String imageName;
 	private MultipartFile imageFile;
+	private int freeAll;
+	private int freeCovered;
+	private int freeHandicap;
 	
 	public ParkingSpace() {
 		super();
@@ -177,6 +180,30 @@ public class ParkingSpace {
 
 	public void setImageFile(MultipartFile imageFile) {
 		this.imageFile = imageFile;
+	}
+	
+	public int getFreeAll() {
+		return freeAll;
+	}
+
+	public void setFreeAll(int freeAll) {
+		this.freeAll = freeAll;
+	}
+
+	public int getFreeCovered() {
+		return freeCovered;
+	}
+
+	public void setFreeCovered(int freeCovered) {
+		this.freeCovered = freeCovered;
+	}
+
+	public int getFreeHandicap() {
+		return freeHandicap;
+	}
+
+	public void setFreeHandicap(int freeHandicap) {
+		this.freeHandicap = freeHandicap;
 	}
 	
 	@Override

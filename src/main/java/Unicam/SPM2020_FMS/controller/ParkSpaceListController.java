@@ -48,6 +48,11 @@ public class ParkSpaceListController {
 			    	session.removeAttribute("message");
 			    }	
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
+				for (ParkingSpace parkingSpace : parkSpaceList) {
+					parkingSpace.setFreeAll(spotService.getAvailable(parkingSpace.getIdParkingSpace()));		
+					parkingSpace.setFreeCovered(spotService.getCoveredAvailable(parkingSpace.getIdParkingSpace()));
+					parkingSpace.setFreeHandicap(spotService.getHandicapAvailable(parkingSpace.getIdParkingSpace()));
+				}
 				mav.addObject("parkSpaceList", parkSpaceList);
 				return mav;
 			} else {
