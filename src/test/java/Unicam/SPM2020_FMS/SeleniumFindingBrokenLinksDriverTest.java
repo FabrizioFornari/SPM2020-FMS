@@ -180,8 +180,29 @@ class SeleniumFindingBrokenLinksDriverTest {
 	
 	@Test
 	@Tag("AcceptanceTest")
-	@DisplayName("Check broken links in registration page")
+	@DisplayName("Check broken links in park spaces page")
 	@Order(4)
+	void checkParkSpacesPage() throws IOException {
+		//Getting the profile page
+		driver.get(URLbase+"ParkSpaces");
+		assertTrue(driver.getPageSource().contains("Search by location"));
+		
+		//Finding all anchor tags
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		
+		//Checking every link
+		for(int i=0; i<links.size(); i++)
+		{	
+			WebElement ele = links.get(i);
+			String url = ele.getAttribute("href");
+			checkLink(url);
+		}
+	}
+	
+	@Test
+	@Tag("AcceptanceTest")
+	@DisplayName("Check broken links in registration page")
+	@Order(5)  //Execute this test as last
 	void checkRegisterPage() throws IOException, InterruptedException {
 		//Logging out and getting the registration page
 		driver.get(URLbase+"logout");

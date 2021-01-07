@@ -110,7 +110,6 @@ class SeleniumFindingBrokenLinksMunicipalityTest {
 	@Test
 	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in welcome page")
-	@Order(1)
 	void checkWelcomePage() throws IOException {
 		//Getting the welcome page
 		driver.get(URLbase);
@@ -131,7 +130,6 @@ class SeleniumFindingBrokenLinksMunicipalityTest {
 	@Test
 	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in parking spaces page")
-	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
 		//Getting the parking spaces page
 		driver.get(URLbase+"newParkArea");
@@ -152,11 +150,30 @@ class SeleniumFindingBrokenLinksMunicipalityTest {
 	@Test
 	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in profile page")
-	@Order(3)
 	void checkProfilePage() throws IOException {
 		//Getting the profile page
 		driver.get(URLbase+"profile");
 		assertTrue(driver.getPageSource().contains("Update your information"));
+		
+		//Finding all anchor tags
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		
+		//Checking every link
+		for(int i=0; i<links.size(); i++)
+		{	
+			WebElement ele = links.get(i);
+			String url = ele.getAttribute("href");
+			checkLink(url);
+		}
+	}
+	
+	@Test
+	@Tag("AcceptanceTest")
+	@DisplayName("Check broken links in parks management page")
+	void checkParksManagementPage() throws IOException {
+		//Getting the profile page
+		driver.get(URLbase+"ParksManagement");
+		assertTrue(driver.getPageSource().contains("Manage your parking spaces"));
 		
 		//Finding all anchor tags
 		List<WebElement> links = driver.findElements(By.tagName("a"));

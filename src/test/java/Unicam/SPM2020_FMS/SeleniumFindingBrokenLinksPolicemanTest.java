@@ -110,7 +110,6 @@ class SeleniumFindingBrokenLinksPolicemanTest {
 	@Test
 	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in welcome page")
-	@Order(1)
 	void checkWelcomePage() throws IOException {
 		//Getting the welcome page
 		driver.get(URLbase);
@@ -131,7 +130,6 @@ class SeleniumFindingBrokenLinksPolicemanTest {
 	@Test
 	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in reservations page")
-	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
 		//Getting the reservations page
 		driver.get(URLbase+"reservationsToCheck");
