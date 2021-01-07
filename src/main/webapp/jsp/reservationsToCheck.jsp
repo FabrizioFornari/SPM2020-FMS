@@ -22,19 +22,34 @@
 
 			<div class="col-sm-12">
 				<div class="panel panel-success">
-					<div class="panel-heading"></div>
-					<div class="panel-body">
-						<input type="text" class="form-control" id="tableFilter"
-							onkeyup="filterItems()" placeholder="Filter by License plate number" />
-					</div>
+					<table>
+						<tr>
+							<td>
+								<div class="panel-body">
+									<input type="text" class="form-control" id="tableFilter"
+										onkeyup="filterItems('tableFilter')"
+										placeholder="Filter by plate" />
+
+								</div>
+							</td>
+							<td>
+								<div class="panel-body">
+
+									<input type="text" class="form-control" id="tableFilterBySpot"
+										onkeyup="filterItems('tableFilterBySpot')"
+										placeholder="Filter by Spot " />
+								</div>
+							</td>
+						</tr>
+					</table>
 					<br>
 					<table class="table " id="usersTable">
 						<thead>
 							<tr>
 
-				
+
 								<th>Plate</th>
-					
+
 								<th>Space</th>
 								<th>Spot</th>
 								<th>End</th>
@@ -46,9 +61,9 @@
 
 								<tr>
 
-									
+
 									<td>${reservation.licensePlateNumber}</td>
-							
+
 									<td>${reservation.parkingSpace}</td>
 									<td>${reservation.parkingSpot}</td>
 									<td>${reservation.parkingEnd}</td>
@@ -69,23 +84,42 @@
 
 </body>
 <script>
-	function filterItems() {
+	function filterItems(typeOfFilter) {
 		// Declare variables
 		var input, filter, table, tr, td, i, txtValue;
-		input = document.getElementById("tableFilter");
-		filter = input.value.toUpperCase();
+		filter = document.getElementById(typeOfFilter).value.toUpperCase();
+
 		table = document.getElementById("usersTable");
 		tr = table.getElementsByTagName("tr");
 
-		// Loop through all table rows, and hide those who don't match the search query
-		for (i = 0; i < tr.length; i++) {
-			td = tr[i].getElementsByTagName("td")[1];
-			if (td) {
-				txtValue = td.textContent || td.innerText;
-				if (txtValue.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else {
-					tr[i].style.display = "none";
+		if (typeOfFilter == "tableFilter") {
+			// Loop through all table rows, and hide those who don't match the search query
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+
+		} else {
+
+			// Loop through all table rows, and hide those who don't match the search query
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[2];
+
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
 				}
 			}
 		}
