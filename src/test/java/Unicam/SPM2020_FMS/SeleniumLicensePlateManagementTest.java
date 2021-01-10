@@ -39,7 +39,6 @@ class SeleniumLicensePlateManagementTest {
 	static String model2;
 
 	@BeforeAll
-	@Disabled
 	static void setUpBeforeClass() throws Exception {
 		//Checking running OS
 		runningOS = (System.getProperty("os.name"));
@@ -74,9 +73,13 @@ class SeleniumLicensePlateManagementTest {
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--disable-dev-shm-usage");
 				options.addArguments("--no-sandbox");
-						
-				//Remove comment prefix on the next line if you want to run test in headless mode
-				//options.addArguments("--headless");
+				options.addArguments("--window-size=1920,1080");
+				options.addArguments("--disable-gpu");
+				options.addArguments("--disable-extensions");
+				options.addArguments("--start-maximized");		
+				
+				//Remove or add comment prefix on the next line if you want to run test in headless mode or not
+				options.addArguments("--headless");
 						
 				driver = new ChromeDriver(options);
 				
@@ -119,7 +122,7 @@ class SeleniumLicensePlateManagementTest {
 	}
 
 	@Test
-	@Disabled
+	//@Disabled
 	@Tag("AcceptanceTest")
 	@DisplayName("Check whether adding a new car succeeds")
 	void checkLicensePlateInsertion() throws InterruptedException {
@@ -156,7 +159,7 @@ class SeleniumLicensePlateManagementTest {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	@Tag("AcceptanceTest")
 	@DisplayName("Check whether deleting a car succeeds")
 	void checkLicensePlateDeletion() throws InterruptedException {		
