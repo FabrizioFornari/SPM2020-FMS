@@ -132,7 +132,7 @@ class SeleniumLicensePlateManagementTest {
 			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("model")).sendKeys(model1);
 			//Thread.sleep(1500);  //Just for showing purpose
-			driver.findElement(By.id("addCarButton")).click();;
+			driver.findElement(By.id("addCarButton")).click();
 			//Thread.sleep(1500);  //Just for showing purpose
 						
 			//Checking if the car has been added to the list
