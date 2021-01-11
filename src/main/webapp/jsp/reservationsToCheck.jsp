@@ -10,7 +10,31 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/carsPageStyle.css"
 	rel="stylesheet">
-<title>Cars</title>
+	
+	<title>Cars</title>
+
+	<script type="text/javascript">
+	
+	if (window.WebSocket) {
+		var loc = window.location, url, ws;
+		if (loc.protocol === "https:") {
+		    url = "wss:";
+		} else {
+		    url = "ws:";
+		}
+		url += "//" + loc.host + loc.pathname + "/push";
+	    ws = new WebSocket(url);
+	    ws.onmessage = function(event) {
+	        var text = event.data;
+	        alert(text);
+	    };
+	}
+	else {
+		console.log("Browser not supporting WebSocket!");
+	}
+	
+	</script>
+
 </head>
 <body>
 

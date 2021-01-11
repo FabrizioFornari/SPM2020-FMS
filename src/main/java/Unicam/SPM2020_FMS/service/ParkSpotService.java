@@ -40,5 +40,9 @@ public class ParkSpotService {
 	public int updateSpots(List<ParkingSpot> spots) {
 		return parkSpotDao.updateSpots(spots);
 	}
+	
+	public List<ParkingSpot> getWronglyOccupied() {
+		return parkSpotDao.getWronglyOccupied();
+	}
 
 }

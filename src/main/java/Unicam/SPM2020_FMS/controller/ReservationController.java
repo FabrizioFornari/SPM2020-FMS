@@ -18,11 +18,10 @@ import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.service.ReservationService;
 
 
-
 @Controller
 public class ReservationController {
 
-	 @Autowired
+	  @Autowired
 	  public ReservationService reservationService;
 	  
 	  @RequestMapping(value = "/reservationsToCheck", method = RequestMethod.GET)

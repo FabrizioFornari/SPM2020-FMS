@@ -165,5 +165,22 @@ public class ParkSpotDao {
 		
 		return res;
 	}
+	
+	public List<ParkingSpot> getWronglyOccupied() {//to modify
+		
+		String sql = 
+				"SELECT * " + 
+				"FROM parkingspot a " + 
+				"WHERE isOccupied=1 and not exists (" + 
+				"	SELECT 1" + 
+				"	FROM reservation b " + 
+				"	WHERE parking_start <= NOW() and (Parking_end is null or Parking_end > NOW()) and a.SpotNumber=b.ParkingSpot and a.ParkingSpace=b.ParkingSpace " + 
+				") " + 
+				"ORDER BY 2,1";
+
+		List<ParkingSpot> wronglyOccupied = jdbcTemplate.query(sql, new ParkSpotMapper());
+
+		return wronglyOccupied;
+	}
 
 }
