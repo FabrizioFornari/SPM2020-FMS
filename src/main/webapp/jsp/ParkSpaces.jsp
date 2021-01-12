@@ -160,7 +160,7 @@
 var data = {
         <c:forEach var="parkSpace" items="${parkSpaceList}"
 			varStatus="tagStatus">
-            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}','${parkSpace.getCity()}','${parkSpace.getName()}', '${parkSpace.getAddress()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
+            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
         </c:forEach>
     };
 
@@ -198,7 +198,7 @@ function addMarkersToMap(map) {
 		
 		  addMarkerToGroup(group, {lat:getCoordinate(data[key][0])[0], lng:getCoordinate(data[key][0])[1]},
 				    '<div><a href="http://maps.google.com/maps?q='+data[key][0]+'" target="_blank">'+data[key][2]+'</a>' +
-				    '</div><div >Address: '+data[key][3]+'<br>Capacity: '+data[key][4]+'<br>Handicap spots: '+data[key][5]+'</div>');
+				    '</div><div >Address: '+data[key][3]+'<br>Overall: '+data[key][4]+'/'+data[key][5]+'<br>Covered: '+data[key][6]+'/'+data[key][7]+' <br>Handicap: '+data[key][8]+'/'+data[key][9]+'</div>');
 		});
 	
 	 
