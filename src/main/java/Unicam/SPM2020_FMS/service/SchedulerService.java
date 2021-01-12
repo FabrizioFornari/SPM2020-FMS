@@ -33,7 +33,7 @@ public class SchedulerService implements ApplicationContextAware {
     }
 	
 	public void schedulePoliceChecking() {
-		myScheduler.scheduleAtFixedRate(new checkNonConformities(), 15*60*1000 );
+		myScheduler.scheduleAtFixedRate(new checkNonConformities(), 30*1000 );
 	}
 	
 	public void scheduleReservationCheck(String triggerString, Integer reservation ) {
@@ -50,7 +50,7 @@ public class SchedulerService implements ApplicationContextAware {
 				message=message.concat(spot.getParkingSpace()+":"+spot.getSpotNumber()+";");
 			}
 			PolicemanWebSocketController.sendAll(message);
-			System.out.println("Police checking");
+			System.out.println("Scheduled check "+ (System.currentTimeMillis()/1000) + ": " + message);
 		}
 		
 	}

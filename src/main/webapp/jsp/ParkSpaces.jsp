@@ -100,14 +100,13 @@
 												<h5 class="text-center text-md-left">
 													<strong>${parkSpace.getCity()} </strong> |
 													${parkSpace.getName()}
-												</h5>
-												<h5 class="text-center text-md-left">
+												<br/>
 													${parkSpace.getAddress()}
 												</h5>
 												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-														Available: ${parkSpace.getFreeAll()}/${parkSpace.getSpotsCapacity()}</li>
+														Overall: ${parkSpace.getFreeAll()}/${parkSpace.getSpotsCapacity()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
 														Covered: ${parkSpace.getFreeCovered()}/${parkSpace.getCoveredSpots()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>

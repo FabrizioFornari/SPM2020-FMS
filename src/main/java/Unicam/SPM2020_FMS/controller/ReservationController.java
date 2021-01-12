@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
+import Unicam.SPM2020_FMS.model.ParkingSpot;
 import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
+import Unicam.SPM2020_FMS.service.ParkSpotService;
 import Unicam.SPM2020_FMS.service.ReservationService;
 
 
@@ -23,6 +25,9 @@ public class ReservationController {
 
 	  @Autowired
 	  public ReservationService reservationService;
+	  
+	  @Autowired
+	  public ParkSpotService spotService;
 	  
 	  @RequestMapping(value = "/reservationsToCheck", method = RequestMethod.GET)
 	  public ModelAndView showReservationsToCheck(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
@@ -34,6 +39,13 @@ public class ReservationController {
 		    	ModelAndView mav = new ModelAndView("reservationsToCheck");
 		    	List<Reservation> reservationsToCheck = reservationService.showReservationsToCheck();
 		    	mav.addObject("reservationsToCheck",reservationsToCheck);
+				List<ParkingSpot> wronglyOccupied = spotService.getWronglyOccupied();
+				String wronglyOccupiedMsg="";
+				for (ParkingSpot spot : wronglyOccupied) {
+					wronglyOccupiedMsg=wronglyOccupiedMsg.concat(spot.getParkingSpace()+":"+spot.getSpotNumber()+";");
+				}
+				mav.addObject("wronglyOccupiedMsg",wronglyOccupiedMsg);
+				System.out.println("Load page check: " + wronglyOccupiedMsg);
 		    	return mav;
 	    	} else {
 	    		return new ModelAndView("welcome", "user", user);

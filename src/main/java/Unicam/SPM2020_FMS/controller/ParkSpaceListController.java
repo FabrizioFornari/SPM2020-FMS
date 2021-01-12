@@ -130,9 +130,9 @@ public class ParkSpaceListController {
 
 			String field = bindingResult.getFieldError().getField();
 			if (field.contains("Covered") || field.contains("Handicap")) {
-				errMsg = bindingResult.getFieldError().getDefaultMessage().split(":")[1];
+				errMsg = "Not Updated! " + bindingResult.getFieldError().getDefaultMessage().split(":")[1];
 			} else {
-				errMsg = "Operation not completed: invalid information!";
+				errMsg = "Not Updated! invalid information!";
 			}
 			session.setAttribute("oldSpace", parkingSpace);
 
@@ -144,8 +144,8 @@ public class ParkSpaceListController {
 			}
 			int editResult = parkService.edit(parkingSpace);
 			String[] spaceMessages = { 
-					"Updating Park Space has not been possible!",
-					"Position specified has been already used"
+					"Not Updated! Operation has not been possible!",
+					"Not Updated! Position specified has been already used"
 			};
 
 			if (editResult <= 0) {
@@ -168,13 +168,13 @@ public class ParkSpaceListController {
 				int genResult = spotService.updateSpots(parkingSpace.getSpots());
 				if (genResult < 0) {
 					if (fileNotUploaded) {
-						errMsg = "Operation not completed: Park spots and Park map are not updated";
+						errMsg = "Warning: park spots and park map are not updated";
 					} else {
-						errMsg = "Operation not completed: Park spots are not updated";
+						errMsg = "Warning: park spots are not updated";
 					}
 				} else {
 					if (fileNotUploaded) {
-						errMsg = "Operation not completed: Park map is not updated";
+						errMsg = "Warning: park map is not updated";
 					} else {
 						errMsg = "Park Space correctly updated";
 					}
@@ -203,9 +203,8 @@ public class ParkSpaceListController {
 		if (res > 0) {
 			msg = "Parking space successfully deleted";
 		}else {
-			msg = "Cannot delete the selected parking space!";
+			msg = "Not Deleted! Operation has not been possible!";
 		}
-		
 		
 		session.setAttribute("message", msg);
 		return "redirect:/ParksManagement";
