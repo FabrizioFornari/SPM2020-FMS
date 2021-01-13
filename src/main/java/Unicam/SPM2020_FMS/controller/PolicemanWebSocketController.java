@@ -1,5 +1,6 @@
 package Unicam.SPM2020_FMS.controller;
 
+
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -7,6 +8,7 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
 
 import Unicam.SPM2020_FMS.service.SchedulerService;
 
@@ -31,11 +33,12 @@ public class PolicemanWebSocketController {
         SESSIONS.remove(session);
     }
 
-    public static void sendAll(String text) {
+    public static void sendAll(String illegallyOccupiedList) {
         synchronized (SESSIONS) {
             for (Session session : SESSIONS) {
                 if (session.isOpen()) {
-                    session.getAsyncRemote().sendText(text);
+                	
+                    session.getAsyncRemote().sendText(illegallyOccupiedList);
                 }
             }
         }

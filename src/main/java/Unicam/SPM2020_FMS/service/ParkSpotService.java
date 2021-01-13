@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import Unicam.SPM2020_FMS.dao.ParkSpotDao;
 import Unicam.SPM2020_FMS.model.ParkingSpot;
+import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class ParkSpotService {
 
@@ -41,8 +42,8 @@ public class ParkSpotService {
 		return parkSpotDao.updateSpots(spots);
 	}
 	
-	public List<ParkingSpot> getWronglyOccupied() {
-		return parkSpotDao.getWronglyOccupied();
+	public List<SpotIllegallyOccupied> getIllegallyOccupied() {
+		return parkSpotDao.getIllegallyOccupied();
 	}
 
 }
