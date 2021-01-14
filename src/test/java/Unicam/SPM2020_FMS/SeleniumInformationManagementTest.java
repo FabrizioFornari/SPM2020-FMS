@@ -10,7 +10,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +22,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumInformationManagement {
+class SeleniumInformationManagementTest {
 	
 	static String projectPath;
 	static String pathToDriver;
@@ -41,6 +43,7 @@ class SeleniumInformationManagement {
 	static String updatedMunicipalityTaxCode;
 	
 	@BeforeAll
+	@Disabled
 	static void setUpBeforeClass() throws Exception {
 		//Checking running OS
 		runningOS = (System.getProperty("os.name"));
@@ -90,14 +93,14 @@ class SeleniumInformationManagement {
 		options.addArguments("--no-sandbox");
 				
 		//Remove or add comment prefix on the next line if you want to run test in headless mode or not
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 				
 		driver = new ChromeDriver(options);
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		Thread.sleep(3000);  //Just for showing purpose
+		//Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
@@ -114,6 +117,8 @@ class SeleniumInformationManagement {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing user's information succeeds")
 	void ChangeUserInformation() throws InterruptedException {
 		//Logging in
@@ -122,42 +127,43 @@ class SeleniumInformationManagement {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(user);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(userPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
 				
 		//Updating tax code and phone number
-
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedUserTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedUserPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.get(URLbase+"profile");
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
 		Assert.assertEquals(updatedUserPhoneNumber, element.getAttribute("value"));
 		element = driver.findElement(By.id("taxCode"));
 		Assert.assertEquals(updatedUserTaxCode, element.getAttribute("value"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing policeman's information succeeds")
 	void ChangePolicemanInformation() throws InterruptedException {
 		//Logging in
@@ -166,11 +172,11 @@ class SeleniumInformationManagement {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(policeman);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(policemanPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
@@ -178,30 +184,32 @@ class SeleniumInformationManagement {
 		//Updating tax code and phone number
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedPolicemanTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedPolicemanPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.get(URLbase+"profile");
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
 		Assert.assertEquals(updatedPolicemanPhoneNumber, element.getAttribute("value"));
 		element = driver.findElement(By.id("taxCode"));;
 		Assert.assertEquals(updatedPolicemanTaxCode, element.getAttribute("value"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 	
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing municipality's information succeeds")
 	void ChangeMunicipalityInformation() throws InterruptedException {
 		//Logging in
@@ -210,11 +218,11 @@ class SeleniumInformationManagement {
 		Assert.assertEquals("Login", driver.getTitle());
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 		element.sendKeys(municipality);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(municipalityPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("login")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		
 		//Waiting for the Welcome Page and requesting the Information Management Page
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='profile']"))).click();
@@ -222,15 +230,15 @@ class SeleniumInformationManagement {
 		//Updating tax code and phone number
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		element.sendKeys(updatedMunicipalityTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).clear();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(updatedMunicipalityPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		
 		//Reloading the page and verifying the changes
@@ -242,6 +250,6 @@ class SeleniumInformationManagement {
 		Assert.assertEquals(updatedMunicipalityTaxCode, element.getAttribute("value"));
 		Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 	}
 }

@@ -19,7 +19,7 @@ import Unicam.SPM2020_FMS.service.UserService;
 public class LoginController {
 
   @Autowired
-  UserService userService;
+  public UserService userService;
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

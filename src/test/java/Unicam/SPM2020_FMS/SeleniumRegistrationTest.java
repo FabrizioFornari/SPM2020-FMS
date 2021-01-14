@@ -11,7 +11,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-class SeleniumRegistration {
+class SeleniumRegistrationTest {
 	
 	static String projectPath;
 	static String pathToDriver;
@@ -118,7 +120,7 @@ class SeleniumRegistration {
 		options.addArguments("--start-maximized");
 		
 		//Remove comment prefix on the next line if you want to run test in headless mode
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 		
 		driver = new ChromeDriver(options);
 		
@@ -134,7 +136,7 @@ class SeleniumRegistration {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		Thread.sleep(5000);  //Just for showing purpose
+		Thread.sleep(3000);  //Just for showing purpose
 		driver.close();
 		driver.quit();
 	}
@@ -143,26 +145,28 @@ class SeleniumRegistration {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Driver's registration succeeds")
 	void checkDriverRegistration() throws InterruptedException {
 		//Compiling form
 		driver.findElement(By.id("firstname")).sendKeys(newUserFirstname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("surname")).sendKeys(newUserSurname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("email")).sendKeys(newUserEmail);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(newUserPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("repeatPassword")).sendKeys(newUserPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		Select selectElement = new Select(driver.findElement(By.id("userType")));
 		selectElement.selectByVisibleText("Driver");
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("taxCode")).sendKeys(newUserTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(newUserPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
@@ -173,28 +177,30 @@ class SeleniumRegistration {
 	}
 	
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Policeman's registration succeeds")
 	void checkPolicemanRegistration() throws InterruptedException {
 		//Compiling form
 		driver.findElement(By.id("firstname")).sendKeys(newPolicemanFirstname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("surname")).sendKeys(newPolicemanSurname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("email")).sendKeys(newPolicemanEmail);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(newPolicemanPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("repeatPassword")).sendKeys(newPolicemanPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		Select selectElement = new Select(driver.findElement(By.id("userType")));
 		selectElement.selectByVisibleText("Policeman");
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("taxCode")).sendKeys(newPolicemanTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("idNumber")).sendKeys(newPolicemanIdNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(newPolicemanPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));
@@ -204,28 +210,30 @@ class SeleniumRegistration {
 	}
 	
 	@Test
+	@Disabled
+	@Tag("AcceptanceTest")
 	@DisplayName("Check whether a new Municipality's registration succeeds")
 	void checkMunicipalityRegistration() throws InterruptedException {
 		//Compiling form
 		driver.findElement(By.id("firstname")).sendKeys(newMunicipalityFirstname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("surname")).sendKeys(newMunicipalitySurname);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("email")).sendKeys(newMunicipalityEmail);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("password")).sendKeys(newMunicipalityPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("repeatPassword")).sendKeys(newMunicipalityPassword);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		Select selectElement = new Select(driver.findElement(By.id("userType")));
-		selectElement.selectByVisibleText("Municipality");
-		Thread.sleep(1500);  //Just for showing purpose
+		//selectElement.selectByVisibleText("Municipality");
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("taxCode")).sendKeys(newMunicipalityTaxCode);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("authNumber")).sendKeys(newMunicipalityAuthNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("phone")).sendKeys(newMunicipalityPhoneNumber);
-		Thread.sleep(1500);  //Just for showing purpose
+		//Thread.sleep(1500);  //Just for showing purpose
 		driver.findElement(By.id("register")).click();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jumbotron")));

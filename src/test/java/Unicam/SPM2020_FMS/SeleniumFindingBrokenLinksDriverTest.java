@@ -30,7 +30,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SeleniumFindingBrokenLinks {
+class SeleniumFindingBrokenLinksDriverTest {
 	
 	static String projectPath;
 	static WebDriver driver;
@@ -116,6 +116,7 @@ class SeleniumFindingBrokenLinks {
 	//The following tests will be executed based on the @Order annotation
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in welcome page")
 	@Order(1)
 	void checkWelcomePage() throws IOException {
@@ -136,6 +137,7 @@ class SeleniumFindingBrokenLinks {
 	}
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in license plate management page")
 	@Order(2)
 	void checkMyCarsPage() throws IOException, InterruptedException {
@@ -156,6 +158,7 @@ class SeleniumFindingBrokenLinks {
 	}
 	
 	@Test
+	@Tag("AcceptanceTest")
 	@DisplayName("Check broken links in profile page")
 	@Order(3)
 	void checkProfilePage() throws IOException {
@@ -176,8 +179,30 @@ class SeleniumFindingBrokenLinks {
 	}
 	
 	@Test
-	@DisplayName("Check broken links in registration page")
+	@Tag("AcceptanceTest")
+	@DisplayName("Check broken links in park spaces page")
 	@Order(4)
+	void checkParkSpacesPage() throws IOException {
+		//Getting the profile page
+		driver.get(URLbase+"ParkSpaces");
+		assertTrue(driver.getPageSource().contains("Search by location"));
+		
+		//Finding all anchor tags
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		
+		//Checking every link
+		for(int i=0; i<links.size(); i++)
+		{	
+			WebElement ele = links.get(i);
+			String url = ele.getAttribute("href");
+			checkLink(url);
+		}
+	}
+	
+	@Test
+	@Tag("AcceptanceTest")
+	@DisplayName("Check broken links in registration page")
+	@Order(5)  //Execute this test as last
 	void checkRegisterPage() throws IOException, InterruptedException {
 		//Logging out and getting the registration page
 		driver.get(URLbase+"logout");

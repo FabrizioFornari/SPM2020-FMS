@@ -25,12 +25,12 @@ padding-left: 0 !important;
 
 .table {
 	color: #fdfdfd  !important;
-	background-color: #111519e0;
+	background-color: #184b7dc2;
 	border-radius: 20px;
 }
 
 .table th{
-	color: #b51c1c !important;
+	color: #dde30d !important;
 	background-color: #111519e0;
 	
 }
@@ -40,4 +40,16 @@ padding-left: 0 !important;
 	margin: 28px 0 25px 0;
 	background: rgba(255, 255, 255, .2);
 }
+.table td, .table th{
+	border-top: none !important;
+	
+}
+
+.table th{
+	
+	background-color: #51353500;
+	
+	
+}
+
 

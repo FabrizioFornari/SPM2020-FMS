@@ -21,6 +21,9 @@ public class ParkingSpace {
 	private String specHandicap;
 	private String imageName;
 	private MultipartFile imageFile;
+	private int freeAll;
+	private int freeCovered;
+	private int freeHandicap;
 	
 	public ParkingSpace() {
 		super();
@@ -156,7 +159,7 @@ public class ParkingSpace {
 	public void setSpecCovered(String specCovered) {
 		String temp=this.specCovered;
 		this.specCovered = specCovered;
-		if (handicapSpots!=null)
+		if (coveredSpots!=null)
 			if (this.getCoveredSpotsNumbers().count() != coveredSpots) {
 				this.specCovered=temp;
 				throw new IllegalArgumentException("Wrong covered spots specification");
@@ -179,6 +182,30 @@ public class ParkingSpace {
 		this.imageFile = imageFile;
 	}
 	
+	public int getFreeAll() {
+		return freeAll;
+	}
+
+	public void setFreeAll(int freeAll) {
+		this.freeAll = freeAll;
+	}
+
+	public int getFreeCovered() {
+		return freeCovered;
+	}
+
+	public void setFreeCovered(int freeCovered) {
+		this.freeCovered = freeCovered;
+	}
+
+	public int getFreeHandicap() {
+		return freeHandicap;
+	}
+
+	public void setFreeHandicap(int freeHandicap) {
+		this.freeHandicap = freeHandicap;
+	}
+	
 	@Override
 	public String toString() {
 		return "ParkingSpace [idParkingSpace=" + idParkingSpace + ", name=" + name + ", address=" + address
@@ -190,27 +217,29 @@ public class ParkingSpace {
 	public IntStream getCoveredSpotsNumbers() {
         IntStream CoveredSpotsNumbers=IntStream.of();
         
-		String[] parts=specCovered.split(",");		
-		for (String part : parts) {
-			String[] spots = part.split("-");
-			int a,b;
-			try {
-				a=Integer.parseInt(spots[0]);
-				b=Integer.parseInt(spots[spots.length-1]);
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Wrong covered spots specification");
+        if (!specCovered.isEmpty()) {
+			String[] parts=specCovered.split(",");		
+			for (String part : parts) {
+				String[] spots = part.split("-");
+				int a,b;
+				try {
+					a=Integer.parseInt(spots[0]);
+					b=Integer.parseInt(spots[spots.length-1]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Wrong covered spots specification");
+				}
+				if (a>b) {
+					int temp=a;
+					a=b;
+					b=temp;
+				}
+				if (a<1 || (spotsCapacity!=null && b>spotsCapacity)) throw new IllegalArgumentException("Wrong covered spots specification");
+				CoveredSpotsNumbers = IntStream.concat(
+						CoveredSpotsNumbers, 
+						IntStream.rangeClosed(Integer.parseInt(spots[0]), Integer.parseInt(spots[spots.length-1]))
+				);
 			}
-			if (a>b) {
-				int temp=a;
-				a=b;
-				b=temp;
-			}
-			if (a<1 || (spotsCapacity!=null && b>spotsCapacity)) throw new IllegalArgumentException("Wrong covered spots specification");
-			CoveredSpotsNumbers = IntStream.concat(
-					CoveredSpotsNumbers, 
-					IntStream.rangeClosed(Integer.parseInt(spots[0]), Integer.parseInt(spots[spots.length-1]))
-			);
-		}
+        }
 		
 		return CoveredSpotsNumbers.distinct().sorted();
 	}
@@ -218,27 +247,29 @@ public class ParkingSpace {
 	public IntStream getHandicapSpotsNumbers() {
         IntStream handicapSpotsNumbers=IntStream.of();
 		
-        String[] parts=specHandicap.split(",");
-		for (String part : parts) {
-			String[] spots = part.split("-");
-			int a,b;
-			try {
-				a=Integer.parseInt(spots[0]);
-				b=Integer.parseInt(spots[spots.length-1]);
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Wrong restricted spots specification");
+        if (!specHandicap.isEmpty()) {
+	        String[] parts=specHandicap.split(",");
+			for (String part : parts) {
+				String[] spots = part.split("-");
+				int a,b;
+				try {
+					a=Integer.parseInt(spots[0]);
+					b=Integer.parseInt(spots[spots.length-1]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Wrong restricted spots specification");
+				}
+				if (a>b) {
+					int temp=a;
+					a=b;
+					b=temp;
+				}
+				if (a<1 || (spotsCapacity!=null && b>spotsCapacity) ) throw new IllegalArgumentException("Wrong restricted spots specification");
+				handicapSpotsNumbers = IntStream.concat(
+						handicapSpotsNumbers, 
+						IntStream.rangeClosed(a,b)
+				);
 			}
-			if (a>b) {
-				int temp=a;
-				a=b;
-				b=temp;
-			}
-			if (a<1 || (spotsCapacity!=null && b>spotsCapacity) ) throw new IllegalArgumentException("Wrong restricted spots specification");
-			handicapSpotsNumbers = IntStream.concat(
-					handicapSpotsNumbers, 
-					IntStream.rangeClosed(a,b)
-			);
-		}
+        }
 		
 		return handicapSpotsNumbers.distinct().sorted();
 	}
@@ -261,5 +292,35 @@ public class ParkingSpace {
 		
 		return spots;	
 	}
+	
+	public String getSpecFromList(List<Integer> spotsList) {
+		
+		if(spotsList.size()==0) {
+			return "";
+		}
+		
+		Boolean range=false;
+		String string = spotsList.get(0).toString();
+		
+		for (int i=0; i<spotsList.size()-1; i++) {
+			
+			if (spotsList.get(i+1)-spotsList.get(i)==1) {
+				//se ultimo elemento nel range lo scrivo ora
+				if(i==spotsList.size()-2) { 
+					string=string.concat("-"+spotsList.get(i+1).toString());
+				}
+				range=true;
+			} else {
+				if(range) {
+					string=string.concat("-"+spotsList.get(i).toString());
+					range=false;
+				}
+				string=string.concat(","+spotsList.get(i+1).toString());
+			}
+		}
+		
+		return string;
+	}
+	
 }
 

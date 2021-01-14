@@ -75,9 +75,7 @@ public class NewParkSpaceController {
 	@RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
 	  public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
-		  
-		  
-    	
+
 		  String errMsg="";
 		  Boolean fileNotUploaded=false;
 		  
@@ -92,8 +90,10 @@ public class NewParkSpaceController {
 			  session.setAttribute("oldSpace", newParkSpace);
 			  
 		  } else {			  
-			  
-			  String filename = System.currentTimeMillis()+newParkSpace.getImageFile().getOriginalFilename();
+			  String filename="";
+			  if (!newParkSpace.getImageFile().isEmpty()) {
+				  filename = System.currentTimeMillis() + newParkSpace.getImageFile().getOriginalFilename();
+			  }
 			  newParkSpace.setImageName(filename);
 			  int addResult=parkService.add(newParkSpace);			
 			  String[] spaceMessages = {
@@ -102,8 +102,6 @@ public class NewParkSpaceController {
 			  };
 
 			  if (addResult<=0) {
-				  
-				  //deleteImageFile
 				  addResult*=-1;
 				  errMsg=spaceMessages[addResult];
 				  session.setAttribute("oldSpace", newParkSpace);
@@ -113,10 +111,12 @@ public class NewParkSpaceController {
 				  newParkSpace.setIdParkingSpace(addResult);
 				  
 				  //try to store the uploaded file
-				  try {
-					  storageService.store(newParkSpace.getImageFile(),filename);
-				  } catch (Exception e) {
-					  fileNotUploaded=true;
+				  if (!newParkSpace.getImageFile().isEmpty()) {
+					  try {
+						  storageService.store(newParkSpace.getImageFile(),filename);
+					  } catch (Exception e) {
+						  fileNotUploaded=true;
+					  }
 				  }
 				  
 				  //try to generate spots
@@ -124,13 +124,15 @@ public class NewParkSpaceController {
 				  if (genResult<0) {
 					  if (fileNotUploaded) {
 						  errMsg = "Operation not completed: Park Area has been created without spots and without map";
+					  } else {
+						  errMsg = "Operation not completed: Park Area has been created without spots";
 					  }
-					  errMsg = "Operation not completed: Park Area has been created without spots";
 				  } else {
 					  if (fileNotUploaded) {
-						  errMsg = "Park Space correctly created without map";
+						  errMsg = "Operation not completed: Park Space created without map";
+					  } else {
+						  errMsg = "Park Space correctly created with Parking spots";
 					  }
-					  errMsg = "Park Space correctly created with Parking spots and map"; 
 				  }
 				  
 			  }

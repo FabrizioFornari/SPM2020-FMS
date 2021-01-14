@@ -65,6 +65,60 @@ public class ParkSpaceDao {
 	List<ParkingSpace> parkSpaceList = jdbcTemplate.query(sql, new ParkSpaceMapper());
 
 	return parkSpaceList;
+	
+  }
+  
+  
+  public int edit(ParkingSpace parkingSpace) {
+	  
+	    String sql = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Image = ? WHERE ID = ? ";
+	    String sql_no_img = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ? WHERE ID = ? ";
+
+		int updated=0;
+
+		try {
+			if (parkingSpace.getImageName()==null) {
+				updated = jdbcTemplate.update(
+						sql_no_img,
+						new Object[] {
+							parkingSpace.getCity(),
+							parkingSpace.getName(),
+							parkingSpace.getAddress(),
+							parkingSpace.getCoordinates(),
+							parkingSpace.getSpotsCapacity(),
+							parkingSpace.getCoveredSpots(),
+							parkingSpace.getHandicapSpots(),
+							parkingSpace.isGuarded(),
+							parkingSpace.getIdParkingSpace()
+						}
+				);
+			} else {
+				updated = jdbcTemplate.update(
+						sql,
+						new Object[] {
+							parkingSpace.getCity(),
+							parkingSpace.getName(),
+							parkingSpace.getAddress(),
+							parkingSpace.getCoordinates(),
+							parkingSpace.getSpotsCapacity(),
+							parkingSpace.getCoveredSpots(),
+							parkingSpace.getHandicapSpots(),
+							parkingSpace.isGuarded(),
+							parkingSpace.getImageName(),
+							parkingSpace.getIdParkingSpace()
+						}
+				);
+			}
+		} catch (org.springframework.dao.DuplicateKeyException e) {
+			String msg=e.getMessage();
+			if (msg.contains("parkingspace.Coordinates")) {
+				updated=-1;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return updated;
   }
 
   class ParkSpaceMapper implements RowMapper<ParkingSpace> {
@@ -90,5 +144,19 @@ public class ParkSpaceDao {
 		return parkSpace;
 	}
   }
+
+public int delete(Integer idParkingSpace) {
+	String sql = "DELETE FROM parkingspace WHERE ID = ? ";
+	int deleted;
+
+	try {
+		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
+	} catch (Exception e) {
+		return -1;
+	}
+	return deleted;
+}
+
+
   
 }

@@ -19,8 +19,8 @@ import Unicam.SPM2020_FMS.service.UserService;
 public class InformationController {
 
 	
-	 @Autowired
-	  UserService userService;
+	  @Autowired
+	  public UserService userService;
 
 	  @RequestMapping(value = "/profile", method = RequestMethod.GET)
 	  public ModelAndView showProfile(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
