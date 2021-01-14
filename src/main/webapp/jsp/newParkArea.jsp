@@ -164,7 +164,7 @@
 
 				<table align="center">
 					<tr>
-						<td style="font-style: italic; color: green;">${message}</td>
+						<td id="newParkingMessage" style="font-style: italic; color: green;">${message}</td>
 					</tr>
 				</table>
 				<div class="hr"></div>

@@ -167,7 +167,7 @@ class SeleniumParkingSpaceManagementTest {
 		//Thread.sleep(1500);  //Just for showing purpose
 		
 		driver.findElement(By.id("register")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("td"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("newParkingMessage"))).click();
 		//Thread.sleep(3000);  //Just for showing purpose
 		
 		//Checking if a successful message has been displayed
