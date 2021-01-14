@@ -1,0 +1,32 @@
+.table {
+	text-align: center;
+	color: #000 !important;
+	background-color: #aa6b19a3 !important;
+	width: 80% !important ;
+}
+
+
+#messageModal .modal-body{
+	
+	background-color: #201b14d1 !important;
+}
+
+.modal-header{
+	color:green !important;
+	
+}
+
+.modal-body{
+	background-color: #b97316ad !important;
+	
+}
+
+.button {
+	border: none;
+	padding: 15px 20px;
+	border-radius: 25px;
+	background: rgba(45, 198, 23, 0.77);
+	width: 100%;
+	color: #fff;
+	display: block;
+}
