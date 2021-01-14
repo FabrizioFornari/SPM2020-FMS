@@ -320,6 +320,10 @@
 
 		$("#messageAlert").addClass("alert-danger");
 		$("#messageModal").modal('show');
+	}else if (message != "" && !message.startsWith("Warning")) {
+
+		$("#messageAlert").addClass("alert-warning");
+		$("#messageModal").modal('show');
 	}
 	
 	

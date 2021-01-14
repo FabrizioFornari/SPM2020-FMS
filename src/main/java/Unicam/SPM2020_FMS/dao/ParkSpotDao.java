@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import Unicam.SPM2020_FMS.model.ParkingSpot;
+import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class ParkSpotDao {
 
@@ -164,6 +165,39 @@ public class ParkSpotDao {
 		}
 		
 		return res;
+	}
+	
+	public List<SpotIllegallyOccupied> getIllegallyOccupied() {//to modify
+		
+		String sql = 
+				"SELECT Name,Address,SpotNumber " + 
+				"FROM parkingspot a,parkingspace b " + 
+				"WHERE isOccupied=1 and a.ParkingSpace = b.ID and not exists (" + 
+				"	SELECT 1" + 
+				"	FROM reservation b " + 
+				"	WHERE parking_start <= NOW() and (Parking_end is null or Parking_end > NOW()) and a.SpotNumber=b.ParkingSpot and a.ParkingSpace=b.ParkingSpace " + 
+				") " + 
+				"ORDER BY 2,1";
+
+		List<SpotIllegallyOccupied> illegallyOccupied = jdbcTemplate.query(sql, new SpotIllegallyOccupiedMapper());
+
+		return illegallyOccupied;
+	}
+	
+	
+	class SpotIllegallyOccupiedMapper implements RowMapper<SpotIllegallyOccupied> {
+
+		public SpotIllegallyOccupied mapRow(ResultSet rs, int arg1) throws SQLException {
+
+			SpotIllegallyOccupied parkSpot = new SpotIllegallyOccupied(
+					rs.getString("Name"), 
+					rs.getString("Address"), 
+					rs.getInt("SpotNumber")
+					
+			);
+
+			return parkSpot;
+		}
 	}
 
 }

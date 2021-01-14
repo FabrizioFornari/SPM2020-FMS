@@ -18,8 +18,8 @@ import Unicam.SPM2020_FMS.service.UserService;
 @Controller
 public class LogoutController {
 
-	@Autowired
-	  UserService userService;
+	 @Autowired
+	 public UserService userService;
 	
 	 @RequestMapping(value = "/logout", method = RequestMethod.GET)
 	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response,HttpSession session) {

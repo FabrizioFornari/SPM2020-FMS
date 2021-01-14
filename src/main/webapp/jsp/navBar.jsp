@@ -41,7 +41,7 @@ body {
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="./"><img
 			src="${pageContext.request.contextPath}/resources/images/logo.png"
-			alt="" width="40" height="40"></img></a>
+			alt="" width="40" height="40"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"

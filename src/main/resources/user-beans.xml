@@ -12,6 +12,9 @@
 <bean id="spotDao" class="Unicam.SPM2020_FMS.dao.ParkSpotDao" />
 <bean id="storageService" class="Unicam.SPM2020_FMS.service.StorageService" />
 <bean id="spotService" class="Unicam.SPM2020_FMS.service.ParkSpotService" />
+<bean id="schedulerService" class="Unicam.SPM2020_FMS.service.SchedulerService" />
+
+<bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" />
 
 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 <property name="dataSource" ref="datasource"/>

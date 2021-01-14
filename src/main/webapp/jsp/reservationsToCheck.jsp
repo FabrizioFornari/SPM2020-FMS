@@ -10,13 +10,21 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/carsPageStyle.css"
 	rel="stylesheet">
-<title>Cars</title>
+	
+	<title>Reservations</title>
+
 </head>
 <body>
 
 	<jsp:include page="navBar.jsp"></jsp:include>
 
+
+
+
 	<div class="container" align="center">
+	<h1>Check Illegalities</h1>
+	<ul class="list-group" id="illegallyOccupiedList"></ul>
+	<br><br>
 		<h1>Check a park</h1>
 		<div class="row">
 
@@ -83,7 +91,52 @@
 
 
 </body>
-<script>
+
+<script type="text/javascript">
+	
+	if (window.WebSocket) {
+		var loc = window.location, url, ws;
+		if (loc.protocol === "https:") {
+		    url = "wss:";
+		} else {
+		    url = "ws:";
+		}
+		url += "//" + loc.host + loc.pathname + "/push";
+	    ws = new WebSocket(url);
+	    ws.onmessage = function(event) {
+	        var text = event.data;
+	        modifyHtml(text);
+	       
+	    };
+	}
+	else {
+		console.log("Browser not supporting WebSocket!");
+	}
+	
+	
+	function modifyHtml(spotsIllegallyOccupied){
+		
+		if(spotsIllegallyOccupied == null || spotsIllegallyOccupied == "") {
+			
+			$('#illegallyOccupiedList').html("<li class='list-group-item list-group-item-success'>No illegality detected!</li>");
+			return;
+		}
+		
+		var arr = spotsIllegallyOccupied.split(";");
+		arr.splice(arr.length-1,1);
+		var list = "";
+		arr.forEach(element => list = list.concat("<li class='list-group-item list-group-item-danger'>"+element+"</li>"));
+		
+		$('#illegallyOccupiedList').html(list);
+		
+	}
+	
+	
+	
+	window.onload = modifyHtml("${illegallyOccupiedString}");
+	
+	
+	
 	function filterItems(typeOfFilter) {
 		// Declare variables
 		var input, filter, table, tr, td, i, txtValue;
