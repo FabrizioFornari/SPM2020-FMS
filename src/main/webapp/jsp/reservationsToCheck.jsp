@@ -13,8 +13,6 @@
 	
 	<title>Reservations</title>
 
-	
-
 </head>
 <body>
 
@@ -24,7 +22,7 @@
 
 
 	<div class="container" align="center">
-	<h1>Check Illegality</h1>
+	<h1>Check Illegalities</h1>
 	<ul class="list-group" id="illegallyOccupiedList"></ul>
 	<br><br>
 		<h1>Check a park</h1>
@@ -122,7 +120,7 @@
 			
 			$('#illegallyOccupiedList').html("<li class='list-group-item list-group-item-success'>No illegality detected!</li>");
 			return;
-		};
+		}
 		
 		var arr = spotsIllegallyOccupied.split(";");
 		arr.splice(arr.length-1,1);
@@ -130,7 +128,7 @@
 		arr.forEach(element => list = list.concat("<li class='list-group-item list-group-item-danger'>"+element+"</li>"));
 		
 		$('#illegallyOccupiedList').html(list);
-		 alert("Illegality detected! Check the list for more information");
+		
 	}
 	
 	
