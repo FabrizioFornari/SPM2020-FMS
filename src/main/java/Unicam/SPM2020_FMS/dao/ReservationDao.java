@@ -30,6 +30,8 @@ public class ReservationDao {
 
 		return reservationsToCheck;
 	}
+	
+	
 
 	class ReservationsMapper implements RowMapper<Reservation> {
 

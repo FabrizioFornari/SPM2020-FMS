@@ -16,7 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
+import Unicam.SPM2020_FMS.model.UserCars;
+import Unicam.SPM2020_FMS.service.CarService;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
 import Unicam.SPM2020_FMS.service.StorageService;
@@ -33,12 +36,15 @@ public class ParkSpaceListController {
 	@Autowired
 	public StorageService storageService;
 
+	@Autowired
+	  public CarService carService;
+	
 	/** Retrieve the list of the parking spaces from the database (Driver) */
 	@RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
 	public ModelAndView showParkSpaces(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
-
+		
 		if (user != null) {
 			if (user.getUserType().equals("Driver")) {
 				ModelAndView mav = new ModelAndView("ParkSpaces");
@@ -54,6 +60,12 @@ public class ParkSpaceListController {
 					parkingSpace.setFreeHandicap(spotService.getHandicapAvailable(parkingSpace.getIdParkingSpace()));
 				}
 				mav.addObject("parkSpaceList", parkSpaceList);
+				UserCars userCars = new UserCars();
+		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+		    	
+		    	
+		    	mav.addObject("userCars", userCars);
+				mav.addObject("reservation", new Reservation(null, null, null, null));
 				return mav;
 			} else {
 				return new ModelAndView("welcome", "user", user);

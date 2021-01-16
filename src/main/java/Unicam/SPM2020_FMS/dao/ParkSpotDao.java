@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import Unicam.SPM2020_FMS.dao.ReservationDao.ReservationsMapper;
 import Unicam.SPM2020_FMS.model.ParkingSpot;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
@@ -85,6 +86,17 @@ public class ParkSpotDao {
 
 		return res;
 	}
+	
+	// Return a free spot for the driver
+	public Integer getFreeSpotNumber(Integer parkingSpace) {
+		
+		String sql = "SELECT SpotNumber FROM smartparking_db.parkingspot where  parkingspot.ParkingSpace = '"+parkingSpace+"' and SpotNumber not in (select parkingspot from reservation) LIMIT 1 ;";
+		int freeSpot = jdbcTemplate.queryForObject(sql, Integer.class);
+		
+		return freeSpot;
+	}
+	
+	
 
 	class ParkSpotMapper implements RowMapper<ParkingSpot> {
 

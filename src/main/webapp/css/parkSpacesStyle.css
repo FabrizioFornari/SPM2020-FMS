@@ -60,6 +60,32 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 	color: white;
 }
 
+.H_ib_body {
+	background: #1a5518d6;
+	position: absolute;
+	bottom: .5em;
+	padding: 0;
+	right: 0px;
+	border-radius: 27px;
+	margin-right: -3em;
+	box-shadow: 0px 0 4px 0 rgba(15, 22, 33, 0.6);
+	margin-bottom: 0.5em;
+	width: 142px;
+}
+
+.H_ib_content{
+	
+	color:rgb(255, 255, 255);
+}
+
+.H_ib_content a{
+	
+	color: #f0e209;
+}
+
+
+
+
 nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 	border: none;
 	background: #e74c3c;
@@ -200,7 +226,6 @@ ul {
 		position: sticky;
 		top: 70px;
 	}
-	
 }
 
 .job-overview .job-detail ul {

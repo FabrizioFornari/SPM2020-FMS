@@ -99,18 +99,19 @@
 											<div class="job-content">
 												<h5 class="text-center text-md-left">
 													<strong>${parkSpace.getCity()} </strong> |
-													${parkSpace.getName()}
-												<br/>
-													${parkSpace.getAddress()}
+													${parkSpace.getName()} <br /> ${parkSpace.getAddress()}
 												</h5>
 												<ul class="d-md-flex flex-wrap text-capitalize ff-open-sans"
 													style="padding: 0;">
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-														Overall: ${parkSpace.getFreeAll()}/${parkSpace.getSpotsCapacity()}</li>
+														Overall:
+														${parkSpace.getFreeAll()}/${parkSpace.getSpotsCapacity()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-pin mr-2"></i>
-														Covered: ${parkSpace.getFreeCovered()}/${parkSpace.getCoveredSpots()}</li>
+														Covered:
+														${parkSpace.getFreeCovered()}/${parkSpace.getCoveredSpots()}</li>
 													<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-														Handicap: ${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
+														Handicap:
+														${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
 													<c:if test="${parkSpace.isGuarded() == true}">
 														<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
 															Is guarded</li>
@@ -120,8 +121,11 @@
 										</div>
 
 										<div class="job-right my-4 flex-shrink-0">
-											<a href="#"
-												class="btn d-block w-100 d-sm-inline-block btn-light">Reserve</a>
+											<button type="button"
+												class="btn d-block w-100 d-sm-inline-block btn-light"
+												data-toggle="modal" data-target="#reservationModal"
+												data-whatever="${parkSpace.getCity()},${parkSpace.getName()},${parkSpace.getAddress()},${parkSpace.getIdParkingSpace()}">Reserve</button>
+
 										</div>
 									</div>
 								</c:forEach>
@@ -143,6 +147,62 @@
 
 
 
+	<div class="modal fade" id="reservationModal" tabindex="-1"
+		role="dialog" aria-labelledby="reservationModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reservationModalLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form:form modelAttribute="reservation" action="#" method="post">
+
+						<div class="form-group">
+							<form:input path="parkingSpace" class="input" type="hidden"  readonly="true"/>
+						</div>
+
+
+						<div class="form-group">
+							<form:select class="form-control" path="licensePlateNumber"
+								required="true">
+								<option value="" disabled selected>Choose your license
+									plate</option>
+								<c:forEach var="userCar" items="${userCars.myCars}"
+									varStatus="tagStatus">
+									<option>${userCar.getLicensePlateNumber()}</option>
+
+								</c:forEach>
+
+
+							</form:select>
+						</div>
+
+						<div class="form-group">
+							<select class="form-control" required="true">
+								<option value="" disabled selected>Choose your payment
+									method</option>
+								<option>Paypal</option>
+								<option>Postepay</option>
+							</select>
+						</div>
+					</form:form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				
+						<button type="button" id="reserveButton" class="btn btn-primary">Confirm</button>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+<!--  <img src="${pageContext.request.contextPath}/resources/images/loadingCar.gif" id="img" style="display:none" />-->
 
 </body>
 
@@ -165,6 +225,27 @@ var data = {
     };
 
 
+
+
+
+
+$('#reservationModal').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget); // Button that triggered the modal
+	  var recipient = button.data('whatever');
+	  
+	  var elements = recipient.split(",")
+	  var modal = $(this);
+	  modal.find('.modal-title').text('Reservation at ' + elements[0]+" - "+elements[1]+" - "+elements[2]);
+	  modal.find('.modal-body input#parkingSpace').val(elements[3]);
+	  
+	});
+	
+	
+/*$('#reserveButton').on('click', function (event){
+	
+	
+	$('#img').show();
+});*/
 
 
 var group;
@@ -198,7 +279,8 @@ function addMarkersToMap(map) {
 		
 		  addMarkerToGroup(group, {lat:getCoordinate(data[key][0])[0], lng:getCoordinate(data[key][0])[1]},
 				    '<div><a href="http://maps.google.com/maps?q='+data[key][0]+'" target="_blank">'+data[key][2]+'</a>' +
-				    '</div><div >Address: '+data[key][3]+'<br>Overall: '+data[key][4]+'/'+data[key][5]+'<br>Covered: '+data[key][6]+'/'+data[key][7]+' <br>Handicap: '+data[key][8]+'/'+data[key][9]+'</div>');
+				    '</div><div >Address: '+data[key][3]+'<br>Overall: '+data[key][4]+'/'+data[key][5]+'<br>Covered: '+data[key][6]+'/'+data[key][7]+' <br>Handicap: '+data[key][8]+'/'+data[key][9]+'</div><div class="job-right my-4 flex-shrink-0">'+
+					'<button type="button" class="btn d-block w-100 d-sm-inline-block btn-light" data-toggle="modal" data-target="#reservationModal" data-whatever="'+data[key][1]+','+data[key][2]+','+data[key][3]+'" >Reserve</button></div>');
 		});
 	
 	 

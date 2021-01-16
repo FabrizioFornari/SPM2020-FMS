@@ -45,5 +45,9 @@ public class ParkSpotService {
 	public List<SpotIllegallyOccupied> getIllegallyOccupied() {
 		return parkSpotDao.getIllegallyOccupied();
 	}
+	
+	public int getFreeSpot(Integer idParkingSpace) {
+		return parkSpotDao.getFreeSpotNumber(idParkingSpace);
+	}
 
 }
