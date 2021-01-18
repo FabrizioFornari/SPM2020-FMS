@@ -1,4 +1,4 @@
-package Unicam.SPM2020_FMS;
+package Unicam.SPM2020_FMS.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import Unicam.SPM2020_FMS.model.User;
