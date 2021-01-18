@@ -56,8 +56,8 @@ public class CarTest {
 	}
 
 	@Test
-	@DisplayName(" Car field test")
-	void carFieldTest() {
+	@DisplayName(" Car model test")
+	void carModelTest() {
 		assertEquals(car.getClass(), Car.class);
 		assertEquals(car.getLicensePlateNumber(), licensePlateNumber);
 		assertEquals(car.getDriver(), Integer.parseInt(driver));
