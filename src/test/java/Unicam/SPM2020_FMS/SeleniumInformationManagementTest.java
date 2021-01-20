@@ -50,17 +50,18 @@ class SeleniumInformationManagementTest {
 		
 		//Setting up system properties
 		projectPath = System.getProperty("user.dir");
-		URLbase = "http://localhost:8080/SPM2020-FMS/";
 		
 		//Reading data from a configuration file
 		try (InputStream input = new FileInputStream( projectPath+"/src/main/resources/config.properties")) {
             Properties prop = new Properties();
             prop.load(input);
             
-            if (runningOS.equals("Linux")) {
+            if (runningOS.contains("Linux")) {
+            	URLbase = "http://localhost:8080/SPM2020-FMS/";
             	pathToDriver = prop.getProperty("pathToLinuxDriver");
             }
-            else if (runningOS.equals("Windows")) {
+            else if (runningOS.contains("Windows")) {
+            	URLbase = "http://localhost:80/SPM2020-FMS/";
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
             

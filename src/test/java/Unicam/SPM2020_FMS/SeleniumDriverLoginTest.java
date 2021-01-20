@@ -41,7 +41,6 @@ class SeleniumDriverLoginTest {
 		
 		//Setting up system properties
 		projectPath = System.getProperty("user.dir");
-		URLbase = "http://localhost:8080/SPM2020-FMS/";
 		
 		//Reading data from a configuration file
 		try (InputStream input = new FileInputStream( projectPath+"/src/main/resources/config.properties")) {
@@ -49,9 +48,11 @@ class SeleniumDriverLoginTest {
             prop.load(input);
             
             if (runningOS.contains("Linux")) {
+            	URLbase = "http://localhost:8080/SPM2020-FMS/";
             	pathToDriver = prop.getProperty("pathToLinuxDriver");
             }
             else if (runningOS.contains("Windows")) {
+            	URLbase = "http://localhost:80/SPM2020-FMS/";
             	pathToDriver = prop.getProperty("pathToWindowsDriver");
             }
 
