@@ -13,6 +13,11 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 	border-radius: 0;
 }
 
+#messagesList {
+	width: 100% ;
+	padding-left: 0 ;
+}
+
 .input {
 	width: 100%;
 	color: #fff;
@@ -21,6 +26,27 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 	padding: 15px 60px;
 	border-radius: 25px;
 	background: rgba(22, 45, 66, 0.86);
+}
+
+#loadingImg{
+	
+	width:100%;
+	
+}
+
+.modal-body h1{
+	
+	font-size: 4.5rem;
+}
+
+#parkNowButton {
+	background-color: #2940b9c9;
+	color: yellow;
+}
+
+#scheduleButton {
+	background-color: #c5df10de;
+	color: black;
 }
 
 .input-group {
@@ -73,18 +99,13 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 	width: 142px;
 }
 
-.H_ib_content{
-	
-	color:rgb(255, 255, 255);
+.H_ib_content {
+	color: rgb(255, 255, 255);
 }
 
-.H_ib_content a{
-	
+.H_ib_content a {
 	color: #f0e209;
 }
-
-
-
 
 nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 	border: none;
