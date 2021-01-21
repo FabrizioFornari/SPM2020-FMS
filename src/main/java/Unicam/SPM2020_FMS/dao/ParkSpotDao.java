@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import Unicam.SPM2020_FMS.dao.ReservationDao.ReservationsMapper;
 import Unicam.SPM2020_FMS.model.ParkingSpot;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
@@ -87,33 +86,35 @@ public class ParkSpotDao {
 		return res;
 	}
 	
-	// Return a free spot for the driver
 	public Integer getFreeSpotNumber(Integer parkingSpace) {
 		
-		String sql = "SELECT SpotNumber FROM smartparking_db.parkingspot where  parkingspot.ParkingSpace = '"+parkingSpace+"' and SpotNumber not in (select parkingspot from reservation) LIMIT 1 ;";
-		int freeSpot = jdbcTemplate.queryForObject(sql, Integer.class);
-		
-		return freeSpot;
-	}
-	
-	
-
-	class ParkSpotMapper implements RowMapper<ParkingSpot> {
-
-		public ParkingSpot mapRow(ResultSet rs, int arg1) throws SQLException {
-
-			ParkingSpot parkSpot = new ParkingSpot(
-					rs.getInt("SpotNumber"),
-					rs.getInt("ParkingSpace"),
-					rs.getInt("IsOccupied"),
-					rs.getInt("IsRestricted"),
-					rs.getInt("IsCovered")
-			);
-
-			return parkSpot;
+		int result;		
+		String sql = 
+				"SELECT  min(SpotNumber) " + 
+				"FROM smartparking_db.parkingspot a " + 
+				"WHERE  a.ParkingSpace = '" + parkingSpace + "' and IsOccupied = 0 and SpotNumber not in ( " + 
+				"	 SELECT b.ParkingSpot " + 
+				"    FROM smartparking_db.reservation b " + 
+				"    WHERE a.ParkingSpace=b.ParkingSpace and b.Parking_start between (now() - INTERVAL 30 MINUTE) and (now() + INTERVAL 60 MINUTE) " + 
+				")";
+		try {
+			result=jdbcTemplate.queryForObject(sql, Integer.class);
+		} catch (NullPointerException e) {
+			result=0;
 		}
+		return result;
 	}
-
+	
+	public boolean isBusy(Integer parkSpot, Integer parkSpace) {
+		
+		boolean busy=false;
+		
+		String sql ="SELECT isOccupied FROM parkingspot WHERE ParkingSpace = '" + parkSpace + "' and SpotNumber= '" + parkSpot + "'";
+		
+		if (jdbcTemplate.queryForObject(sql, Integer.class)==1) busy=true;
+		
+		return busy;
+	}
 	
 	/**
 	 * @param spots
@@ -179,7 +180,7 @@ public class ParkSpotDao {
 		return res;
 	}
 	
-	public List<SpotIllegallyOccupied> getIllegallyOccupied() {//to modify
+	public List<SpotIllegallyOccupied> getIllegallyOccupied() {
 		
 		String sql = 
 				"SELECT Name,Address,SpotNumber " + 
@@ -196,7 +197,6 @@ public class ParkSpotDao {
 		return illegallyOccupied;
 	}
 	
-	
 	class SpotIllegallyOccupiedMapper implements RowMapper<SpotIllegallyOccupied> {
 
 		public SpotIllegallyOccupied mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -206,6 +206,22 @@ public class ParkSpotDao {
 					rs.getString("Address"), 
 					rs.getInt("SpotNumber")
 					
+			);
+
+			return parkSpot;
+		}
+	}
+
+	class ParkSpotMapper implements RowMapper<ParkingSpot> {
+
+		public ParkingSpot mapRow(ResultSet rs, int arg1) throws SQLException {
+
+			ParkingSpot parkSpot = new ParkingSpot(
+					rs.getInt("SpotNumber"),
+					rs.getInt("ParkingSpace"),
+					rs.getInt("IsOccupied"),
+					rs.getInt("IsRestricted"),
+					rs.getInt("IsCovered")
 			);
 
 			return parkSpot;

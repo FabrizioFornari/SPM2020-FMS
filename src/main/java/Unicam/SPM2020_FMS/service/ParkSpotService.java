@@ -49,5 +49,9 @@ public class ParkSpotService {
 	public int getFreeSpot(Integer idParkingSpace) {
 		return parkSpotDao.getFreeSpotNumber(idParkingSpace);
 	}
+	
+	public boolean isBusy(Integer parkSpot, Integer parkSpace) {
+		return parkSpotDao.isBusy(parkSpot,parkSpace);
+	}
 
 }

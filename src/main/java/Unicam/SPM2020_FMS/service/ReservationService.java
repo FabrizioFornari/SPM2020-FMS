@@ -14,8 +14,15 @@ public class ReservationService {
 	public ReservationDao reservationsDao;
 	 
 	public List<Reservation> showReservationsToCheck() {
-			return reservationsDao.showReservationsToCheck();
-			
+		return reservationsDao.showReservationsToCheck();			
+	}
+	
+	public int addReservation(Reservation reservation) {
+		return reservationsDao.addReservation(reservation);
+	}
+	
+	public int deleteReservation(Integer reservation) {
+		return reservationsDao.deleteReservation(reservation);
 	}
 	
 }

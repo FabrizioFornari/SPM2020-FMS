@@ -73,7 +73,7 @@ public class NewParkSpaceController {
 	}
 
 	@RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
-	  public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
+	public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
 
 		  String errMsg="";

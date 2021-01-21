@@ -22,6 +22,8 @@ import Unicam.SPM2020_FMS.model.UserCars;
 import Unicam.SPM2020_FMS.service.CarService;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
+import Unicam.SPM2020_FMS.service.ReservationService;
+import Unicam.SPM2020_FMS.service.SchedulerService;
 import Unicam.SPM2020_FMS.service.StorageService;
 
 @Controller
@@ -37,8 +39,15 @@ public class ParkSpaceListController {
 	public StorageService storageService;
 
 	@Autowired
-	  public CarService carService;
+	public CarService carService;
 	
+	@Autowired
+	public ReservationService reservationService;
+	
+	@Autowired
+	public SchedulerService schedulerService;
+	
+	//DRIVER
 	/** Retrieve the list of the parking spaces from the database (Driver) */
 	@RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
 	public ModelAndView showParkSpaces(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -62,10 +71,8 @@ public class ParkSpaceListController {
 				mav.addObject("parkSpaceList", parkSpaceList);
 				UserCars userCars = new UserCars();
 		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
-		    	
-		    	
 		    	mav.addObject("userCars", userCars);
-				mav.addObject("reservation", new Reservation(null, null, null, null));
+				mav.addObject("reservation", new Reservation());
 				return mav;
 			} else {
 				return new ModelAndView("welcome", "user", user);
@@ -77,6 +84,37 @@ public class ParkSpaceListController {
 		}
 	}
 
+	@RequestMapping(value = "/parkNow", method = RequestMethod.POST)
+	public String reserveSpotNow (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+				@ModelAttribute("reservartion") Reservation reservation) {
+		
+		String[] bookMessages = {
+				  "We are sorry, it seems that all spot are occupied.",
+				  "Error: reservation has not been possible"
+				};
+
+		User user = (User) session.getAttribute("user");	
+		reservation.setDriver(user.getIdUser());
+		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId()));
+		reservation.setParkingStart(null);
+		
+		if (reservation.getParkingSpot()==0) {
+			return bookMessages[0];
+		}
+		
+		int result=reservationService.addReservation(reservation);			
+
+		if (result<=0) {
+			result*=-1;
+			return bookMessages[result];
+		} 
+		reservation.setId(result);
+		schedulerService.scheduleReservationExpiring(reservation);
+		
+		return reservation.getParkingSpot().toString();
+	}
+	
+	//MUNICIPALITY
 	/** Retrieve the list of the parking spaces from the database (Municipality) */
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.GET)
 	public ModelAndView showParkSpacesToManage(HttpServletRequest request, HttpServletResponse response,
@@ -129,7 +167,6 @@ public class ParkSpaceListController {
 			return mav;
 		}
 	}
-
 	
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.POST)
 	public String editParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -191,20 +228,13 @@ public class ParkSpaceListController {
 						errMsg = "Park Space correctly updated";
 					}
 				}
-
 			}
-
 		}
 
 		session.setAttribute("message", errMsg);
 		return "redirect:/ParksManagement";
 	}
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "/DeleteParkSpace", method = RequestMethod.POST)
 	public String deleteParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToDelete") ParkingSpace parkingSpace) {
@@ -222,7 +252,4 @@ public class ParkSpaceListController {
 		return "redirect:/ParksManagement";
 	}
 	
-	
-	
-
 }

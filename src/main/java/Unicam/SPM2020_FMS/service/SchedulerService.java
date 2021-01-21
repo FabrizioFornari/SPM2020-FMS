@@ -1,5 +1,7 @@
 package Unicam.SPM2020_FMS.service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.BeansException;
@@ -9,8 +11,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 
+import Unicam.SPM2020_FMS.controller.ParkingWebSocketController;
 import Unicam.SPM2020_FMS.controller.PolicemanWebSocketController;
-
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class SchedulerService implements ApplicationContextAware {
@@ -20,6 +23,9 @@ public class SchedulerService implements ApplicationContextAware {
 
 	@Autowired
 	public ParkSpotService spotService;
+	
+	@Autowired
+	public ReservationService reservationService;
 
 	private static ApplicationContext context;
 
@@ -33,35 +39,57 @@ public class SchedulerService implements ApplicationContextAware {
 	}
 
 	public void schedulePoliceChecking() {
-		myScheduler.scheduleAtFixedRate(new checkNonConformities(), 30 * 1000);
+		myScheduler.scheduleAtFixedRate(new CheckNonConformities(), 30 * 1000);
 	}
 
 	public void scheduleReservationCheck(String triggerString, Integer reservation) {
-		myScheduler.schedule(new checkReservedSpot(reservation), new CronTrigger(triggerString));
+		myScheduler.schedule(new CheckReservedSpot(reservation), new CronTrigger(triggerString));
+	}
+	
+	public void scheduleReservationExpiring(Reservation reservation) {
+		myScheduler.schedule(new ReservationExpiring(reservation), Instant.now().plus(1,ChronoUnit.MINUTES));
 	}
 
-	class checkNonConformities implements Runnable {
+	class CheckNonConformities implements Runnable {
 
 		@Override
 		public void run() {
 			List<SpotIllegallyOccupied> illegallyOccupiedList = spotService.getIllegallyOccupied();
-			//String message = "";
 			String illegallyOccupiedString = "";
 
 			for (SpotIllegallyOccupied spotIllegallyOccupied : illegallyOccupiedList) {
 				illegallyOccupiedString = illegallyOccupiedString.concat("Parking space: "+spotIllegallyOccupied.getParkingSpaceName()
 						+ " - Address: "+spotIllegallyOccupied.getParkingSpaceAddress() + " - Spot: " + spotIllegallyOccupied.getParkingSpot()+";");
 			}
-
-			 PolicemanWebSocketController.sendAll(illegallyOccupiedString);
+			PolicemanWebSocketController.sendAll(illegallyOccupiedString);
 			System.out.println("Scheduled check " + (System.currentTimeMillis() / 1000) + ": " + illegallyOccupiedString);
 		}
 
 	}
+	
+	class ReservationExpiring implements Runnable {
+		
+		private Reservation reservation;
 
-	class checkReservedSpot implements Runnable {
+		public ReservationExpiring(Reservation reservation) {
+			this.reservation=reservation;
+		}
 
-		public checkReservedSpot(Integer reservation) {
+		@Override
+		public void run() {
+			int spot=reservation.getParkingSpot();
+			int space=reservation.getParkingSpaceId();
+			if(!spotService.isBusy(spot, space)) {
+				reservationService.deleteReservation(this.reservation.getId());
+				ParkingWebSocketController.sendExpiredMessage(spot,space);
+			}
+		}
+
+	}
+
+	class CheckReservedSpot implements Runnable {
+
+		public CheckReservedSpot(Integer reservation) {
 			// TODO Auto-generated constructor stub
 		}
 
