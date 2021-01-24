@@ -13,6 +13,17 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 	border-radius: 0;
 }
 
+
+.imgCenter{
+	
+	
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+}
+
 #messagesList {
 	width: 100% ;
 	padding-left: 0 ;
@@ -241,6 +252,92 @@ ul {
 	border-radius: 10px;
 }
 
+
+.funkyradio div {
+	clear: both;
+	overflow: hidden;
+}
+
+.funkyradio{
+	width:50%;
+}
+
+.funkyradio label {
+	width: 100%;
+	border-radius: 3px;
+	border: 1px solid rgba(22, 45, 66, 0.86);
+	background: rgba(138, 190, 238, 0.86); border-radius : 20px;
+	font-weight: normal;
+	border-radius: 20px;
+}
+
+.funkyradio input[type="radio"]:empty, .funkyradio input[type="checkbox"]:empty
+	{
+	display: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label, .funkyradio input[type="checkbox"]:empty 
+	~ label {
+	position: relative;
+	line-height: 2.5em;
+	text-indent: 3.25em;
+	margin-top: 2em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label:before, .funkyradio input[type="checkbox"]:empty 
+	~ label:before {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+	width: 2.5em;
+	background: #D1D3D4;
+	border-radius: 20px;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label, .funkyradio input[type="checkbox"]:hover:not(:checked) 
+	~ label {
+	color: #888;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label:before,
+	.funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
+	content: '\2714';
+	text-indent: .9em;
+	color: #C2C2C2;
+}
+
+.funkyradio input[type="radio"]:checked ~ label, .funkyradio input[type="checkbox"]:checked 
+	~ label {
+	color: #777;
+}
+
+.funkyradio input[type="radio"]:checked ~ label:before, .funkyradio input[type="checkbox"]:checked 
+	~ label:before {
+	content: '\2714';
+	text-indent: .9em;
+	color: #333;
+	background-color: #ccc;
+}
+
+.funkyradio input[type="radio"]:focus ~ label:before, .funkyradio input[type="checkbox"]:focus 
+	~ label:before {
+	box-shadow: 0 0 0 3px #999;
+}
+
+.funkyradio-default input[type="radio"]:checked ~ label:before,
+	.funkyradio-default input[type="checkbox"]:checked ~ label:before {
+	color: #333;
+	background-color: #ccc;
+}
+
 @media ( min-width : 992px) {
 	.job-overview {
 		position: -webkit-sticky;
@@ -281,6 +378,10 @@ ul {
 		border-bottom: 0;
 		padding: 0;
 	}
+	
+	.funkyradio{
+	width:100%;
+}
 }
 
 .job-content ul li i {

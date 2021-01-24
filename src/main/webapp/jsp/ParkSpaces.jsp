@@ -124,13 +124,21 @@
 											<button type="button"
 												class="btn d-block w-100 d-sm-inline-block btn-light"
 												data-toggle="modal" id="parkNowButton"
-												data-whatever="${parkSpace.getCity()},${parkSpace.getName()},${parkSpace.getAddress()},${parkSpace.getIdParkingSpace()}"
+												data-image="${parkSpace.getImageName()}"
+												data-city="${parkSpace.getCity()}"
+												data-name="${parkSpace.getName()}"
+												data-address="${parkSpace.getAddress()}"
+												data-idparkingspace="${parkSpace.getIdParkingSpace()}"
 												data-target="#reservationModal">Park now</button>
-												&emsp;
+											&emsp;
 											<button type="button"
 												class="btn d-block w-100 d-sm-inline-block btn-light"
 												data-toggle="modal" id="scheduleButton"
-												data-whatever="${parkSpace.getCity()},${parkSpace.getName()},${parkSpace.getAddress()},${parkSpace.getIdParkingSpace()}"
+												data-image="${parkSpace.getImageName()}"
+												data-city="${parkSpace.getCity()}"
+												data-name="${parkSpace.getName()}"
+												data-address="${parkSpace.getAddress()}"
+												data-idparkingspace="${parkSpace.getIdParkingSpace()}"
 												data-target="#reservationModal">Reserve</button>
 										</div>
 									</div>
@@ -167,34 +175,29 @@
 				</div>
 				<div class="modal-body">
 					<form:form modelAttribute="reservation" id="reservationForm"
-						method="post" >
+						method="post">
 
 						<div class="form-group">
-							<form:input path="parkingSpace" class="input" type="hidden"
+							<form:input path="parkingSpaceId" class="input" type="hidden"
 								readonly="true" />
 						</div>
+						<div class="form-group" id="spotAssignment"></div>
 
 						<div class="form-group" id="dateSelection">
 
 							From:
-							<form:input path="parkingStart" type="hidden"
-								class="input"  />
-								<input  type="date" id="parkingStartDate"
-								class="input" required="true" /><br>
-							<select id="timeList" class="input">
-					
-							</select>	
-							To:
-							<form:input path="parkingEnd" type="hidden" class="input"
-								 />
-								 <input  type="date" id="parkingEndDate"
-								class="input" required="true" />
-								 <br>
-								<select id="timeList2" class="input">
-					
+							<form:input path="parkingStart" type="hidden" class="input" />
+							<input type="date" id="parkingStartDate" class="input"
+								autocomplete /><br> <select id="timeList" class="input">
+
+							</select> To:
+							<form:input path="parkingEnd" type="hidden" class="input" />
+							<input type="date" id="parkingEndDate" class="input" autocomplete />
+							<br> <select id="timeList2" class="input">
+
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="licenseSelect">
 							<form:select class="input" path="licensePlateNumber"
 								required="true">
 								<option value="" disabled selected>Choose your license
@@ -208,6 +211,34 @@
 
 							</form:select>
 						</div>
+						<!-- form-group// -->
+						<div class="form-group input-group">
+
+
+							<div class="funkyradio">
+								<div class="funkyradio-default">
+
+
+									<form:checkbox path="coveredSpot" id="coveredSpot"
+										name="coveredSpot"  />
+
+									<label for="coveredSpot">Covered spot</label>
+								</div>
+
+							</div> &ensp;
+							<div class="funkyradio">
+								<div class="funkyradio-default">
+
+
+									<form:checkbox path="handicapSpot" id="handicapSpot"
+										name="handicapSpot"  />
+
+									<label for="handicapSpot">Handicap spot</label>
+								</div>
+
+							</div>
+
+						</div>
 
 						<!--  	<div class="form-group">
 							<select class="form-control" required="true">
@@ -218,15 +249,17 @@
 							</select>
 						</div>-->
 					</form:form>
-				
+
 				</div>
 				<div class="modal-footer">
 					<ul id="messagesList">
 
 					</ul>
-					
+
+					<button type="button" id="reserveNowButton" align="center"
+						class="btn confirm btn-secondary">Confirm</button>
 					<button type="button" id="reserveButton" align="center"
-						class="btn btn-secondary">Confirm</button>
+						class="btn confirm btn-secondary">Confirm</button>
 					<button type="button" align="center" class="btn btn-secondary"
 						data-dismiss="modal">Cancel</button>
 
@@ -248,18 +281,21 @@
 	src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
 <script type="text/javascript"
 	src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript">
 	var data = {
 	        <c:forEach var="parkSpace" items="${parkSpaceList}"
 				varStatus="tagStatus">
-	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}']${!tagStatus.last ? ',' : ''}
+	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}']${!tagStatus.last ? ',' : ''}
 	        </c:forEach>
 		};
+	var loc = window.location, url, ws;
 	var path = "${pageContext.request.contextPath}";	
-	var iconPath ="${pageContext.request.contextPath}/resources/images/parking-icon-red.png"
+	var iconPath ="${pageContext.request.contextPath}/resources/images/parking-icon-red.png";
 	</script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reservation.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mapScript.js">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/reservation.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/mapScript.js">
 
 </script>
 </html>
