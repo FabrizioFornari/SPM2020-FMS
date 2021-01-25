@@ -1,5 +1,7 @@
 package Unicam.SPM2020_FMS.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
 
 import Unicam.SPM2020_FMS.controller.ParkingWebSocketController;
 import Unicam.SPM2020_FMS.controller.PolicemanWebSocketController;
@@ -42,8 +43,15 @@ public class SchedulerService implements ApplicationContextAware {
 		myScheduler.scheduleAtFixedRate(new CheckNonConformities(), 30 * 1000);
 	}
 
-	public void scheduleReservationCheck(String triggerString, Integer reservation) {
-		myScheduler.schedule(new CheckReservedSpot(reservation), new CronTrigger(triggerString));
+	public void scheduleReservationCheck(Reservation reservation) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		try {
+			Instant startTime = dateFormat.parse(reservation.getParkingStart()).toInstant();
+			startTime=startTime.minus(5, ChronoUnit.MINUTES);
+			myScheduler.schedule(new CheckReservedSpot(reservation), startTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void scheduleReservationExpiring(Reservation reservation) {
@@ -80,7 +88,7 @@ public class SchedulerService implements ApplicationContextAware {
 			int spot=reservation.getParkingSpot();
 			int space=reservation.getParkingSpaceId();
 			if(!spotService.isBusy(spot, space)) {
-				reservationService.deleteReservation(this.reservation.getId());
+				reservationService.deleteReservation(reservation.getId());
 				ParkingWebSocketController.sendExpiredMessage(spot,space);
 			}
 		}
@@ -88,15 +96,27 @@ public class SchedulerService implements ApplicationContextAware {
 	}
 
 	class CheckReservedSpot implements Runnable {
+		
+		private Reservation reservation;
 
-		public CheckReservedSpot(Integer reservation) {
-			// TODO Auto-generated constructor stub
+		public CheckReservedSpot(Reservation reservation) {
+			this.reservation=reservation;
 		}
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-
+			int spot=reservation.getParkingSpot();
+			int space=reservation.getParkingSpaceId();
+			if(spotService.isBusy(spot, space)) {
+				int newSpot= spotService.getFreeSpot(reservation.getParkingSpaceId(), reservation.isAskedCovered(), reservation.isAskedHandicap());
+				if(newSpot==0) {
+					reservationService.deleteReservation(reservation.getId());
+					//ParkingWebSocketController.sendExpiredMessage(spot,space);//EDIT
+				} else {
+					reservationService.changeSpot(reservation.getId(), newSpot);
+					//ParkingWebSocketController.sendExpiredMessage(spot,space);//EDIT
+				}
+			}
 		}
 
 	}

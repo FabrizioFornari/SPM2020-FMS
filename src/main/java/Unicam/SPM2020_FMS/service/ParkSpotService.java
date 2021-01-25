@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import Unicam.SPM2020_FMS.dao.ParkSpotDao;
 import Unicam.SPM2020_FMS.model.ParkingSpot;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class ParkSpotService {
@@ -46,8 +47,12 @@ public class ParkSpotService {
 		return parkSpotDao.getIllegallyOccupied();
 	}
 	
-	public int getFreeSpot(Integer idParkingSpace) {
-		return parkSpotDao.getFreeSpotNumber(idParkingSpace);
+	public int getFreeSpot(Integer idParkingSpace, Boolean askedCovered, Boolean askedHandicap) {
+		return parkSpotDao.getFreeSpotNumber(idParkingSpace, askedCovered, askedHandicap);
+	}
+	
+	public Integer getFreeSpot(Reservation reservation) {
+		return parkSpotDao.getFreeSpotNumber(reservation);
 	}
 	
 	public boolean isBusy(Integer parkSpot, Integer parkSpace) {

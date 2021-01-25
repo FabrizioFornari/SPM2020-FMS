@@ -25,4 +25,8 @@ public class ReservationService {
 		return reservationsDao.deleteReservation(reservation);
 	}
 	
+	public int changeSpot(Integer reservation, Integer newSpot) {
+		return reservationsDao.changeSpot(reservation, newSpot);
+	}
+	
 }

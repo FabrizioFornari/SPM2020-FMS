@@ -2,6 +2,9 @@ package Unicam.SPM2020_FMS.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import Unicam.SPM2020_FMS.model.ParkingSpot;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class ParkSpotDao {
@@ -86,7 +90,7 @@ public class ParkSpotDao {
 		return res;
 	}
 	
-	public Integer getFreeSpotNumber(Integer parkingSpace) {
+	public Integer getFreeSpotNumber(Integer parkingSpace, Boolean askedCovered, Boolean askedHandicap) {
 		
 		int result;		
 		String sql = 
@@ -96,10 +100,57 @@ public class ParkSpotDao {
 				"	 SELECT b.ParkingSpot " + 
 				"    FROM smartparking_db.reservation b " + 
 				"    WHERE a.ParkingSpace=b.ParkingSpace and b.Parking_start between (now() - INTERVAL 30 MINUTE) and (now() + INTERVAL 60 MINUTE) " + 
-				")";
+				") ";
+		if(askedCovered) {
+			sql+="and a.IsCovered=1";
+		}
+		if(askedHandicap) {
+			sql+="and a.IsRestricted=1";
+		}
+		
 		try {
 			result=jdbcTemplate.queryForObject(sql, Integer.class);
 		} catch (NullPointerException e) {
+			result=0;
+		}
+		return result;
+	}
+	
+	public Integer getFreeSpotNumber(Reservation reservation) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		int result;		
+		String sql = 
+				"SELECT  min(SpotNumber) " + 
+				"FROM smartparking_db.parkingspot a " + 
+				"WHERE  a.ParkingSpace = ? and SpotNumber not in ( " + 
+				"	SELECT b.ParkingSpot " + 
+				"   FROM smartparking_db.reservation b " + 
+				"   WHERE " + 
+				"		a.ParkingSpace = b.ParkingSpace and " + 
+				"		b.Parking_end is not null and " + 
+				"       ((? between b.Parking_start and b.Parking_end) or (? between b.Parking_start and b.Parking_end))" + 
+				")";
+		
+		if(reservation.isAskedCovered()) {
+			sql+="and a.IsCovered=1";
+		}
+		if(reservation.isAskedHandicap()) {
+			sql+="and a.IsRestricted=1";
+		} else {
+			sql+="and a.IsRestricted=0";
+		}
+		
+		try {
+			result=jdbcTemplate.queryForObject(sql, Integer.class, new Object[] {
+					reservation.getParkingSpaceId(),
+					new Timestamp(dateFormat.parse(reservation.getParkingStart()).getTime()),
+					new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime()),
+				});
+		} catch (ParseException e) {
+			e.printStackTrace();
+			result=-1;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 			result=0;
 		}
 		return result;
@@ -227,5 +278,7 @@ public class ParkSpotDao {
 			return parkSpot;
 		}
 	}
+
+
 
 }

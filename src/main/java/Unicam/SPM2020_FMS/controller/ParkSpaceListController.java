@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
@@ -85,17 +86,22 @@ public class ParkSpaceListController {
 	}
 
 	@RequestMapping(value = "/parkNow", method = RequestMethod.POST)
+	@ResponseBody
 	public String reserveSpotNow (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 				@ModelAttribute("reservartion") Reservation reservation) {
 		
 		String[] bookMessages = {
-				  "We are sorry, it seems that all spot are occupied.",
+				  "We are sorry, it seems that there are no more available spots",
+				  "Error: dates are not correctly specified",
 				  "Error: reservation has not been possible"
-				};
+				};		
+		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
+			bookMessages[0]="We are sorry, no available spot match your requests";
+		}
 
 		User user = (User) session.getAttribute("user");	
 		reservation.setDriver(user.getIdUser());
-		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId()));
+		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId(),reservation.isAskedCovered(), reservation.isAskedHandicap()));
 		reservation.setParkingStart(null);
 		
 		if (reservation.getParkingSpot()==0) {
@@ -110,6 +116,42 @@ public class ParkSpaceListController {
 		} 
 		reservation.setId(result);
 		schedulerService.scheduleReservationExpiring(reservation);
+		
+		return reservation.getParkingSpot().toString();
+	}
+	
+	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
+	@ResponseBody
+	public String reserveSpotForLater (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+				@ModelAttribute("reservartion") Reservation reservation) {
+		
+		String[] bookMessages = {
+				  "We are sorry, it seems that there are no more available spots",
+				  "Error: dates are not correctly specified",
+				  "Error: reservation has not been possible"
+				};		
+		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
+			bookMessages[0]="We are sorry, no available spot match your requests";
+		}
+
+		User user = (User) session.getAttribute("user");	
+		reservation.setDriver(user.getIdUser());
+		reservation.setParkingSpot(spotService.getFreeSpot(reservation));
+		
+		if (reservation.getParkingSpot()<=0) {
+			int result=reservation.getParkingSpot()*-1;
+			return bookMessages[result];
+		}
+		
+		int result=reservationService.addReservation(reservation);			
+
+		if (result<=0) {
+			result*=-1;
+			return bookMessages[result];
+		} 
+		reservation.setId(result);
+		schedulerService.scheduleReservationCheck(reservation);
+		//SCHEDULA CLEANING
 		
 		return reservation.getParkingSpot().toString();
 	}

@@ -11,6 +11,8 @@ public class Reservation {
 	private String parkingStart;
 	private String parkingEnd;
 	private Integer paymentType;
+	private boolean askedCovered;
+	private boolean askedHandicap;
 
 	public Reservation(String licensePlateNumber, Integer parkingSpot, Integer parkingSpaceId, String parkingSpace, String parkingEnd) {		
 		this.licensePlateNumber = licensePlateNumber;
@@ -93,6 +95,22 @@ public class Reservation {
 
 	public void setPaymentType(Integer paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public boolean isAskedCovered() {
+		return askedCovered;
+	}
+
+	public void setAskedCovered(boolean askCovered) {
+		this.askedCovered = askCovered;
+	}
+
+	public boolean isAskedHandicap() {
+		return askedHandicap;
+	}
+
+	public void setAskedHandicap(boolean askHandicap) {
+		this.askedHandicap = askHandicap;
 	}
 		
 }
