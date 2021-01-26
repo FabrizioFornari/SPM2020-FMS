@@ -106,6 +106,8 @@ public class ParkSpotDao {
 		}
 		if(askedHandicap) {
 			sql+="and a.IsRestricted=1";
+		} else {
+			sql+="and a.IsRestricted=0";
 		}
 		
 		try {
