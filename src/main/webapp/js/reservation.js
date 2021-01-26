@@ -24,33 +24,33 @@ $(function() {
 
 
 function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
+	var timer = duration, minutes, seconds;
+	setInterval(function() {
+		minutes = parseInt(timer / 60, 10)
+		seconds = parseInt(timer % 60, 10);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+		minutes = minutes < 10 ? "0" + minutes : minutes;
+		seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.text(minutes + ":" + seconds);
+		display.text(minutes + ":" + seconds);
 
-        if (--timer < 0) {
-        return;
-           
-        }
-    }, 1000);
+		if (--timer < 0) {
+			return;
+
+		}
+	}, 1000);
 }
 
-$("#parkingStartDate").change(function(){
-	
-    $("#parkingEndDate").val($('#parkingStartDate').val());
+$("#parkingStartDate").change(function() {
+
+	$("#parkingEndDate").val($('#parkingStartDate').val());
 
 });
 
-$("#timeList").change(function(){
-	
+$("#timeList").change(function() {
 
-$("#timeList2").val($('#timeList').val());
+
+	$("#timeList2").val($('#timeList').val());
 
 });
 
@@ -67,27 +67,27 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 	var address = button.data('address');
 	var idSpace = button.data('idparkingspace');
 	var img = button.data('image');
-	
-	
-	
-	
+
+
+
+
 	var modal = $(this);
-	
-	
+
+
 	modal.find('#messagesList').html("");
 	modal.find('.modal-body div#spotAssignment').html("");
 
-	modal.find('#licenseSelect').show();
-	modal.find('.modal-footer button').show();
-	
-	
+	modal.find('#licenseSelect, .modal-footer button, .funkyradio').show();
+
+
+
 	if (button.attr("id") == "scheduleButton") {
 		modal.find('.modal-footer button#reserveNowButton').hide();
-			modal.find('.modal-footer button#reserveButton').show();
+		modal.find('.modal-footer button#reserveButton').show();
 		modal.find("#dateSelection").show();
 	} else {
-			modal.find('.modal-footer button#reserveButton').hide();
-				modal.find('.modal-footer button#reserveNowButton').show();
+		modal.find('.modal-footer button#reserveButton').hide();
+		modal.find('.modal-footer button#reserveNowButton').show();
 		modal.find("#dateSelection").hide();
 	}
 
@@ -101,7 +101,7 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 
 $('#reservationModal').on('hide.bs.modal', function(event) {
 
-	if(ws != null){
+	if (ws != null) {
 		ws.close();
 		console.log("Websocket closed");
 	}
@@ -109,59 +109,69 @@ $('#reservationModal').on('hide.bs.modal', function(event) {
 });
 
 
-$('#reserveNowButton').on('click',function(event){
+$('#reserveNowButton').on('click', function(event) {
 
-var modal = $('#reservationModal');
-var spaceId = modal.find('.modal-body input#parkingSpaceId').val();
-var modal = $('#reservationModal');
-var plate = modal.find('.modal-body select#licensePlateNumber').val();
+	var modal = $('#reservationModal');
+	var spaceId = modal.find('.modal-body input#parkingSpaceId').val();
+	var modal = $('#reservationModal');
+	var plate = modal.find('.modal-body select#licensePlateNumber').val();
 
-if (plate == null) {
+	if (plate == null) {
 		modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">Select your license plate, if you don\'t have one please add it <a href="myCars">here</a>  </li>');
 
 		return;
 
 	}
-	
+
 	var reservation = $('#reservationForm').serialize();
-	
+
 	var fiveMinutes = 60 * 5;
-	
-	
-	
+
+
+
 	$.ajax({
 		type: "POST",
 		url: "parkNow",
 		data: reservation,
 		dataType: "text",
 		success: function(data) {
-		
-		if (window.WebSocket) {
-		
-		if (loc.protocol === "https:") {
-		    url = "wss:";
-		} else {
-		    url = "ws:";
-		}
-		url += "//" + loc.host + loc.pathname + "/push/"+data+"/"+spaceId;
-	    ws = new WebSocket(url);
-	    ws.onmessage = function(event) {
-	        var text = event.data;
-	      
-	       alert(text);
-	    };
-	}
-	else {
-		console.log("Browser not supporting WebSocket!");
-	}
-	
-	
+
+			var spot = parseInt(data) || 0;
+
+			if (spot == 0) {
+
+				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
+				modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
+
+				return;
+			}
+
+
+			if (window.WebSocket) {
+
+				if (loc.protocol === "https:") {
+					url = "wss:";
+				} else {
+					url = "ws:";
+				}
+				url += "//" + loc.host + loc.pathname + "/push/" + data + "/" + spaceId;
+				ws = new WebSocket(url);
+				ws.onmessage = function(event) {
+					var text = event.data;
+					modal.modal('toggle');
+					alert(text);
+				};
+			}
+			else {
+				alert("Browser not supporting WebSocket!");
+			}
+
+
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished!</li>");
-			modal.find('#licenseSelect').hide();
-			
-			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter"  src="'+path+'/resources/images/lot-map.png"></img><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
-			modal.find('.modal-footer button').hide();
-		
+			modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
+
+			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter"  src="' + path + '/resources/images/lot-map.png"></img><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
+
 			var display = modal.find('#timer');
 			startTimer(fiveMinutes, display);
 
@@ -171,9 +181,9 @@ if (plate == null) {
 		}
 
 	});
-	
-	
-	
+
+
+
 });
 
 
@@ -182,26 +192,26 @@ $('#reserveButton').on('click', function(event) {
 
 
 	var modal = $('#reservationModal');
-	var date1 =  modal.find('.modal-body input#parkingStartDate').val();
+	var date1 = modal.find('.modal-body input#parkingStartDate').val();
 	var dayFrom = date1.split("-");
 	var day1 = parseInt(dayFrom[2]);
 	var month1 = parseInt(dayFrom[1]);
 	var year1 = parseInt(dayFrom[0]);
-	
+
 	var inputHour1 = modal.find('.modal-body select#timeList').val();
 	var hourFrom = inputHour1.split(":");
 	var hour1 = parseInt(hourFrom[0]);
-	
+
 	var date2 = modal.find('.modal-body input#parkingEndDate').val();
 	var dayTo = date2.split("-");
 	var day2 = parseInt(dayTo[2]);
 	var month2 = parseInt(dayTo[1]);
 	var year2 = parseInt(dayTo[0]);
-	
+
 	var inputHour2 = modal.find('.modal-body select#timeList2').val();
 	var hourTo = inputHour2.split(":");
 	var hour2 = parseInt(hourTo[0]);
-	
+
 	var plate = modal.find('.modal-body select#licensePlateNumber').val();
 
 	if (plate == null) {
@@ -209,11 +219,11 @@ $('#reserveButton').on('click', function(event) {
 
 		return;
 
-	}else if(dayFrom == "" || dayTo == ""){
-		
+	} else if (dayFrom == "" || dayTo == "") {
+
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please fill all the fields!</li>");
-	return;
-		
+		return;
+
 	} else if ((day1 > day2 && month1 == month2) || (month1 > month2 && year1 == year2) || (day1 == day2 && hour1 > hour2)) {
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please insert a valid period of reservation!</li>");
 		return;
@@ -221,14 +231,14 @@ $('#reserveButton').on('click', function(event) {
 
 
 
-	var startDate = date1+' '+inputHour1;
+	var startDate = date1 + ' ' + inputHour1;
 	var dayFrom = modal.find('.modal-body input#parkingStart').val(startDate);
-	var endDate = date2+' '+inputHour2;
+	var endDate = date2 + ' ' + inputHour2;
 	var dayTo = modal.find('.modal-body input#parkingEnd').val(endDate);
-	
+
 	var reservation = $('#reservationForm').serialize();
 	//modal.find('#messagesList').html('<img align="center" src="' + path + '/resources/images/loadingCar.gif" id="loadingImg" />')
-	 
+
 
 	$.ajax({
 		type: "POST",
@@ -237,11 +247,10 @@ $('#reserveButton').on('click', function(event) {
 		dataType: "text",
 		success: function(data) {
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished for !</li>");
-			modal.find('#licenseSelect').hide();
-			modal.find('#dateSelection').hide();
+			modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
 			modal.find('.modal-body div#spotAssignment').html('<h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1>');
-			modal.find('.modal-footer button').hide();
-		
+
+
 
 		},
 		error: function(jqxhr) {

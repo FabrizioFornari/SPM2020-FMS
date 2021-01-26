@@ -222,7 +222,7 @@
 									<form:checkbox path="coveredSpot" id="coveredSpot"
 										name="coveredSpot"  />
 
-									<label for="coveredSpot">Covered spot</label>
+									<label for="coveredSpot">Covered</label>
 								</div>
 
 							</div> &ensp;
@@ -233,7 +233,7 @@
 									<form:checkbox path="handicapSpot" id="handicapSpot"
 										name="handicapSpot"  />
 
-									<label for="handicapSpot">Handicap spot</label>
+									<label for="handicapSpot">Handicap</label>
 								</div>
 
 							</div>
