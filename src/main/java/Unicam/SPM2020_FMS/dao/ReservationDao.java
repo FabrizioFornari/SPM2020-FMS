@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -53,10 +55,12 @@ public class ReservationDao {
 	public int addReservation(Reservation reservation) {
 		
 		int err=0;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		boolean immediate=(reservation.getParkingStart()==null);
 		KeyHolder reservationKeyHolder = new GeneratedKeyHolder();
 	    String sql = "INSERT INTO reservation (`Id_driver`,`LicensePlateNumber`, `ParkingSpot`, `ParkingSpace`, `Parking_start`, `Parking_end`) VALUES (?,?,?,?,?,?)";
 
+	    
 		try {
 			jdbcTemplate.update(connection -> {
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -70,25 +74,32 @@ public class ReservationDao {
 					//end is null
 					ps.setNull(6, 93);												
 				} 
-//				else {
-//					ps.setTimestamp(5, reservation.getParkingStart());
-//					ps.setTimestamp(6, reservation.getParkingEnd());
-//				}
+				else {
+					try {
+						ps.setTimestamp(5, new Timestamp(dateFormat.parse(reservation.getParkingStart()).getTime()), Calendar.getInstance());
+						ps.setTimestamp(6, new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime()), Calendar.getInstance());
+					} catch (ParseException e) {
+						throw new IllegalArgumentException("Wrong date specification");
+					}
+				}
 				return ps;
 			}, reservationKeyHolder);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return -1;
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
 			if (msg.contains("reservation.Id_parkingSpot")) {
 				//parkingstart
-				err=-1;
+				err=-2;
 			} else if (msg.contains("reservation.Id_parkingSpot_2")) {
 				//parkingend
-				err=-1;
+				err=-2;
 			}
 			return err;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return -2;
 		}
 			
 		return reservationKeyHolder.getKey().intValue();
@@ -103,9 +114,22 @@ public class ReservationDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
+		}	
+		return deleted;
+	}
+	
+	public int changeSpot(Integer reservation, Integer newSpot) {
+		String sql = "UPDATE reservation SET ParkingSpot= ? WHERE ID = ? ";
+		int updated;
+		
+		try {
+			updated = jdbcTemplate.update(sql, new Object[] {newSpot, reservation});
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
 		}
 		
-		return deleted;
-	  }
+		return updated;
+	}
 
 }
