@@ -131,7 +131,7 @@ public class ParkSpotDao {
 				"		a.ParkingSpace = b.ParkingSpace and " + 
 				"		b.Parking_end is not null and " + 
 				"       ((? between b.Parking_start and b.Parking_end) or (? between b.Parking_start and b.Parking_end))" + 
-				")";
+				") ";
 		
 		if(reservation.isAskedCovered()) {
 			sql+="and a.IsCovered=1";
@@ -149,10 +149,8 @@ public class ParkSpotDao {
 					new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime()),
 				});
 		} catch (ParseException e) {
-			e.printStackTrace();
 			result=-1;
 		} catch (NullPointerException e) {
-			e.printStackTrace();
 			result=0;
 		}
 		return result;

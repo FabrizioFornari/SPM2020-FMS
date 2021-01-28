@@ -1,6 +1,7 @@
 package Unicam.SPM2020_FMS.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
 
@@ -8,12 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -127,6 +132,19 @@ public class ParkSpaceListController {
 		schedulerService.scheduleReservationExpiring(reservation);
 		
 		return reservation.getParkingSpot().toString();
+	}
+	
+	@RequestMapping(value = "/getMapSrc", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+	@ResponseBody
+	public String getMapSrc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam("filename") String filename) throws IOException {
+		
+		byte[] payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		String extension=FilenameUtils.getExtension(filename).toLowerCase();
+		String prefix="data:image/"+extension+";base64,";
+		
+		return  prefix+Base64.getEncoder().encodeToString(payload);
+		
 	}
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
