@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.TaskScheduler;
 
+import Unicam.SPM2020_FMS.controller.DriverWebSocketController;
 import Unicam.SPM2020_FMS.controller.ParkingWebSocketController;
 import Unicam.SPM2020_FMS.controller.PolicemanWebSocketController;
 import Unicam.SPM2020_FMS.model.Reservation;
@@ -42,7 +43,11 @@ public class SchedulerService implements ApplicationContextAware {
 	public void schedulePoliceChecking() {
 		myScheduler.scheduleAtFixedRate(new CheckNonConformities(), 30 * 1000);
 	}
-
+	
+	public void scheduleReservationExpiring(Reservation reservation) {
+		myScheduler.schedule(new ReservationExpiring(reservation), Instant.now().plus(1,ChronoUnit.MINUTES));
+	}
+	
 	public void scheduleReservationCheck(Reservation reservation) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		try {
@@ -54,8 +59,15 @@ public class SchedulerService implements ApplicationContextAware {
 		}
 	}
 	
-	public void scheduleReservationExpiring(Reservation reservation) {
-		myScheduler.schedule(new ReservationExpiring(reservation), Instant.now().plus(1,ChronoUnit.MINUTES));
+	public void scheduleReservationClosing(Reservation reservation) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		try {
+			Instant startTime = dateFormat.parse(reservation.getParkingStart()).toInstant();
+			startTime=startTime.plus(30, ChronoUnit.MINUTES);
+			myScheduler.schedule(new CloseUnusedBooking(reservation), startTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	class CheckNonConformities implements Runnable {
@@ -111,14 +123,32 @@ public class SchedulerService implements ApplicationContextAware {
 				int newSpot= spotService.getFreeSpot(reservation.getParkingSpaceId(), reservation.isAskedCovered(), reservation.isAskedHandicap());
 				if(newSpot==0) {
 					reservationService.deleteReservation(reservation.getId());
-					//ParkingWebSocketController.sendExpiredMessage(spot,space);//EDIT
 				} else {
 					reservationService.changeSpot(reservation.getId(), newSpot);
-					//ParkingWebSocketController.sendExpiredMessage(spot,space);//EDIT
 				}
+				DriverWebSocketController.sendBookChangedMessage(reservation.getDriver(),newSpot);
 			}
 		}
 
 	}
 
+	class CloseUnusedBooking implements Runnable {
+		
+		private Reservation reservation;
+
+		public CloseUnusedBooking(Reservation reservation) {
+			this.reservation=reservation;
+		}
+
+		@Override
+		public void run() {
+			int spot=reservation.getParkingSpot();
+			int space=reservation.getParkingSpaceId();
+			if(!spotService.isBusy(spot, space)) {
+				reservationService.closeReservation(reservation.getId());
+				DriverWebSocketController.sendBookClosedMessage(reservation.getDriver());
+			}
+		}
+
+	}
 }
