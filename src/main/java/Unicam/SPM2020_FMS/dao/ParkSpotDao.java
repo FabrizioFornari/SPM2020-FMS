@@ -102,7 +102,7 @@ public class ParkSpotDao {
 				"    WHERE a.ParkingSpace=b.ParkingSpace and b.Parking_start between (now() - INTERVAL 30 MINUTE) and (now() + INTERVAL 60 MINUTE) " + 
 				") ";
 		if(askedCovered) {
-			sql+="and a.IsCovered=1";
+			sql+="and a.IsCovered=1 ";
 		}
 		if(askedHandicap) {
 			sql+="and a.IsRestricted=1";
@@ -114,6 +114,9 @@ public class ParkSpotDao {
 			result=jdbcTemplate.queryForObject(sql, Integer.class);
 		} catch (NullPointerException e) {
 			result=0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result=-2;
 		}
 		return result;
 	}
@@ -129,12 +132,12 @@ public class ParkSpotDao {
 				"   FROM smartparking_db.reservation b " + 
 				"   WHERE " + 
 				"		a.ParkingSpace = b.ParkingSpace and " + 
-				"		b.Parking_end is not null and " + 
-				"       ((? between b.Parking_start and b.Parking_end) or (? between b.Parking_start and b.Parking_end))" + 
+				"		b.Parking_end is not null and b.Occupancy_end is null and " + 
+				"       ((? between b.Parking_start and b.Parking_end) or (? between b.Parking_start and b.Parking_end)) " + 
 				") ";
 		
 		if(reservation.isAskedCovered()) {
-			sql+="and a.IsCovered=1";
+			sql+="and a.IsCovered=1 ";
 		}
 		if(reservation.isAskedHandicap()) {
 			sql+="and a.IsRestricted=1";
@@ -152,6 +155,9 @@ public class ParkSpotDao {
 			result=-1;
 		} catch (NullPointerException e) {
 			result=0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result=-2;
 		}
 		return result;
 	}

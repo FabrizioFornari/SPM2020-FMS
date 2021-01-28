@@ -45,7 +45,7 @@ public class SchedulerService implements ApplicationContextAware {
 	}
 	
 	public void scheduleReservationExpiring(Reservation reservation) {
-		myScheduler.schedule(new ReservationExpiring(reservation), Instant.now().plus(1,ChronoUnit.MINUTES));
+		myScheduler.schedule(new ReservationExpiring(reservation), Instant.now().plus(5,ChronoUnit.MINUTES));
 	}
 	
 	public void scheduleReservationCheck(Reservation reservation) {

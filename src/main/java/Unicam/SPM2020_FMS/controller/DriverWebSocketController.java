@@ -11,7 +11,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/ParkSpaces/push/{idDriver}")
+@ServerEndpoint("/Driver/push/{idDriver}")
 public class DriverWebSocketController {
 	
     private static final Set<Session> SESSIONS = ConcurrentHashMap.newKeySet();
