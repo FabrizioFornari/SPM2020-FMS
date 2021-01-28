@@ -63,8 +63,7 @@
 						<div class="section-title text-center ">
 							<h3 class="top-c-sep">Find your parking space</h3>
 							<p>You can choose the parking space that is most suitable for
-								you, once pressed the button "reserve" the system will show you
-								your spot.</p>
+								you. Press "Reserve" if you want to schedule your parking time, "Park now" otherwise.</p>
 						</div>
 					</div>
 				</div>
@@ -186,12 +185,12 @@
 						<div class="form-group" id="dateSelection">
 
 							From:
-							<form:input path="parkingStart" type="hidden" class="input" />
+					
 							<input type="date" id="parkingStartDate" class="input"
 								autocomplete /><br> <select id="timeList" class="input">
 
 							</select> To:
-							<form:input path="parkingEnd" type="hidden" class="input" />
+					
 							<input type="date" id="parkingEndDate" class="input" autocomplete />
 							<br> <select id="timeList2" class="input">
 

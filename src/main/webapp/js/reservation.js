@@ -189,7 +189,7 @@ $('#reserveNowButton').on('click', function(event) {
 
 		},
 		error: function(jqxhr) {
-			$("#messagesList").text(jqxhr.responseText); // @text = response error, it is will be errors: 324, 500, 404 or anythings else
+			modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + jqxhr.responseText + '</li>'); // @text = response error, it is will be errors: 324, 500, 404 or anythings else
 		}
 
 	});
@@ -204,26 +204,19 @@ $('#reserveButton').on('click', function(event) {
 
 
 	var modal = $('#reservationModal');
+	var currentDate = new Date();
 	var date1 = modal.find('.modal-body input#parkingStartDate').val();
-	var dayFrom = date1.split("-");
-	var day1 = parseInt(dayFrom[2]);
-	var month1 = parseInt(dayFrom[1]);
-	var year1 = parseInt(dayFrom[0]);
-
 	var inputHour1 = modal.find('.modal-body select#timeList').val();
-	var hourFrom = inputHour1.split(":");
-	var hour1 = parseInt(hourFrom[0]);
+	
+	var dateFrom = new Date(date1 + " " + inputHour1);
+
 
 	var date2 = modal.find('.modal-body input#parkingEndDate').val();
-	var dayTo = date2.split("-");
-	var day2 = parseInt(dayTo[2]);
-	var month2 = parseInt(dayTo[1]);
-	var year2 = parseInt(dayTo[0]);
-
 	var inputHour2 = modal.find('.modal-body select#timeList2').val();
-	var hourTo = inputHour2.split(":");
-	var hour2 = parseInt(hourTo[0]);
 
+	var dateTo = new Date(date2 + " " + inputHour2);
+	
+	
 	var plate = modal.find('.modal-body select#licensePlateNumber').val();
 
 	if (plate == null) {
@@ -231,30 +224,30 @@ $('#reserveButton').on('click', function(event) {
 
 		return;
 
-	} else if (dayFrom == "" || dayTo == "") {
+	// Check if the user has inserted the date for the reservation
+	} else if (date1 == "" || date2 == "") {
 
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please fill all the fields!</li>");
 		return;
 
-	} else if ((day1 > day2 && month1 == month2) || (month1 > month2 && year1 == year2) || (day1 == day2 && hour1 > hour2)) {
+	
+	} else if (dateFrom < currentDate || dateFrom > dateTo){
+		
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please insert a valid period of reservation!</li>");
 		return;
+		
 	}
 
 
-
-	var startDate = date1 + ' ' + inputHour1;
-	var dayFrom = modal.find('.modal-body input#parkingStart').val(startDate);
-	var endDate = date2 + ' ' + inputHour2;
-	var dayTo = modal.find('.modal-body input#parkingEnd').val(endDate);
-
-	var reservation = $('#reservationForm').serialize();
-
+	var reservation = $('#reservationForm').serializeArray();
+	reservation.push({name: "parkingStart", value: date1 + ' ' + inputHour1});
+	reservation.push({name: "parkingEnd", value: date2 + ' ' + inputHour2});
+	
 
 	$.ajax({
 		type: "POST",
 		url: "reserve",
-		data: reservation,
+		data: $.param(reservation),
 		dataType: "text",
 		success: function(data) {
 
@@ -276,7 +269,7 @@ $('#reserveButton').on('click', function(event) {
 
 		},
 		error: function(jqxhr) {
-			$("#messagesList").text(jqxhr.responseText); // @text = response error, it is will be errors: 324, 500, 404 or anythings else
+			modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + jqxhr.responseText + '</li>'); // @text = response error, it is will be errors: 324, 500, 404 or anythings else
 		}
 
 	});
