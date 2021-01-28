@@ -93,4 +93,28 @@ body {
 		</div>
 	</nav>
 </body>
+<script type="text/javascript">
+var id = "${user.getIdUser()}";
+var loc = window.location, url, ws;
+if (window.WebSocket) {
+
+	if (loc.protocol === "https:") {
+		url = "wss:";
+	} else {
+		url = "ws:";
+	}
+	url += "//" + loc.host +"/SPM2020-FMS/Driver/push/" +id;
+	ws = new WebSocket(url);
+
+	ws.onmessage = function(event) {
+		var text = event.data;
+	
+		alert(text);
+	};
+}
+else {
+	alert("Browser not supporting WebSocket!");
+}
+
+</script>
 </html>

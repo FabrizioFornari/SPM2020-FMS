@@ -219,8 +219,8 @@
 								<div class="funkyradio-default">
 
 
-									<form:checkbox path="coveredSpot" id="coveredSpot"
-										name="coveredSpot"  />
+									<form:checkbox path="askedCovered" id="coveredSpot"
+										name="askedCovered"  />
 
 									<label for="coveredSpot">Covered</label>
 								</div>
@@ -230,8 +230,8 @@
 								<div class="funkyradio-default">
 
 
-									<form:checkbox path="handicapSpot" id="handicapSpot"
-										name="handicapSpot"  />
+									<form:checkbox path="askedHandicap" id="handicapSpot"
+										name="askedHandicap"  />
 
 									<label for="handicapSpot">Handicap</label>
 								</div>
@@ -288,8 +288,10 @@
 	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}']${!tagStatus.last ? ',' : ''}
 	        </c:forEach>
 		};
-	var loc = window.location, url, ws;
+	var locParkNow = window.location, urlParkNow, wsParkNow;
 	var path = "${pageContext.request.contextPath}";	
+	var imagePath = "${uploadDir}";
+	var imageToShow = "";
 	var iconPath ="${pageContext.request.contextPath}/resources/images/parking-icon-red.png";
 	</script>
 <script type="text/javascript"

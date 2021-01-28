@@ -66,7 +66,7 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 	var name = button.data('name');
 	var address = button.data('address');
 	var idSpace = button.data('idparkingspace');
-	var img = button.data('image');
+	imageToShow = button.data('image');
 
 
 
@@ -101,9 +101,9 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 
 $('#reservationModal').on('hide.bs.modal', function(event) {
 
-	if (ws != null) {
-		ws.close();
-		console.log("Websocket closed");
+	if (wsParkNow != null) {
+		wsParknow.close();
+
 	}
 
 });
@@ -149,14 +149,16 @@ $('#reserveNowButton').on('click', function(event) {
 
 			if (window.WebSocket) {
 
-				if (loc.protocol === "https:") {
-					url = "wss:";
+				if (locParkNow.protocol === "https:") {
+					urlParkNow = "wss:";
 				} else {
-					url = "ws:";
+					urlParkNow = "ws:";
 				}
-				url += "//" + loc.host + loc.pathname + "/push/" + data + "/" + spaceId;
-				ws = new WebSocket(url);
-				ws.onmessage = function(event) {
+				urlParkNow += "//" + locParkNow.host + locParkNow.pathname + "/push/" + data + "/" + spaceId;
+				wsParkNow = new WebSocket(urlParkNow);
+
+
+				wsParkNow.onmessage = function(event) {
 					var text = event.data;
 					modal.modal('toggle');
 					alert(text);
@@ -167,10 +169,20 @@ $('#reserveNowButton').on('click', function(event) {
 			}
 
 
+
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished!</li>");
 			modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
 
-			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter"  src="' + path + '/resources/images/lot-map.png"></img><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
+			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
+			$.ajax({
+				url: 'getMapSrc',
+				type: 'GET',
+				data: ({ filename: imageToShow }),
+				success: function(data2) {
+					document.getElementById("parkMap").src = data2;
+				}
+			});
+
 
 			var display = modal.find('#timer');
 			startTimer(fiveMinutes, display);
@@ -237,7 +249,6 @@ $('#reserveButton').on('click', function(event) {
 	var dayTo = modal.find('.modal-body input#parkingEnd').val(endDate);
 
 	var reservation = $('#reservationForm').serialize();
-	//modal.find('#messagesList').html('<img align="center" src="' + path + '/resources/images/loadingCar.gif" id="loadingImg" />')
 
 
 	$.ajax({
@@ -246,8 +257,19 @@ $('#reserveButton').on('click', function(event) {
 		data: reservation,
 		dataType: "text",
 		success: function(data) {
-			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished for !</li>");
-			modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
+
+			var spot = parseInt(data) || 0;
+
+			if (spot == 0) {
+
+				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
+				modal.find('#licenseSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
+
+				return;
+			}
+
+			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished! (Check your list for more details)</li>");
+			modal.find('#licenseSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
 			modal.find('.modal-body div#spotAssignment').html('<h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1>');
 
 
@@ -258,6 +280,9 @@ $('#reserveButton').on('click', function(event) {
 		}
 
 	});
+
+
+
 
 
 });
