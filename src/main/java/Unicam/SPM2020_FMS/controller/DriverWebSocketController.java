@@ -34,7 +34,7 @@ public class DriverWebSocketController {
             for (Session session : SESSIONS) {
                 if (session.equals(sessionsMap.get(sessionKey)) && session.isOpen()) {
                 	if(newSpot==0) {
-                		session.getAsyncRemote().sendText("We're sorry, your reserved spot is no more available please if you still need it please try the park now function");
+                		session.getAsyncRemote().sendText("We're sorry, your reserved spot is no more available if you still need it please try the park now function");
                 	} else {
                 		session.getAsyncRemote().sendText("Your reservation is changed, your new spot is " + newSpot);
                 	}

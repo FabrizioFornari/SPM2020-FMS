@@ -17,6 +17,7 @@ public class ParkingSpace {
 	private Integer coveredSpots;
 	private Integer handicapSpots;
 	private boolean guarded = false;
+	private float parkingFee;  
 	private String specCovered;
 	private String specHandicap;
 	private String imageName;
@@ -30,7 +31,7 @@ public class ParkingSpace {
 	}
 
 	public ParkingSpace(Integer idParkingSpace,String city, String name, String address, String coordinates, Integer spotsCapacity,
-			Integer coveredSpots, Integer handicapSpots, boolean guarded, String specCovered, String specHandicap, String image) {
+			Integer coveredSpots, Integer handicapSpots, boolean guarded, float parkingFee, String specCovered, String specHandicap, String image) {
 		
 		super();
 		this.idParkingSpace = idParkingSpace;
@@ -42,6 +43,7 @@ public class ParkingSpace {
 		this.coveredSpots = coveredSpots;
 		this.handicapSpots = handicapSpots;
 		this.guarded = guarded;
+		this.parkingFee = parkingFee;
 		this.specCovered = specCovered;
 		this.specHandicap = specHandicap;
 		this.imageName = image;
@@ -136,6 +138,14 @@ public class ParkingSpace {
 
 	public void setGuarded(boolean guarded) {
 		this.guarded = guarded;
+	}
+
+	public float getParkingFee() {
+		return parkingFee;
+	}
+
+	public void setParkingFee(float parkingFee) {
+		this.parkingFee = parkingFee;
 	}
 
 	public String getSpecHandicap() {
