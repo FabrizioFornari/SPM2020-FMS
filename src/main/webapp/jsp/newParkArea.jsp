@@ -142,6 +142,19 @@
 
 
 				</div>
+				
+				<!-- form-group// -->
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-money-bill-alt"></i>
+						</span>
+					</div>
+					<form:input path="parkingFee" name="parkingFee"
+						id="parkingFee" class="input"
+						placeholder="Fee" type="number" step="0.01" />
+
+
+				</div>
 
 				<!-- form-group// -->
 				<div class="form-group input-group">

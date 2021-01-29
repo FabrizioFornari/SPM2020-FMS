@@ -112,9 +112,12 @@
 														Handicap:
 														${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
 													<c:if test="${parkSpace.isGuarded() == true}">
-														<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-															Is guarded</li>
+														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2"></i>
+															<strong>Is guarded</strong></li>
 													</c:if>
+														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2" ></i>
+													<strong>	Fee:
+														${parkSpace.getParkingFee()} €</strong></li>
 												</ul>
 											</div>
 										</div>
@@ -284,7 +287,7 @@
 	var data = {
 	        <c:forEach var="parkSpace" items="${parkSpaceList}"
 				varStatus="tagStatus">
-	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}']${!tagStatus.last ? ',' : ''}
+	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}','${parkSpace.getParkingFee()}','${parkSpace.isGuarded()}']${!tagStatus.last ? ',' : ''}
 	        </c:forEach>
 		};
 	var locParkNow = window.location, urlParkNow, wsParkNow;

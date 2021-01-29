@@ -51,7 +51,7 @@ CREATE TABLE `parkingspace` (
   `Covered_spots` int NOT NULL,
   `Handicap_spots` int NOT NULL,
   `IsGuarded` tinyint NOT NULL,
-  `Parking_fee` decimal(2,2) NOT NULL,
+  `Parking_fee` decimal(4,2) NOT NULL,
   `Image` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Coordinates` (`Coordinates`)
