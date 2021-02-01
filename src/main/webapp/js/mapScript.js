@@ -33,8 +33,8 @@ function addMarkersToMap(map) {
 				    '<div><a href="http://maps.google.com/maps?q='+data[key][0]+'" target="_blank">'+data[key][2]+'</a>' +
 				    '</div><div >Address: '+data[key][3]+'<br>Overall: '+data[key][4]+'/'+data[key][5]+'<br>Covered: '+data[key][6]+'/'+data[key][7]+' <br>Handicap: '+data[key][8]+'/'+data[key][9]+'<br><strong style="color:#d1ec15;">Guarded: '+isGuarded+'</strong><br><strong style="color:#d1ec15;">Fee: '+data[key][11]+' €</strong></div><div class="job-right my-4 flex-shrink-0">'+
 					'<div class="job-right my-4 flex-shrink-0">'+
-					'<button type="button" class="btn d-block  d-sm-inline-block btn-light" data-toggle="modal" id="parkNowButton"  data-image="'+data[key][9]+'" data-city="'+data[key][1]+'" data-name="'+data[key][2]+'" data-address="'+data[key][3]+'" data-idparkingspace="'+key+'" data-target="#reservationModal">Park now</button>&emsp;'+
-					'<button type="button" class="btn d-block  d-sm-inline-block btn-light" data-toggle="modal" id="scheduleButton"  data-image="'+data[key][9]+'" data-city="'+data[key][1]+'" data-name="'+data[key][2]+'" data-address="'+data[key][3]+'" data-idparkingspace="'+key+'" data-target="#reservationModal">Reserve</button></div>');
+					'<button type="button" class="btn d-block  d-sm-inline-block btn-light" data-toggle="modal" id="parkNowButton"  data-image="'+data[key][10]+'" data-city="'+data[key][1]+'" data-name="'+data[key][2]+'" data-address="'+data[key][3]+'" data-idparkingspace="'+key+'" data-target="#reservationModal">Park now</button>&emsp;'+
+					'<button type="button" class="btn d-block  d-sm-inline-block btn-light" data-toggle="modal" id="scheduleButton"  data-image="'+data[key][10]+'" data-city="'+data[key][1]+'" data-name="'+data[key][2]+'" data-address="'+data[key][3]+'" data-idparkingspace="'+key+'" data-target="#reservationModal">Reserve</button></div>');
 		});
 	
 	 

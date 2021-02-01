@@ -102,7 +102,7 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 $('#reservationModal').on('hide.bs.modal', function(event) {
 
 	if (wsParkNow != null) {
-		wsParknow.close();
+		wsParkNow.close();
 
 	}
 
