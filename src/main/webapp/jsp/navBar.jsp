@@ -75,6 +75,9 @@ body {
 					<li class="nav-item"><a class="nav-link"
 						href="ParksManagement"><span class="fas fa-parking"></span>
 							Manage Parking spaces</a></li>
+							<li class="nav-item"><a class="nav-link"
+						href="Statistics"><span class="fas fa-chart-line"></span>
+							Statistics</a></li>
 				</c:if>
 				<c:if test="${user.getUserType() == 'Policeman' }">
 					<li class="nav-item"><a class="nav-link"
