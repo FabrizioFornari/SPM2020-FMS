@@ -25,7 +25,7 @@ public class ParkSpaceDao {
   JdbcTemplate jdbcTemplate;
 	  
   public int add(ParkingSpace newParkSpace) {
-    String sql = "INSERT INTO parkingspace (`City`,`Name`, `Address`, `Coordinates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`,`Image`) VALUES (?,?,?,?,?,?,?,?,?)";
+    String sql = "INSERT INTO parkingspace (`City`,`Name`, `Address`, `Coordinates`, `Spots_capacity`, `Covered_spots`, `Handicap_spots`, `IsGuarded`,`Image`,`Parking_fee`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 	KeyHolder parkSpaceKeyHolder = new GeneratedKeyHolder();
 	int err=0;
@@ -42,6 +42,7 @@ public class ParkSpaceDao {
 			ps.setObject(7, newParkSpace.getHandicapSpots());
 			ps.setObject(8, newParkSpace.isGuarded());
 			ps.setObject(9, newParkSpace.getImageName());
+			ps.setObject(10, newParkSpace.getParkingFee());
 			return ps;
 		}, parkSpaceKeyHolder);
 	} catch (org.springframework.dao.DuplicateKeyException e) {
@@ -64,14 +65,13 @@ public class ParkSpaceDao {
 
 	List<ParkingSpace> parkSpaceList = jdbcTemplate.query(sql, new ParkSpaceMapper());
 
-	return parkSpaceList;
-	
+	return parkSpaceList;	
   }
    
   public int edit(ParkingSpace parkingSpace) {
 	  
-	    String sql = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Image = ? WHERE ID = ? ";
-	    String sql_no_img = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ? WHERE ID = ? ";
+	    String sql = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Parking_fee = ?, Image = ? WHERE ID = ? ";
+	    String sql_no_img = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Parking_fee = ? WHERE ID = ? ";
 
 		int updated=0;
 
@@ -88,6 +88,7 @@ public class ParkSpaceDao {
 							parkingSpace.getCoveredSpots(),
 							parkingSpace.getHandicapSpots(),
 							parkingSpace.isGuarded(),
+							parkingSpace.getParkingFee(),
 							parkingSpace.getIdParkingSpace()
 						}
 				);
@@ -104,6 +105,7 @@ public class ParkSpaceDao {
 							parkingSpace.getHandicapSpots(),
 							parkingSpace.isGuarded(),
 							parkingSpace.getImageName(),
+							parkingSpace.getParkingFee(),
 							parkingSpace.getIdParkingSpace()
 						}
 				);
@@ -120,6 +122,18 @@ public class ParkSpaceDao {
 		return updated;
   }
 
+  public int delete(Integer idParkingSpace) {
+	String sql = "DELETE FROM parkingspace WHERE ID = ? ";
+	int deleted;
+
+	try {
+		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
+	} catch (Exception e) {
+		return -1;
+	}
+	return deleted;
+  }
+  
   class ParkSpaceMapper implements RowMapper<ParkingSpace> {
 
 	public ParkingSpace mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -134,6 +148,7 @@ public class ParkSpaceDao {
 			rs.getInt("Covered_spots"),
 			rs.getInt("Handicap_spots"),
 			rs.getBoolean("IsGuarded"),
+			rs.getFloat("Parking_fee"),
 			null,
 			null,
 			rs.getString("Image")
@@ -142,18 +157,6 @@ public class ParkSpaceDao {
 
 		return parkSpace;
 	}
-  }
-
-  public int delete(Integer idParkingSpace) {
-	String sql = "DELETE FROM parkingspace WHERE ID = ? ";
-	int deleted;
-
-	try {
-		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
-	} catch (Exception e) {
-		return -1;
-	}
-	return deleted;
   }
   
 }

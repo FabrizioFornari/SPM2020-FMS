@@ -178,7 +178,7 @@ public class ParkSpaceListController {
 		} 
 		reservation.setId(result);
 		schedulerService.scheduleReservationCheck(reservation);
-		//SCHEDULA CLEANING
+		schedulerService.scheduleReservationClosing(reservation);
 		
 		return reservation.getParkingSpot().toString();
 	}

@@ -103,11 +103,13 @@
 		}
 		url += "//" + loc.host + loc.pathname + "/push";
 	    ws = new WebSocket(url);
+	 
 	    ws.onmessage = function(event) {
 	        var text = event.data;
 	        modifyHtml(text);
 	       
 	    };
+	    
 	}
 	else {
 		console.log("Browser not supporting WebSocket!");

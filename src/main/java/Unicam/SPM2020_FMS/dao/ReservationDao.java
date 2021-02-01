@@ -131,5 +131,20 @@ public class ReservationDao {
 		
 		return updated;
 	}
+	
+
+	public int closeReservation(Integer id) {
+		int updated;
+	    String sql = "UPDATE reservation SET Occupancy_start=Parking_start, Occupancy_end=ADDTIME(Parking_start, SEC_TO_TIME(30*60)) WHERE ID = ?";
+		
+		try {
+			updated = jdbcTemplate.update(sql, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return updated;
+	}
 
 }

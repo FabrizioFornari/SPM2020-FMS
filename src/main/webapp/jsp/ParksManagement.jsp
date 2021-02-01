@@ -45,16 +45,19 @@
 							data-target="#parkSpace${parkSpaceList.indexOf(parkSpace)+1}">
 							Edit</button> <!-- Button trigger modal for delete -->
 						<button type="button" class="btn btn-danger" data-toggle="modal"
-							data-target="#deleteModal${parkSpaceList.indexOf(parkSpace)+1}">Delete</button> <!-- Modal for delete -->
-						<div class="modal fade" id="deleteModal${parkSpaceList.indexOf(parkSpace)+1}" tabindex="-1"
-							role="dialog" aria-labelledby="deleteModalLabel${parkSpaceList.indexOf(parkSpace)+1}"
+							data-target="#deleteModal${parkSpaceList.indexOf(parkSpace)+1}">Delete</button>
+						<!-- Modal for delete -->
+						<div class="modal fade"
+							id="deleteModal${parkSpaceList.indexOf(parkSpace)+1}"
+							tabindex="-1" role="dialog"
+							aria-labelledby="deleteModalLabel${parkSpaceList.indexOf(parkSpace)+1}"
 							aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
-									
-									<div class="modal-body" style="color:black;">
-										<h4>Are you
-											sure to delete this parking space?</h4>( This action will be permanent! )
+
+									<div class="modal-body" style="color: black;">
+										<h4>Are you sure to delete this parking space?</h4>
+										( This action will be permanent! )
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
@@ -62,8 +65,8 @@
 										<form:form modelAttribute="parkSpaceToDelete"
 											action="DeleteParkSpace" method="post">
 											<form:input path="idParkingSpace" name="idParkingSpace"
-													value="${parkSpace.idParkingSpace}" class="input"
-													type="hidden" />
+												value="${parkSpace.idParkingSpace}" class="input"
+												type="hidden" />
 											<form:button id="delete${parkSpaceList.indexOf(parkSpace)+1}"
 												type="submit" class="btn btn-danger">Delete</form:button>
 										</form:form>
@@ -233,6 +236,21 @@
 
 											</div>
 
+
+											<!-- form-group// -->
+											<div class="form-group input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fas fa-money-bill-alt"></i>
+													</span>
+												</div>
+												<form:input path="parkingFee" name="parkingFee"
+													id="parkingFee" class="input" placeholder="Fee"
+													type="number" step="0.01" />
+
+
+											</div>
+
 											<!-- form-group// -->
 											<div class="form-group input-group">
 
@@ -292,15 +310,15 @@
 		aria-labelledby="messageModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-	
+
 				<div class="modal-body">
-				
+
 					<div id="messageAlert" class="alert " role="alert">
 						<h3>${message}</h3>
 					</div>
 
 				</div>
-			
+
 			</div>
 		</div>
 	</div>
@@ -316,18 +334,16 @@
 		$("#messageAlert").addClass("alert-success");
 		$("#messageModal").modal('show');
 
-	}else if (message.startsWith("Warning")) {
+	} else if (message.startsWith("Warning")) {
 
 		$("#messageAlert").addClass("alert-warning");
 		$("#messageModal").modal('show');
-		
+
 	} else if (message != "") {
 
 		$("#messageAlert").addClass("alert-danger");
 		$("#messageModal").modal('show');
 	}
-	
-	
 </script>
 
 

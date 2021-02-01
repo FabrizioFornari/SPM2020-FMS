@@ -63,8 +63,7 @@
 						<div class="section-title text-center ">
 							<h3 class="top-c-sep">Find your parking space</h3>
 							<p>You can choose the parking space that is most suitable for
-								you, once pressed the button "reserve" the system will show you
-								your spot.</p>
+								you. Press "Reserve" if you want to schedule your parking time, "Park now" otherwise.</p>
 						</div>
 					</div>
 				</div>
@@ -113,9 +112,12 @@
 														Handicap:
 														${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
 													<c:if test="${parkSpace.isGuarded() == true}">
-														<li class="mr-md-4"><i class="zmdi zmdi-time mr-2"></i>
-															Is guarded</li>
+														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2"></i>
+															<strong>Is guarded</strong></li>
 													</c:if>
+														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2" ></i>
+													<strong>	Fee:
+														${parkSpace.getParkingFee()} €</strong></li>
 												</ul>
 											</div>
 										</div>
@@ -186,12 +188,12 @@
 						<div class="form-group" id="dateSelection">
 
 							From:
-							<form:input path="parkingStart" type="hidden" class="input" />
+					
 							<input type="date" id="parkingStartDate" class="input"
 								autocomplete /><br> <select id="timeList" class="input">
 
 							</select> To:
-							<form:input path="parkingEnd" type="hidden" class="input" />
+					
 							<input type="date" id="parkingEndDate" class="input" autocomplete />
 							<br> <select id="timeList2" class="input">
 
@@ -285,10 +287,10 @@
 	var data = {
 	        <c:forEach var="parkSpace" items="${parkSpaceList}"
 				varStatus="tagStatus">
-	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}']${!tagStatus.last ? ',' : ''}
+	            ${parkSpace.getIdParkingSpace()}: ['${parkSpace.getCoordinates()}',"${parkSpace.getCity()}","${parkSpace.getName()}", "${parkSpace.getAddress()}",'${parkSpace.getFreeAll()}','${parkSpace.getSpotsCapacity()}','${parkSpace.getFreeCovered()}','${parkSpace.getCoveredSpots()}','${parkSpace.getFreeHandicap()}','${parkSpace.getHandicapSpots()}','${parkSpace.getImageName()}','${parkSpace.getParkingFee()}','${parkSpace.isGuarded()}']${!tagStatus.last ? ',' : ''}
 	        </c:forEach>
 		};
-	var loc = window.location, url, ws;
+	var locParkNow = window.location, urlParkNow, wsParkNow;
 	var path = "${pageContext.request.contextPath}";	
 	var imagePath = "${uploadDir}";
 	var imageToShow = "";

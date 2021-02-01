@@ -28,5 +28,9 @@ public class ReservationService {
 	public int changeSpot(Integer reservation, Integer newSpot) {
 		return reservationsDao.changeSpot(reservation, newSpot);
 	}
+
+	public int closeReservation(Integer id) {
+		return reservationsDao.closeReservation(id);	
+	}
 	
 }
