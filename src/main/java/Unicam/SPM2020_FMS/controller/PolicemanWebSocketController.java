@@ -36,8 +36,7 @@ public class PolicemanWebSocketController {
     public static void sendAll(String illegallyOccupiedList) {
         synchronized (SESSIONS) {
             for (Session session : SESSIONS) {
-                if (session.isOpen()) {
-                	
+                if (session.isOpen()) {                	
                     session.getAsyncRemote().sendText(illegallyOccupiedList);
                 }
             }

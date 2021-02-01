@@ -24,7 +24,7 @@ public class ParkSpaceService {
 	return parkSpaceDao.edit(parkingSpace);
   }
 
-public int deleteParkSpace(Integer idParkingSpace) {
+  public int deleteParkSpace(Integer idParkingSpace) {
 	return parkSpaceDao.delete(idParkingSpace);
 	
 }

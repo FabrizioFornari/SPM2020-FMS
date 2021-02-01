@@ -2,6 +2,9 @@ package Unicam.SPM2020_FMS.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import Unicam.SPM2020_FMS.model.ParkingSpot;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.SpotIllegallyOccupied;
 
 public class ParkSpotDao {
@@ -85,23 +89,83 @@ public class ParkSpotDao {
 
 		return res;
 	}
-
-	class ParkSpotMapper implements RowMapper<ParkingSpot> {
-
-		public ParkingSpot mapRow(ResultSet rs, int arg1) throws SQLException {
-
-			ParkingSpot parkSpot = new ParkingSpot(
-					rs.getInt("SpotNumber"),
-					rs.getInt("ParkingSpace"),
-					rs.getInt("IsOccupied"),
-					rs.getInt("IsRestricted"),
-					rs.getInt("IsCovered")
-			);
-
-			return parkSpot;
+	
+	public Integer getFreeSpotNumber(Integer parkingSpace, Boolean askedCovered, Boolean askedHandicap) {
+		
+		int result;		
+		String sql = 
+				"SELECT  min(SpotNumber) " + 
+				"FROM smartparking_db.parkingspot a " + 
+				"WHERE  a.ParkingSpace = '" + parkingSpace + "' and IsOccupied = 0 and SpotNumber not in ( " + 
+				"	 SELECT b.ParkingSpot " + 
+				"    FROM smartparking_db.reservation b " + 
+				"    WHERE a.ParkingSpace=b.ParkingSpace and b.Parking_start between (now() - INTERVAL 30 MINUTE) and (now() + INTERVAL 60 MINUTE) " + 
+				") ";
+		if(askedCovered) {
+			sql+="and a.IsCovered=1";
 		}
+		if(askedHandicap) {
+			sql+="and a.IsRestricted=1";
+		} else {
+			sql+="and a.IsRestricted=0";
+		}
+		
+		try {
+			result=jdbcTemplate.queryForObject(sql, Integer.class);
+		} catch (NullPointerException e) {
+			result=0;
+		}
+		return result;
 	}
-
+	
+	public Integer getFreeSpotNumber(Reservation reservation) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		int result;		
+		String sql = 
+				"SELECT  min(SpotNumber) " + 
+				"FROM smartparking_db.parkingspot a " + 
+				"WHERE  a.ParkingSpace = ? and SpotNumber not in ( " + 
+				"	SELECT b.ParkingSpot " + 
+				"   FROM smartparking_db.reservation b " + 
+				"   WHERE " + 
+				"		a.ParkingSpace = b.ParkingSpace and " + 
+				"		b.Parking_end is not null and " + 
+				"       ((? between b.Parking_start and b.Parking_end) or (? between b.Parking_start and b.Parking_end))" + 
+				") ";
+		
+		if(reservation.isAskedCovered()) {
+			sql+="and a.IsCovered=1";
+		}
+		if(reservation.isAskedHandicap()) {
+			sql+="and a.IsRestricted=1";
+		} else {
+			sql+="and a.IsRestricted=0";
+		}
+		
+		try {
+			result=jdbcTemplate.queryForObject(sql, Integer.class, new Object[] {
+					reservation.getParkingSpaceId(),
+					new Timestamp(dateFormat.parse(reservation.getParkingStart()).getTime()),
+					new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime()),
+				});
+		} catch (ParseException e) {
+			result=-1;
+		} catch (NullPointerException e) {
+			result=0;
+		}
+		return result;
+	}
+	
+	public boolean isBusy(Integer parkSpot, Integer parkSpace) {
+		
+		boolean busy=false;
+		
+		String sql ="SELECT isOccupied FROM parkingspot WHERE ParkingSpace = '" + parkSpace + "' and SpotNumber= '" + parkSpot + "'";
+		
+		if (jdbcTemplate.queryForObject(sql, Integer.class)==1) busy=true;
+		
+		return busy;
+	}
 	
 	/**
 	 * @param spots
@@ -167,7 +231,7 @@ public class ParkSpotDao {
 		return res;
 	}
 	
-	public List<SpotIllegallyOccupied> getIllegallyOccupied() {//to modify
+	public List<SpotIllegallyOccupied> getIllegallyOccupied() {
 		
 		String sql = 
 				"SELECT Name,Address,SpotNumber " + 
@@ -184,7 +248,6 @@ public class ParkSpotDao {
 		return illegallyOccupied;
 	}
 	
-	
 	class SpotIllegallyOccupiedMapper implements RowMapper<SpotIllegallyOccupied> {
 
 		public SpotIllegallyOccupied mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -199,5 +262,23 @@ public class ParkSpotDao {
 			return parkSpot;
 		}
 	}
+
+	class ParkSpotMapper implements RowMapper<ParkingSpot> {
+
+		public ParkingSpot mapRow(ResultSet rs, int arg1) throws SQLException {
+
+			ParkingSpot parkSpot = new ParkingSpot(
+					rs.getInt("SpotNumber"),
+					rs.getInt("ParkingSpace"),
+					rs.getInt("IsOccupied"),
+					rs.getInt("IsRestricted"),
+					rs.getInt("IsCovered")
+			);
+
+			return parkSpot;
+		}
+	}
+
+
 
 }

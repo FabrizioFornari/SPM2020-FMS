@@ -316,13 +316,14 @@
 		$("#messageAlert").addClass("alert-success");
 		$("#messageModal").modal('show');
 
-	} else if (message != "" && !message.startsWith("Park")) {
-
-		$("#messageAlert").addClass("alert-danger");
-		$("#messageModal").modal('show');
-	}else if (message != "" && !message.startsWith("Warning")) {
+	}else if (message.startsWith("Warning")) {
 
 		$("#messageAlert").addClass("alert-warning");
+		$("#messageModal").modal('show');
+		
+	} else if (message != "") {
+
+		$("#messageAlert").addClass("alert-danger");
 		$("#messageModal").modal('show');
 	}
 	

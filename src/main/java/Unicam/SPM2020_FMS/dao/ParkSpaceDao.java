@@ -67,8 +67,7 @@ public class ParkSpaceDao {
 	return parkSpaceList;
 	
   }
-  
-  
+   
   public int edit(ParkingSpace parkingSpace) {
 	  
 	    String sql = "UPDATE parkingspace SET City = ?, Name = ?, Address = ?, Coordinates = ?, Spots_capacity = ?, Covered_spots = ?, Handicap_spots = ?, IsGuarded = ?, Image = ? WHERE ID = ? ";
@@ -115,7 +114,7 @@ public class ParkSpaceDao {
 				updated=-1;
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return updated;
@@ -145,7 +144,7 @@ public class ParkSpaceDao {
 	}
   }
 
-public int delete(Integer idParkingSpace) {
+  public int delete(Integer idParkingSpace) {
 	String sql = "DELETE FROM parkingspace WHERE ID = ? ";
 	int deleted;
 
@@ -155,8 +154,6 @@ public int delete(Integer idParkingSpace) {
 		return -1;
 	}
 	return deleted;
-}
-
-
+  }
   
 }

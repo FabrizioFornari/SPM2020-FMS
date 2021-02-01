@@ -1,24 +1,37 @@
 package Unicam.SPM2020_FMS.controller;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
+import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
+import Unicam.SPM2020_FMS.model.UserCars;
+import Unicam.SPM2020_FMS.service.CarService;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
+import Unicam.SPM2020_FMS.service.ReservationService;
+import Unicam.SPM2020_FMS.service.SchedulerService;
 import Unicam.SPM2020_FMS.service.StorageService;
 
 @Controller
@@ -33,12 +46,22 @@ public class ParkSpaceListController {
 	@Autowired
 	public StorageService storageService;
 
+	@Autowired
+	public CarService carService;
+	
+	@Autowired
+	public ReservationService reservationService;
+	
+	@Autowired
+	public SchedulerService schedulerService;
+	
+	//DRIVER
 	/** Retrieve the list of the parking spaces from the database (Driver) */
 	@RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
 	public ModelAndView showParkSpaces(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
-
+		
 		if (user != null) {
 			if (user.getUserType().equals("Driver")) {
 				ModelAndView mav = new ModelAndView("ParkSpaces");
@@ -46,7 +69,14 @@ public class ParkSpaceListController {
 			    if(message!=null) {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
-			    }	
+			    }
+				Properties prop=new Properties();
+				try {
+					prop.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				mav.addObject("uploadDir", prop.getProperty("uploadDir"));
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					parkingSpace.setFreeAll(spotService.getAvailable(parkingSpace.getIdParkingSpace()));		
@@ -54,6 +84,10 @@ public class ParkSpaceListController {
 					parkingSpace.setFreeHandicap(spotService.getHandicapAvailable(parkingSpace.getIdParkingSpace()));
 				}
 				mav.addObject("parkSpaceList", parkSpaceList);
+				UserCars userCars = new UserCars();
+		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
+		    	mav.addObject("userCars", userCars);
+				mav.addObject("reservation", new Reservation());
 				return mav;
 			} else {
 				return new ModelAndView("welcome", "user", user);
@@ -65,6 +99,91 @@ public class ParkSpaceListController {
 		}
 	}
 
+	@RequestMapping(value = "/parkNow", method = RequestMethod.POST)
+	@ResponseBody
+	public String reserveSpotNow (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+				@ModelAttribute("reservartion") Reservation reservation) {
+		
+		String[] bookMessages = {
+				  "We are sorry, it seems that there are no more available spots",
+				  "Error: dates are not correctly specified",
+				  "Error: reservation has not been possible"
+				};		
+		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
+			bookMessages[0]="We are sorry, no available spot match your requests";
+		}
+
+		User user = (User) session.getAttribute("user");	
+		reservation.setDriver(user.getIdUser());
+		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId(),reservation.isAskedCovered(), reservation.isAskedHandicap()));
+		reservation.setParkingStart(null);
+		
+		if (reservation.getParkingSpot()==0) {
+			return bookMessages[0];
+		}
+		
+		int result=reservationService.addReservation(reservation);			
+
+		if (result<=0) {
+			result*=-1;
+			return bookMessages[result];
+		} 
+		reservation.setId(result);
+		schedulerService.scheduleReservationExpiring(reservation);
+		
+		return reservation.getParkingSpot().toString();
+	}
+	
+	@RequestMapping(value = "/getMapSrc", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+	@ResponseBody
+	public String getMapSrc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam("filename") String filename) throws IOException {
+		
+		byte[] payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		String extension=FilenameUtils.getExtension(filename).toLowerCase();
+		String prefix="data:image/"+extension+";base64,";
+		
+		return  prefix+Base64.getEncoder().encodeToString(payload);
+		
+	}
+	
+	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
+	@ResponseBody
+	public String reserveSpotForLater (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+				@ModelAttribute("reservartion") Reservation reservation) {
+		
+		String[] bookMessages = {
+				  "We are sorry, it seems that there are no more available spots",
+				  "Error: dates are not correctly specified",
+				  "Error: reservation has not been possible"
+				};		
+		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
+			bookMessages[0]="We are sorry, no available spot match your requests";
+		}
+
+		User user = (User) session.getAttribute("user");	
+		reservation.setDriver(user.getIdUser());
+		reservation.setParkingSpot(spotService.getFreeSpot(reservation));
+		
+		if (reservation.getParkingSpot()<=0) {
+			int result=reservation.getParkingSpot()*-1;
+			return bookMessages[result];
+		}
+		
+		int result=reservationService.addReservation(reservation);			
+
+		if (result<=0) {
+			result*=-1;
+			return bookMessages[result];
+		} 
+		reservation.setId(result);
+		schedulerService.scheduleReservationCheck(reservation);
+		//SCHEDULA CLEANING
+		
+		return reservation.getParkingSpot().toString();
+	}
+	
+	//MUNICIPALITY
 	/** Retrieve the list of the parking spaces from the database (Municipality) */
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.GET)
 	public ModelAndView showParkSpacesToManage(HttpServletRequest request, HttpServletResponse response,
@@ -117,7 +236,6 @@ public class ParkSpaceListController {
 			return mav;
 		}
 	}
-
 	
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.POST)
 	public String editParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -179,20 +297,13 @@ public class ParkSpaceListController {
 						errMsg = "Park Space correctly updated";
 					}
 				}
-
 			}
-
 		}
 
 		session.setAttribute("message", errMsg);
 		return "redirect:/ParksManagement";
 	}
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "/DeleteParkSpace", method = RequestMethod.POST)
 	public String deleteParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToDelete") ParkingSpace parkingSpace) {
@@ -210,7 +321,4 @@ public class ParkSpaceListController {
 		return "redirect:/ParksManagement";
 	}
 	
-	
-	
-
 }
