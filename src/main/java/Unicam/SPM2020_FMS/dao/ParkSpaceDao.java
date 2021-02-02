@@ -137,7 +137,6 @@ public class ParkSpaceDao {
   class ParkSpaceMapper implements RowMapper<ParkingSpace> {
 
 	public ParkingSpace mapRow(ResultSet rs, int arg1) throws SQLException {
-		
 		ParkingSpace parkSpace = new ParkingSpace(
 			rs.getInt("ID"),
 			rs.getString("City"),
@@ -152,11 +151,10 @@ public class ParkSpaceDao {
 			null,
 			null,
 			rs.getString("Image")
-
 		);
-
 		return parkSpace;
 	}
+	
   }
   
 }

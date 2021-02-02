@@ -3,7 +3,6 @@ package Unicam.SPM2020_FMS.controller;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,13 +69,6 @@ public class ParkSpaceListController {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
 			    }
-				Properties prop=new Properties();
-				try {
-					prop.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				mav.addObject("uploadDir", prop.getProperty("uploadDir"));
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					parkingSpace.setFreeAll(spotService.getAvailable(parkingSpace.getIdParkingSpace()));		

@@ -1,7 +1,5 @@
 package Unicam.SPM2020_FMS.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,7 +22,11 @@ public class StatisticsController {
 	if (user != null) {
 		if (user.getUserType().equals("Municipality")) {
 			ModelAndView mav = new ModelAndView("statistics");
-	
+		    Object message= session.getAttribute("message");
+		    if(message!=null) {
+		    	mav.addObject("message", (String) message);
+		    	session.removeAttribute("message");
+		    }
 			return mav;
 		} else {
 			return new ModelAndView("welcome", "user", user);
