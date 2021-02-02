@@ -45,6 +45,10 @@ public class InformationController {
 	  @RequestMapping(value = "/updateUserProcess", method = RequestMethod.POST)
 	  public String updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user, HttpSession session) {
 	    User oldUser = (User) session.getAttribute("user");
+		if (oldUser==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
 	    user.setIdUser(oldUser.getIdUser());
 	    user.setUserType(oldUser.getUserType());
 	    int updated=userService.update(user);

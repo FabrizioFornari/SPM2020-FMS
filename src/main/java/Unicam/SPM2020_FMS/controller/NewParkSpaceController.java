@@ -75,6 +75,12 @@ public class NewParkSpaceController {
 	@RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
 	public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
+		
+		  User user = (User) session.getAttribute("user");
+		  if (user==null) {
+			session.setAttribute("message", "Please login");		
+		   	return "redirect:/login";
+		  }
 
 		  String errMsg="";
 		  Boolean fileNotUploaded=false;
