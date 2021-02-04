@@ -21,16 +21,15 @@ public class UserServiceImpl implements UserService {
   }
 
   public User validateUser(Login login) {
-	
-	
     return userDao.validateUser(login);
   }
 
-
-public int update(User user) {
-	
+  public int update(User user) {	
 	return userDao.update(user);
-	
-}
+  }
+  
+  public int delete(User user) {	
+	return userDao.delete(user);
+  }
 
 }
