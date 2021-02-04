@@ -92,6 +92,10 @@ class SeleniumInformationManagementTest {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--no-sandbox");
+		options.addArguments("--window-size=1920,1080");
+		options.addArguments("--disable-gpu");
+		options.addArguments("--disable-extensions");
+		options.addArguments("--start-maximized");	
 				
 		//Remove or add comment prefix on the next line if you want to run test in headless mode or not
 		options.addArguments("--headless");
@@ -118,10 +122,12 @@ class SeleniumInformationManagementTest {
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
-	@Disabled
+	//@Disabled
 	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing user's information succeeds")
 	void ChangeUserInformation() throws InterruptedException {
+		boolean changed = false;
+		
 		//Logging in
 		driver.get(URLbase);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -140,33 +146,48 @@ class SeleniumInformationManagementTest {
 		//Updating tax code and phone number
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
 		//Thread.sleep(1500);  //Just for showing purpose
-		element.clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		element.sendKeys(updatedUserTaxCode);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).sendKeys(updatedUserPhoneNumber);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("register")).click();
 		
-		//Reloading the page and verifying the changes
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.get(URLbase+"profile");
-		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
-		Assert.assertEquals(updatedUserPhoneNumber, element.getAttribute("value"));
-		element = driver.findElement(By.id("taxCode"));
-		Assert.assertEquals(updatedUserTaxCode, element.getAttribute("value"));
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.xpath("//a[@href='logout']")).click();
-		//Thread.sleep(1500);  //Just for showing purpose
+		//Checking whether the tax code hasn't already been updated
+		if (!driver.getPageSource().contains(updatedUserTaxCode)) {
+			element.clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			element.sendKeys(updatedUserTaxCode);
+			//Thread.sleep(1500);  //Just for showing purpose
+			changed = true;
+		}
+		
+		//Checking whether the phone number hasn't already been updated
+		if (!driver.getPageSource().contains(updatedUserPhoneNumber)) {
+			driver.findElement(By.id("phone")).clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("phone")).sendKeys(updatedUserPhoneNumber);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("register")).click();
+			changed = true;
+		}
+		
+		if (changed) {
+			//Reloading the page and verifying the changes
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.get(URLbase+"profile");
+			element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
+			Assert.assertEquals(updatedUserPhoneNumber, element.getAttribute("value"));
+			element = driver.findElement(By.id("taxCode"));
+			Assert.assertEquals(updatedUserTaxCode, element.getAttribute("value"));
+			//Thread.sleep(1500);  //Just for showing purpose
+		}	
+
+			driver.findElement(By.xpath("//a[@href='logout']")).click();
+			//Thread.sleep(1500);  //Just for showing purpose
 	}
 
 	@Test
-	@Disabled
+	//@Disabled
 	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing policeman's information succeeds")
 	void ChangePolicemanInformation() throws InterruptedException {
+		boolean changed = false;
+		
 		//Logging in
 		driver.get(URLbase);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -186,33 +207,48 @@ class SeleniumInformationManagementTest {
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
 		//Thread.sleep(1500);  //Just for showing purpose
-		element.clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		element.sendKeys(updatedPolicemanTaxCode);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).sendKeys(updatedPolicemanPhoneNumber);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("register")).click();
 		
-		//Reloading the page and verifying the changes
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.get(URLbase+"profile");
-		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
-		Assert.assertEquals(updatedPolicemanPhoneNumber, element.getAttribute("value"));
-		element = driver.findElement(By.id("taxCode"));;
-		Assert.assertEquals(updatedPolicemanTaxCode, element.getAttribute("value"));
-		//Thread.sleep(1500);  //Just for showing purpose
+		//Checking whether the tax code hasn't already been updated
+		if (!driver.getPageSource().contains(updatedPolicemanTaxCode)) {
+			element.clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			element.sendKeys(updatedPolicemanTaxCode);
+			//Thread.sleep(1500);  //Just for showing purpose
+			changed = true;
+		}
+		
+		//Checking whether the phone number hasn't already been updated
+		if (!driver.getPageSource().contains(updatedPolicemanPhoneNumber)) {
+			driver.findElement(By.id("phone")).clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("phone")).sendKeys(updatedPolicemanPhoneNumber);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("register")).click();
+			changed = true;
+		}
+		
+		if (changed) {
+			//Reloading the page and verifying the changes
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.get(URLbase+"profile");
+			element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
+			Assert.assertEquals(updatedPolicemanPhoneNumber, element.getAttribute("value"));
+			element = driver.findElement(By.id("taxCode"));;
+			Assert.assertEquals(updatedPolicemanTaxCode, element.getAttribute("value"));
+			//Thread.sleep(1500);  //Just for showing purpose
+		}
+		
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
 		//Thread.sleep(1500);  //Just for showing purpose
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	@Tag("AcceptanceTest")
 	@DisplayName("Check whether changing municipality's information succeeds")
 	void ChangeMunicipalityInformation() throws InterruptedException {
+		boolean changed = false;
+		
 		//Logging in
 		driver.get(URLbase);
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -232,24 +268,37 @@ class SeleniumInformationManagementTest {
 
 		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taxCode")));
 		//Thread.sleep(1500);  //Just for showing purpose
-		element.clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		element.sendKeys(updatedMunicipalityTaxCode);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).clear();
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("phone")).sendKeys(updatedMunicipalityPhoneNumber);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("register")).click();
 		
-		//Reloading the page and verifying the changes
-		Thread.sleep(1500);  //Just for showing purpose
-		driver.get(URLbase+"profile");
-		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
-		Assert.assertEquals(updatedMunicipalityPhoneNumber, element.getAttribute("value"));
-		element = driver.findElement(By.id("taxCode"));;
-		Assert.assertEquals(updatedMunicipalityTaxCode, element.getAttribute("value"));
-		Thread.sleep(1500);  //Just for showing purpose
+		//Checking whether the tax code hasn't already been updated
+		if (!driver.getPageSource().contains(updatedMunicipalityTaxCode)) {
+			element.clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			element.sendKeys(updatedMunicipalityTaxCode);
+			//Thread.sleep(1500);  //Just for showing purpose
+			changed = true;
+		}
+		
+		//Checking whether the phone number hasn't already been updated
+		if (!driver.getPageSource().contains(updatedMunicipalityPhoneNumber)) {
+			driver.findElement(By.id("phone")).clear();
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("phone")).sendKeys(updatedMunicipalityPhoneNumber);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("register")).click();
+			changed = true;
+		}
+		
+		if (changed) {
+			//Reloading the page and verifying the changes
+			Thread.sleep(1500);  //Just for showing purpose
+			driver.get(URLbase+"profile");
+			element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("phone")));
+			Assert.assertEquals(updatedMunicipalityPhoneNumber, element.getAttribute("value"));
+			element = driver.findElement(By.id("taxCode"));;
+			Assert.assertEquals(updatedMunicipalityTaxCode, element.getAttribute("value"));
+			Thread.sleep(1500);  //Just for showing purpose
+		}
+		
 		driver.findElement(By.xpath("//a[@href='logout']")).click();
 		//Thread.sleep(1500);  //Just for showing purpose
 	}
