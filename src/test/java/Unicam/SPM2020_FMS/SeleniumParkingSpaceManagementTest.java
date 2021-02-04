@@ -136,7 +136,7 @@ class SeleniumParkingSpaceManagementTest {
 	}
 
 	@Test
-	@Disabled
+	//@Disabled
 	// Waits are properly managed with the WebDriverWait class
 	// Every sleep in the following code can be easily removed without compromising the test
 	// Sleeps are there just for showing purpose
@@ -145,33 +145,37 @@ class SeleniumParkingSpaceManagementTest {
 	void AddANewParkingSpace() throws InterruptedException {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='newParkArea']"))).click();
 		
-		//Compiling the form with all the new parking space's data
-		driver.findElement(By.id("city")).sendKeys(city);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("name")).sendKeys(name);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("address")).sendKeys(address);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("coordinates")).sendKeys(coordinates);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("spotsCapacity")).sendKeys(capacity);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("coveredSpots")).sendKeys(totCoveredSpots);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("handicapSpots")).sendKeys(totHandicapSpots);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("specCovered")).sendKeys(coveredSpotsIds);
-		//Thread.sleep(1500);  //Just for showing purpose
-		driver.findElement(By.id("specHandicap")).sendKeys(handicapSpotsIds);
-		//Thread.sleep(1500);  //Just for showing purpose
-		
-		driver.findElement(By.id("register")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("newParkingMessage"))).click();
-		//Thread.sleep(3000);  //Just for showing purpose
-		
-		//Checking if a successful message has been displayed
-		assertTrue(driver.getPageSource().contains("Park Space correctly created"));
+		//Checking whether the parking space has already been inserted into the DB
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='ParksManagement']"))).click();
+		if (!driver.getPageSource().contains(name)) {
+			// New parking space: proceed to insert all the data required		
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='newParkArea']"))).click();
+			driver.findElement(By.id("city")).sendKeys(city);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("name")).sendKeys(name);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("address")).sendKeys(address);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("coordinates")).sendKeys(coordinates);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("spotsCapacity")).sendKeys(capacity);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("coveredSpots")).sendKeys(totCoveredSpots);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("handicapSpots")).sendKeys(totHandicapSpots);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("specCovered")).sendKeys(coveredSpotsIds);
+			//Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("specHandicap")).sendKeys(handicapSpotsIds);
+			//Thread.sleep(1500);  //Just for showing purpose
+			
+			driver.findElement(By.id("register")).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("newParkingMessage"))).click();
+			//Thread.sleep(3000);  //Just for showing purpose
+			
+			//Checking if a successful message has been displayed
+			assertTrue(driver.getPageSource().contains("Park Space correctly created"));
+		}
 	}
 }
