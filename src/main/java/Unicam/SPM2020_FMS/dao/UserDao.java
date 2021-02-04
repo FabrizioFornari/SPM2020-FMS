@@ -10,4 +10,6 @@ public interface UserDao  {
   User validateUser(Login login);
 
   int update(User user);
+
+  int delete(User user);
 }

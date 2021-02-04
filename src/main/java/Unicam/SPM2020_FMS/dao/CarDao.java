@@ -34,6 +34,7 @@ public class CarDao {
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			return 0;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}
@@ -73,8 +74,6 @@ public class CarDao {
 		}
 		return deleted;
 	}
-
-
 
 	class CarMapper implements RowMapper<Car> {
 

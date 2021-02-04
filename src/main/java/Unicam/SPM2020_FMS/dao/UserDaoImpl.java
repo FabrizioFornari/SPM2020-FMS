@@ -86,7 +86,6 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	@Override
 	public int update(User user) {
 		
 		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
@@ -100,6 +99,18 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return updated;
+	}
+	
+	public int delete(User user) {
+		String sql = "DELETE FROM user WHERE ID = ? ";
+		int deleted;
+
+		try {
+			deleted = jdbcTemplate.update(sql, user.getIdUser());
+		} catch (Exception e) {
+			return -1;
+		}
+		return deleted;
 	}
 
 	class UserMapper implements RowMapper<User> {
