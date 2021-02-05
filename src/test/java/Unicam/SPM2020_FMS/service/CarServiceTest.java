@@ -5,16 +5,18 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.List;
+
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import Unicam.SPM2020_FMS.model.Car;
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.User;
-
-//@ExtendWith(SpringExtension.class)
-//@ContextConfiguration({"classpath:/user-beans.xml"})
 
 @SpringJUnitConfig(locations = "classpath:/user-beans.xml")
 @TestMethodOrder(OrderAnnotation.class)
@@ -25,6 +27,9 @@ public class CarServiceTest {
   
   @Autowired
   private CarService carService;
+  
+  @Autowired
+  JdbcTemplate jdbcTemplate;
   
   private User user;
   
@@ -42,10 +47,18 @@ public class CarServiceTest {
 	    user.setEmail("guido.veloce@hotmail.it");
 	    user.setTaxCode("NNNSSS00M12A123B");
 	    user.setPhoneNumber("111111");
-	    user.setUserType("driver");
+	    user.setUserType("Driver");
 	    int id=userService.register(user);
 	    user.setIdUser(id);
 	}
+  }
+  
+  @Test
+  public void testShowCars() {
+	int id=this.user.getIdUser();
+	List<Car> result = carService.showCars(id);
+	int tableRows=JdbcTestUtils.countRowsInTableWhere(jdbcTemplate,"car","Driver='" + id + "'");
+    Assert.assertEquals(tableRows,result.size());
   }
 
   @Test

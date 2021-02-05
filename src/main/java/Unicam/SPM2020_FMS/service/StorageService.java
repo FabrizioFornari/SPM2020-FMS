@@ -1,6 +1,7 @@
 package Unicam.SPM2020_FMS.service;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,30 +24,30 @@ public class StorageService {
 		try {
 			prop.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));
 		} catch (IOException e) {
-			System.out.println(e.toString());
+			System.out.println(e.getMessage());
 		}
 		this.rootLocation = Paths.get(prop.getProperty("uploadDir"));
 	}
 
-	public void store(MultipartFile file, String filename) throws Exception {
+	public void store(MultipartFile file, String filename) {
 		try {
 			if (file.isEmpty()) {
 				throw new IOException("Failed to store empty file " + file.getOriginalFilename());
 			}
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new Exception("Failed to store file " + file.getOriginalFilename());
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
 	}
 
-	public Stream<Path> loadAll() throws IOException {
+	public Stream<Path> loadAll() {
 		try {
 			return Files.walk(this.rootLocation, 1)
 					.filter(path -> !path.equals(this.rootLocation))
 					.map(path -> this.rootLocation.relativize(path));
 		} catch (IOException e) {
-			throw new IOException("Failed to read stored files", e);
+			System.out.println(e.getMessage());
+			throw new UncheckedIOException("Failed to read stored files",e);
 		}
 	}
 
@@ -55,7 +56,7 @@ public class StorageService {
 	}
 
 
-	public Resource loadAsResource(String filename) throws IOException {
+	public Resource loadAsResource(String filename) {
 		try {
 			Path file = load(filename);
 			Resource resource = new UrlResource(file.toUri());
@@ -67,7 +68,7 @@ public class StorageService {
 
 			}
 		} catch (IOException e) {
-			throw new IOException("Could not read file: " + filename, e);
+			throw new UncheckedIOException("Could not read file: " + filename, e);
 		}
 	}
 
@@ -75,11 +76,11 @@ public class StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
-	public void init() throws IOException {
+	public void init() {
 		try {
 			Files.createDirectory(rootLocation);
 		} catch (IOException e) {
-			throw new IOException("Could not initialize storage", e);
+			throw new UncheckedIOException("Could not initialize storage", e);
 		}
 	}
 	

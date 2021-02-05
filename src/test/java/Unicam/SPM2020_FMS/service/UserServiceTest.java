@@ -38,12 +38,20 @@ public class UserServiceTest {
 
   @Test
   @Order(2)
-  public void testValidateUser() {
+  public void testValidateCorrectUser() {
     Login login = new Login();
     login.setUsername("vettel@ferrari.com");
     login.setPassword("password");
     User user = userService.validateUser(login);
     Assert.assertEquals("Sebastian", user.getName());
+  }
+  
+  @Test
+  public void testValidateWrongUser() {
+    Login login = new Login();
+    login.setUsername("hamilton@ferrari.com");
+    login.setPassword("password");
+    Assert.assertNull(userService.validateUser(login));
   }
   
   @Test

@@ -104,8 +104,8 @@ public class ParkSpaceDao {
 							parkingSpace.getCoveredSpots(),
 							parkingSpace.getHandicapSpots(),
 							parkingSpace.isGuarded(),
-							parkingSpace.getImageName(),
 							parkingSpace.getParkingFee(),
+							parkingSpace.getImageName(),
 							parkingSpace.getIdParkingSpace()
 						}
 				);
@@ -127,8 +127,9 @@ public class ParkSpaceDao {
 	int deleted;
 
 	try {
-		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
+		deleted = jdbcTemplate.update(sql, idParkingSpace);
 	} catch (Exception e) {
+		e.printStackTrace();
 		return -1;
 	}
 	return deleted;
