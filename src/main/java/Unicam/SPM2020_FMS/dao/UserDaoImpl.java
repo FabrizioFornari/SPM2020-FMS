@@ -48,13 +48,13 @@ public class UserDaoImpl implements UserDao {
 			}, userKeyHolder);
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("user.Email")) {
+			if (msg.contains("Email")) {
 				err=-1;
-			} else if (msg.contains("user.Tax_code")) {
+			} else if (msg.contains("Tax_code")) {
 				err=-2;
-			} else if (msg.contains("user.Id_number")) {
+			} else if (msg.contains("Id_number")) {
 				err=-3;
-			} else if (msg.contains("user.Auth_number")) {
+			} else if (msg.contains("Auth_number")) {
 				err=-4;
 			}
 			return err;

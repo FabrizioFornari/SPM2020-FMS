@@ -47,7 +47,7 @@ public class ParkSpaceDao {
 		}, parkSpaceKeyHolder);
 	} catch (org.springframework.dao.DuplicateKeyException e) {
 		String msg=e.getMessage();
-		if (msg.contains("parkingspace.Coordinates")) {
+		if (msg.contains("Coordinates")) {
 			err=-1;
 		}
 		return err;
@@ -112,7 +112,7 @@ public class ParkSpaceDao {
 			}
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("parkingspace.Coordinates")) {
+			if (msg.contains("Coordinates")) {
 				updated=-1;
 			}
 		} catch (Exception e) {
