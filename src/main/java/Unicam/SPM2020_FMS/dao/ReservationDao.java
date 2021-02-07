@@ -89,10 +89,10 @@ public class ReservationDao {
 			return -1;
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("reservation.Id_parkingSpot")) {
+			if (msg.contains("Id_parkingSpot")) {
 				//parkingstart
 				err=-2;
-			} else if (msg.contains("reservation.Id_parkingSpot_2")) {
+			} else if (msg.contains("Id_parkingSpot_2")) {
 				//parkingend
 				err=-2;
 			}

@@ -32,13 +32,11 @@ public class ParkSpotDao {
 		int res = 0;
 
 		for (ParkingSpot spot : spots) {
-
 			try {
 				jdbcTemplate.update(sql, new Object[] { spot.getSpotNumber(), spot.getParkingSpace(),
 						spot.getOccupied(), spot.getIsRestricted(), spot.getIsCovered() });
 				res++;
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
 				return res *= -1;
 			}
 		}
@@ -63,7 +61,7 @@ public class ParkSpotDao {
 		return handicapSpotsNumList;
 	}
 	
-	public int getAvailable (Integer parkingSpace) {
+	public Integer getAvailable (Integer parkingSpace) {
 
 		String sql ="SELECT COUNT(*) FROM parkingspot where ParkingSpace = '" + parkingSpace + "' and isOccupied = 0";
 

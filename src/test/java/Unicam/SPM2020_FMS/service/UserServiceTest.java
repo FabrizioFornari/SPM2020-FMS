@@ -35,9 +35,39 @@ public class UserServiceTest {
     int result = userService.register(user);
     Assert.assertTrue(result>0);
   }
-
+  
   @Test
   @Order(2)
+  public void testDuplicateMail() {
+    User user = new User();
+    user.setName("Charles");
+    user.setSurname("Leclerc");
+    user.setPassword("password");
+    user.setEmail("vettel@ferrari.com");
+    user.setTaxCode("CCCLLL01M12A123B");
+    user.setPhoneNumber("222222");
+    user.setUserType("driver");
+    int result = userService.register(user);
+    Assert.assertEquals(-1,result);
+  }
+  
+  @Test
+  @Order(3)
+  public void testDuplicateTaxcode() {
+    User user = new User();
+    user.setName("Charles");
+    user.setSurname("Leclerc");
+    user.setPassword("password");
+    user.setEmail("leclerc@ferrari.com");
+    user.setTaxCode("SSSNNN00M12A123B");
+    user.setPhoneNumber("222222");
+    user.setUserType("driver");
+    int result = userService.register(user);
+    Assert.assertEquals(-2,result);
+  }
+
+  @Test
+  @Order(4)
   public void testValidateCorrectUser() {
     Login login = new Login();
     login.setUsername("vettel@ferrari.com");
@@ -55,7 +85,7 @@ public class UserServiceTest {
   }
   
   @Test
-  @Order(3)
+  @Order(5)
   public void testUpdate() {
     Login login = new Login();
     login.setUsername("vettel@ferrari.com");
@@ -69,7 +99,7 @@ public class UserServiceTest {
   }
   
   @Test
-  @Order(4)
+  @Order(6)
   public void testDelete() {
     Login login = new Login();
     login.setUsername("sainz@ferrari.com");
