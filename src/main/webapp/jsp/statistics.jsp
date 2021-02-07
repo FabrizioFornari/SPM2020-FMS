@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,90 +13,215 @@
 <title>Statistics</title>
 </head>
 <body>
-<jsp:include page="navBar.jsp"></jsp:include>
+	<jsp:include page="navBar.jsp"></jsp:include>
 
-<div class='title'>
-  <h1>
-    [Parking statistics of ...]
-  </h1>
-  <h2 style="color:#ececec;">
-    Here you can check all the statistics for you city ... (more details to be added)
-  </h2>
-</div>
-<div class='ui'>
-  <div class='ui_box'>
-    <div class='ui_box__inner'>
-      <h2>
-        Conversion Rate
-      </h2>
-      <p>Lorem ipsum dolor sit amet</p>
-      <div class='stat'>
-        <span>58%</span>
-      </div>
-      <div class='progress'>
-        <div class='progress_bar'></div>
-      </div>
-      <p>Lorem ipsum dolor sit amet. Some more super groovy information about this stat.</p>
-    </div>
-    <div class='drop'>
-      <p>Take a closer look</p>
-      <div class='arrow'></div>
-    </div>
-  </div>
-  <div class='ui_box'>
-    <div class='ui_box__inner'>
-      <h2>
-        Sales By Type
-      </h2>
-      <p>Lorem ipsum dolor sit amet</p>
-      <div class='stat_left'>
-        <ul>
-          <li>
-            Electical
-          </li>
-          <li>
-            Clothing
-          </li>
-          <li>
-            Entertainment
-          </li>
-          <li>
-            Kitchen
-          </li>
-        </ul>
-      </div>
-      <div class='progress_graph'>
-        <div class='progress_graph__bar--1'></div>
-        <div class='progress_graph__bar--2'></div>
-        <div class='progress_graph__bar--3'></div>
-        <div class='progress_graph__bar--4'></div>
-      </div>
-      <p>Lorem ipsum dolor sit amet. Some more super groovy information.</p>
-    </div>
-    <div class='drop'>
-      <p>Take a closer look</p>
-      <div class='arrow'></div>
-    </div>
-  </div>
-  <div class='ui_box'>
-    <div class='ui_box__inner'>
-      <h2>
-        Total Sales
-      </h2>
-      <p>Lorem ipsum dolor sit amet</p>
-      <div class='stat'>
-        <span>$34,403.93</span>
-      </div>
-      <div class='progress'>
-        <div class='progress_bar--two'></div>
-      </div>
-      <p>Lorem ipsum dolor sit amet. Some more super groovy information about this stat.</p>
-    </div>
-    <div class='drop'>
-      <p>Take a closer look</p>
-      <div class='arrow'></div>
-    </div>
-  </div>
-</div>
+	<div class='title'>
+		<h1>[Parking statistics of ...]</h1>
+		<h2 style="color: #ececec;">Here you can check all the statistics
+			for your city ... (more details to be added)</h2>
+	</div>
+
+
+
+	<div class='ui'>
+
+		<!-- Trigger revenues modal -->
+		<div class='ui_box' id="revenuesStatisticsButton" data-toggle="modal"
+			data-target="#revenuesModal">
+			<div class='ui_box__inner'>
+				<h2>Total revenues</h2>
+
+				<div class='stat'>
+					<i class="fas fa-money-bill-alt fa-5x" style="float: right;"></i> <span>${totalRevenue}€</span>
+				</div>
+				<div class='progress'>
+					<div class='progress_bar'></div>
+				</div>
+				<p>Total money earned since the beginning</p>
+			</div>
+			<div class='drop'>
+				<i align="center" class="fas fa-arrow-down "></i> &ensp; Take a
+				closer look
+			</div>
+		</div>
+
+
+
+		<div class='ui_box' id="usersStatisticsButton" data-toggle="modal"
+			data-target="#usersModal">
+			<div class='ui_box__inner'>
+				<fmt:formatNumber var="n" value="${totalUsers}"
+					maxFractionDigits="0" />
+
+				<h2>Total users</h2>
+
+
+
+				<div class='stat'>
+					<i class="fas fa-users fa-5x" style="float: right;"></i> <span>${n}</span>
+				</div>
+				<div class='progress'>
+					<div class='progress_bar'></div>
+				</div>
+
+
+				<p>(Check the information regarding the number of the users and
+					their payment preferences)</p>
+
+			</div>
+			<div class='drop'>
+				<i align="center" class="fas fa-arrow-down "></i> &ensp; Take a
+				closer look
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- Start modal of revenues -->
+	<div class="modal fade" id="revenuesModal" tabindex="-1" role="dialog"
+		aria-labelledby="revenuesModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="revenuesModalLabel">Revenues</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<select class="form-control" id="filterRevenues">
+						<option value="0">Since the beginning</option>
+						<option value="1">Since last month</option>
+					</select>
+					<table id="revenuesBeginning">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Parking space</th>
+								<th scope="col">Revenue</th>
+								<th scope="col">Percentage</th>
+							</tr>
+						</thead>
+						<c:forEach var="revenue" items="${revenueBySpace}"
+							varStatus="tagStatus">
+
+							<tr>
+								<th scope="row">${revenueBySpace.indexOf(revenue)+1}</th>
+								<td>${revenue.getDescription() }</td>
+								<td>${revenue.getQuantity() }€</td>
+								<td>${revenue.getPercentage() }%
+									<div class="progress">
+										<div class="progress-bar progress-bar-striped"
+											role="progressbar" style="width: ${revenue.getPercentage() }%" aria-valuenow="${revenue.getPercentage() }"
+											aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+								</td>
+							</tr>
+
+						</c:forEach>
+					</table>
+
+					<table id="revenuesLastMonth" style="display: none;">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Parking space</th>
+								<th scope="col">Revenue</th>
+								&emsp;<th scope="col">Percentage</th>
+							</tr>
+						</thead>
+
+						<c:forEach var="revenue" items="${revenueBySpaceFiltered}"
+							varStatus="tagStatus">
+
+							<tr>
+								<th scope="row">${revenueBySpaceFiltered.indexOf(revenue)+1}</th>
+								<td>${revenue.getDescription() }</td>
+								<td>${revenue.getQuantity() }€</td>
+								<td>${revenue.getPercentage() }%</td>
+							</tr>
+
+						</c:forEach>
+
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End modal of revenues -->
+
+	<!-- Start modal of users -->
+	<div class="modal fade" id="usersModal" tabindex="-1" role="dialog"
+		aria-labelledby="usersModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="usersModalLabel">Users statistics</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table>
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Payment type</th>
+								<th scope="col">Total associations</th>
+								<th scope="col">Percentage</th>
+							</tr>
+						</thead>
+
+						<c:forEach var="paymentType" items="${paymentTypeList}"
+							varStatus="tagStatus">
+							<fmt:formatNumber var="i" value="${paymentType.quantity}"
+								maxFractionDigits="0" />
+							<tr>
+								<th scope="row">${paymentTypeList.indexOf(paymentType)+1}</th>
+								<td>${paymentType.getDescription() }</td>
+								<td>${i}</td>
+								<td>${paymentType.getPercentage() }%</td>
+							</tr>
+
+						</c:forEach>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- End modal of users -->
+
 </body>
+<script type="text/javascript">
+	$('#filterRevenues').change(function() {
+
+		if ($('#filterRevenues').val() == '0') {
+
+			$('#revenuesBeginning').show();
+			$('#revenuesLastMonth').hide();
+
+		} else {
+
+			$('#revenuesBeginning').hide();
+			$('#revenuesLastMonth').show();
+
+		}
+
+	});
+</script>
 </html>

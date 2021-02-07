@@ -25,12 +25,14 @@ body .title h2 {
   font-family: 'Source Sans Pro', sans-serif;
 }
 body .ui {
-  width: 900px;
+  width: 100%;
+  height: 280px;
   margin: 0 auto;
   margin-top: 50px;
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
   box-shadow: none;
+  padding-left: 20%;
 }
 body .ui ul {
   margin: 0px 30px 10px 0px;
@@ -59,7 +61,7 @@ body .ui .drop p {
   color: #f8fbfa;
 }
 body .ui_box {
-  width: 300px;
+  width: 40%;
   height: 220px;
   position: relative;
   background: #3d3d3d;
@@ -98,47 +100,11 @@ body .ui_box__inner .progress_graph {
   padding-left: 20px;
   top: 24px;
 }
-body .ui_box__inner .progress_graph__bar--1 {
-  width: 10px;
-  height: 20px;
-  background: #4FA584;
-  float: left;
-  margin-right: 10px;
-  position: relative;
-  bottom: -10px;
-  -webkit-animation: graph 1s;
-}
-body .ui_box__inner .progress_graph__bar--2 {
-  width: 10px;
-  -webkit-animation: graph2 1s;
-  height: 30px;
-  float: left;
-  margin-right: 10px;
-  background: #4FA584;
-}
-body .ui_box__inner .progress_graph__bar--3 {
-  width: 10px;
-  height: 24px;
-  margin-right: 10px;
-  -webkit-animation: graph3 1s;
-  background: #4FA584;
-  float: left;
-  position: relative;
-  bottom: -6px;
-}
-body .ui_box__inner .progress_graph__bar--4 {
-  width: 10px;
-  height: 14px;
-  -webkit-animation: graph4 1s;
-  bottom: -16px;
-  position: relative;
-  background: #4FA584;
-  float: left;
-}
+
 body .ui_box__inner .progress_bar {
   height: 6px;
   float: left;
-  width: 58%;
+  width: 100%;
   background: #4FA584;
   -webkit-animation: bar 2s;
 }
@@ -189,16 +155,7 @@ body .ui_box:hover {
   opacity: 1;
 }
 
-.ui_box:hover > .drop .arrow {
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
-  transition-property: transform;
-  transition-property: transform, -webkit-transform;
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  -webkit-transform: rotate(765deg);
-          transform: rotate(765deg);
-}
+
 
 .ui_box:hover > .ui_box__inner .progress_graph > div {
   background: white;
@@ -212,32 +169,14 @@ body .ui_box:hover {
   float: left;
 }
 
-.arrow {
-  width: 4px;
-  height: 4px;
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
-  transition-property: transform;
-  transition-property: transform, -webkit-transform;
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-  -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  border-top: 1px solid #CDEAD3;
-  border-right: 1px solid #CDEAD3;
-  float: right;
-  position: relative;
-  top: -24px;
-  right: 0px;
-}
+
 
 @-webkit-keyframes bar {
   from {
     width: 0px;
   }
   to {
-    width: 58%;
+    width: 100%;
   }
 }
 
@@ -246,7 +185,7 @@ body .ui_box:hover {
     width: 0px;
   }
   to {
-    width: 58%;
+    width: 100%;
   }
 }
 @-webkit-keyframes bar2 {
@@ -329,3 +268,13 @@ body .ui_box:hover {
     height: 13px;
   }
 }
+
+
+/*Statistic charts*/
+
+.card-body{
+	
+	background-color: #d78519ba !important;
+	text-align: center;
+}
+
