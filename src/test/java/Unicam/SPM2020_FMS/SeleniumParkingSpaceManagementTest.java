@@ -43,6 +43,7 @@ class SeleniumParkingSpaceManagementTest {
 	static String totHandicapSpots;
 	static String coveredSpotsIds;
 	static String handicapSpotsIds;
+	static String parkingFee;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -77,7 +78,8 @@ class SeleniumParkingSpaceManagementTest {
 			totHandicapSpots = prop.getProperty("totHandicapSpots");
 			coveredSpotsIds = prop.getProperty("coveredSpotsIds");
 			handicapSpotsIds = prop.getProperty("handicapSpotsIds");
-		    
+			parkingFee = prop.getProperty("parkingFee");
+			
 		} catch (IOException ex) {
             ex.printStackTrace();
 		}	    
@@ -97,7 +99,7 @@ class SeleniumParkingSpaceManagementTest {
 		options.addArguments("--start-maximized");
 				
 		//Remove or add comment prefix on the next line if you want to run test in headless mode or not
-		options.addArguments("--headless");
+		//options.addArguments("--headless");
 		
 				
 		driver = new ChromeDriver(options);
@@ -168,6 +170,9 @@ class SeleniumParkingSpaceManagementTest {
 			driver.findElement(By.id("specCovered")).sendKeys(coveredSpotsIds);
 			//Thread.sleep(1500);  //Just for showing purpose
 			driver.findElement(By.id("specHandicap")).sendKeys(handicapSpotsIds);
+			Thread.sleep(1500);  //Just for showing purpose
+			driver.findElement(By.id("parkingFee")).clear();
+			driver.findElement(By.id("parkingFee")).sendKeys(parkingFee);
 			//Thread.sleep(1500);  //Just for showing purpose
 			
 			driver.findElement(By.id("register")).click();
