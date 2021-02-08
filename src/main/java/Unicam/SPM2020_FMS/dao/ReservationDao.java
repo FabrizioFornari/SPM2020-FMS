@@ -85,7 +85,7 @@ public class ReservationDao {
 				return ps;
 			}, reservationKeyHolder);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
@@ -98,7 +98,7 @@ public class ReservationDao {
 			}
 			return err;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -2;
 		}
 			
@@ -112,7 +112,7 @@ public class ReservationDao {
 		try {
 			deleted = jdbcTemplate.update(sql, reservation);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}	
 		return deleted;
@@ -125,14 +125,13 @@ public class ReservationDao {
 		try {
 			updated = jdbcTemplate.update(sql, new Object[] {newSpot, reservation});
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}
 		
 		return updated;
 	}
 	
-
 	public int closeReservation(Integer id) {
 		int updated;
 	    String sql = "UPDATE reservation SET Occupancy_start=Parking_start, Occupancy_end=ADDTIME(Parking_start, SEC_TO_TIME(30*60)) WHERE ID = ?";
@@ -140,7 +139,7 @@ public class ReservationDao {
 		try {
 			updated = jdbcTemplate.update(sql, id);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}
 		

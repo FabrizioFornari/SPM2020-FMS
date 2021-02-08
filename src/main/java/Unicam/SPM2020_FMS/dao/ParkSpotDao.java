@@ -37,6 +37,7 @@ public class ParkSpotDao {
 						spot.getOccupied(), spot.getIsRestricted(), spot.getIsCovered() });
 				res++;
 			} catch (Exception e) {
+				//e.printStackTrace();
 				return res *= -1;
 			}
 		}
