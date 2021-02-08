@@ -30,43 +30,102 @@
 						<c:choose>
 
 							<c:when test="${user.userType  == 'Driver'}">
-							
+
 								<a href="ParkSpaces">
-									<button class="btn btn-outline-warning btn-lg" style="width: 100%;">Find
-										a place</button>
+									<button class="btn btn-outline-warning btn-lg"
+										style="width: 100%;">Find a place</button>
 								</a>
-								<a href="#">
-									<button class="btn btn-outline-warning btn-lg" style="width: 100%;">My
-										Reservations</button>
-								</a>
+
+								<button type="button" class="btn btn-outline-warning btn-lg"
+									style="width: 100%;" data-toggle="modal"
+									data-target="#reservationsModal">My Reservations</button>
+
 								<a href="myCars">
 									<button class="btn btn-outline-warning btn-lg"
 										style="width: 100%;">My Cars</button>
 								</a>
+
+
+
+								<!-- Modal -->
+								<div class="modal fade" id="reservationsModal" tabindex="-1"
+									role="dialog" aria-labelledby="reservationsModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="reservationsModalLabel">Reservations</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+
+												<table>
+												<thead>
+													<tr>
+														<th scope="col">#</th>
+														<th scope="col">License plate</th>
+														<th scope="col">Spot</th>
+														<th scope="col">Parking space</th>
+														<th scope="col">From</th>
+														<th scope="col">To</th>
+													</tr>
+													</thead>
+
+													<c:forEach var="reservation" items="${userReservations}"
+														varStatus="tagStatus">
+														<tr>
+															<td scope="row">${userReservation.indexOf(reservation)+1 }</td>
+															<td>${reservation.licensePlateNumber}</td>
+															<td>${reservation.parkingSpot}</td>
+															<td>${reservation.parkingSpace}</td>
+															<td>${reservation.parkingStart}</td>
+															<td>${reservation.parkingEnd}</td>
+														</tr>
+													</c:forEach>
+
+												</table>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Close</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
 							</c:when>
 							<c:when test="${user.userType == 'Policeman'}">
-							<a href="reservationsToCheck">
-									<button class="btn btn-outline-warning btn-lg">Check Reservations</button>
+								<a href="reservationsToCheck">
+									<button class="btn btn-outline-warning btn-lg">Check
+										Reservations</button>
 								</a>
 								<a href="#">
 									<button class="btn btn-outline-warning btn-lg">Profile</button>
 								</a>
-							
-							
-							
+
+
+
 							</c:when>
 							<c:when test="${user.userType == 'Municipality'}">
-							
+
 								<a href="newParkArea">
-									<button class="btn btn-outline-warning btn-lg">Add Parking spaces</button>
+									<button class="btn btn-outline-warning btn-lg">Add
+										Parking spaces</button>
 								</a>
 								<a href="profile">
 									<button class="btn btn-outline-warning btn-lg">Profile</button>
 								</a>
-							
+
 							</c:when>
 						</c:choose>
-				
+
 
 					</p>
 					<p class="lead"></p>
