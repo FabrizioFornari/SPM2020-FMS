@@ -1,6 +1,7 @@
 package Unicam.SPM2020_FMS.controller;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -130,13 +131,16 @@ public class ParkSpaceListController {
 	@ResponseBody
 	public String getMapSrc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam("filename") String filename) throws IOException {
-		
-		byte[] payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
 		String extension=FilenameUtils.getExtension(filename).toLowerCase();
-		String prefix="data:image/"+extension+";base64,";
-		
-		return  prefix+Base64.getEncoder().encodeToString(payload);
-		
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
 	}
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
