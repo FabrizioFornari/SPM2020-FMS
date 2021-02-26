@@ -38,16 +38,16 @@
         <bpmn:outgoing>Flow_1y76i8z</bpmn:outgoing>
         <bpmn:messageEventDefinition id="MessageEventDefinition_065rclh" />
       </bpmn:intermediateCatchEvent>
-      <bpmn:task id="Activity_0bakdi6" name="Manage the violation(s)">
-        <bpmn:incoming>Flow_1y76i8z</bpmn:incoming>
-        <bpmn:outgoing>Flow_164drez</bpmn:outgoing>
-      </bpmn:task>
       <bpmn:endEvent id="Event_1naduge">
         <bpmn:incoming>Flow_164drez</bpmn:incoming>
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_164drez" sourceRef="Activity_0bakdi6" targetRef="Event_1naduge" />
       <bpmn:sequenceFlow id="Flow_1y76i8z" sourceRef="Event_1ayiyvp" targetRef="Activity_0bakdi6" />
       <bpmn:sequenceFlow id="Flow_0s58c0t" sourceRef="Event_0yhbfi5" targetRef="Event_1ayiyvp" />
+      <bpmn:manualTask id="Activity_0bakdi6" name="Manage the violation(s)">
+        <bpmn:incoming>Flow_1y76i8z</bpmn:incoming>
+        <bpmn:outgoing>Flow_164drez</bpmn:outgoing>
+      </bpmn:manualTask>
     </bpmn:subProcess>
     <bpmn:textAnnotation id="TextAnnotation_0pvodu6">
       <bpmn:text>Repeat until logging out of the app</bpmn:text>
@@ -62,13 +62,6 @@
       <bpmn:startEvent id="Event_02dy97s">
         <bpmn:outgoing>Flow_1is75hv</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:task id="Activity_06op1jl" name="Check for parking spots illegally occupied">
-        <bpmn:incoming>Flow_1is75hv</bpmn:incoming>
-        <bpmn:outgoing>Flow_06xn3se</bpmn:outgoing>
-        <bpmn:dataOutputAssociation id="DataOutputAssociation_143wmaw">
-          <bpmn:targetRef>DataStoreReference_0cznyuz</bpmn:targetRef>
-        </bpmn:dataOutputAssociation>
-      </bpmn:task>
       <bpmn:exclusiveGateway id="Gateway_088w3vp" name="Are there parking spots illegally occupied?">
         <bpmn:incoming>Flow_06xn3se</bpmn:incoming>
         <bpmn:outgoing>Flow_0vltm0t</bpmn:outgoing>
@@ -79,10 +72,6 @@
         <bpmn:incoming>Flow_149lxei</bpmn:incoming>
         <bpmn:outgoing>Flow_0ibu1jb</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:task id="Activity_0ye8kd9" name="Send a notification to the policeman">
-        <bpmn:incoming>Flow_0vltm0t</bpmn:incoming>
-        <bpmn:outgoing>Flow_149lxei</bpmn:outgoing>
-      </bpmn:task>
       <bpmn:dataStoreReference id="DataStoreReference_0cznyuz" />
       <bpmn:sequenceFlow id="Flow_06xn3se" sourceRef="Activity_06op1jl" targetRef="Gateway_088w3vp" />
       <bpmn:sequenceFlow id="Flow_0vltm0t" name="Yes" sourceRef="Gateway_088w3vp" targetRef="Activity_0ye8kd9" />
@@ -99,6 +88,17 @@
         <bpmn:incoming>Flow_138in28</bpmn:incoming>
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_138in28" sourceRef="Event_1ngph43" targetRef="Event_0fodd7x" />
+      <bpmn:serviceTask id="Activity_06op1jl" name="Check for parking spots illegally occupied">
+        <bpmn:incoming>Flow_1is75hv</bpmn:incoming>
+        <bpmn:outgoing>Flow_06xn3se</bpmn:outgoing>
+        <bpmn:dataOutputAssociation id="DataOutputAssociation_143wmaw">
+          <bpmn:targetRef>DataStoreReference_0cznyuz</bpmn:targetRef>
+        </bpmn:dataOutputAssociation>
+      </bpmn:serviceTask>
+      <bpmn:sendTask id="Activity_0ye8kd9" name="Send a notification to the policeman">
+        <bpmn:incoming>Flow_0vltm0t</bpmn:incoming>
+        <bpmn:outgoing>Flow_149lxei</bpmn:outgoing>
+      </bpmn:sendTask>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_1bzhwez" sourceRef="Event_1iy0xcu" targetRef="Activity_1r6eaj6" />
     <bpmn:sequenceFlow id="Flow_1ow4tqy" sourceRef="Activity_1r6eaj6" targetRef="Activity_1nvzoki" />
@@ -181,11 +181,11 @@
           <dc:Bounds x="878" y="190" width="74" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0bakdi6_di" bpmnElement="Activity_0bakdi6">
-        <dc:Bounds x="990" y="217" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1naduge_di" bpmnElement="Event_1naduge">
         <dc:Bounds x="1152" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09hlo5a_di" bpmnElement="Activity_0bakdi6">
+        <dc:Bounds x="990" y="217" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0pvodu6_di" bpmnElement="TextAnnotation_0pvodu6">
         <dc:Bounds x="1110" y="100" width="130" height="40" />
@@ -267,9 +267,6 @@
       <bpmndi:BPMNShape id="Event_02dy97s_di" bpmnElement="Event_02dy97s">
         <dc:Bounds x="572" y="712" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06op1jl_di" bpmnElement="Activity_06op1jl">
-        <dc:Bounds x="650" y="690" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataStoreReference_0cznyuz_di" bpmnElement="DataStoreReference_0cznyuz">
         <dc:Bounds x="675" y="605" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -278,9 +275,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="837" y="680" width="85" height="40" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ye8kd9_di" bpmnElement="Activity_0ye8kd9">
-        <dc:Bounds x="870" y="560" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1plubyo_di" bpmnElement="Gateway_1plubyo" isMarkerVisible="true">
         <dc:Bounds x="995" y="705" width="50" height="50" />
@@ -293,6 +287,12 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1076" y="755" width="49" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rgk9qk_di" bpmnElement="Activity_06op1jl">
+        <dc:Bounds x="650" y="690" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1l0y03g_di" bpmnElement="Activity_0ye8kd9">
+        <dc:Bounds x="870" y="560" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0vtaaxi_di" bpmnElement="TextAnnotation_0vtaaxi">
         <dc:Bounds x="680" y="470" width="120" height="54" />
