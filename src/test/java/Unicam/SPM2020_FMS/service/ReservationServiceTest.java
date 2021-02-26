@@ -44,6 +44,7 @@ public class ReservationServiceTest {
   private User user;
   private ParkingSpace park;
   private Reservation res;
+  private Car car;
   
   @BeforeEach
   public void setupTestCase() {
@@ -63,7 +64,7 @@ public class ReservationServiceTest {
 	    int id=userService.register(user);
 	    user.setIdUser(id);
 	}
-    Car car = new Car();
+    car = new Car();
     car.setDriver(this.user.getIdUser());
     car.setLicensePlateNumber("MI551LE");
     carService.register(car);
@@ -98,6 +99,7 @@ public class ReservationServiceTest {
   @AfterEach
   public void deleteTestCase() {
     parkService.deleteParkSpace(park.getIdParkingSpace());
+    carService.deleteCar(car);
   }
   
   @Test

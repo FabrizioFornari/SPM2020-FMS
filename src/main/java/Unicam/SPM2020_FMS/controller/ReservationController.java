@@ -46,10 +46,8 @@ public class ReservationController {
 				for (SpotIllegallyOccupied spotIllegallyOccupied : illegallyOccupiedList) {
 					illegallyOccupiedString = illegallyOccupiedString.concat("Parking space: "+spotIllegallyOccupied.getParkingSpaceName()
 							+ " - Address: "+spotIllegallyOccupied.getParkingSpaceAddress() + " - Spot: " + spotIllegallyOccupied.getParkingSpot()+";");
-				}
-				
+				}				
 				mav.addObject("illegallyOccupiedString", illegallyOccupiedString);
-		
 				return mav;
 			} else {
 				return new ModelAndView("welcome", "user", user);

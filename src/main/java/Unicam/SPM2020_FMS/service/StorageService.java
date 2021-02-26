@@ -65,7 +65,6 @@ public class StorageService {
 			}
 			else {
 				throw new IOException("Could not read file: " + filename);
-
 			}
 		} catch (IOException e) {
 			throw new UncheckedIOException("Could not read file: " + filename, e);

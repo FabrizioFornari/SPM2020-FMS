@@ -31,7 +31,7 @@ public class StorageServiceTest {
 	@Test
 	public void loadNonExistent() {
 		if(uploadDirOk) {
-		   Assert.assertTrue(Files.notExists(storageService.load("foo.txt")));
+			Assert.assertTrue(Files.notExists(storageService.load("foo.txt")));
 		} else {
 			Assert.fail("UploadDir not properly configured");
 		}
