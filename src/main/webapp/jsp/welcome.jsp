@@ -9,40 +9,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <style type="text/css">
-
-
-
-.startTime{
-color: #f4fdf4;
-
+.startTime {
+	color: #f4fdf4;
 }
 
-.endTime{
-color:#fffb00;
+.endTime {
+	color: #fffb00;
 }
 
-table tr{
-
-border-bottom: solid;
-}
-table tr.reservationRow{
-
-cursor:pointer;
+table tr {
+	border-bottom: solid;
 }
 
-.imgCenter{
-	
-	
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-
+table tr.reservationRow {
+	cursor: pointer;
 }
 
-
-
-
+.imgCenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
 </style>
 <title>Welcome</title>
 
@@ -87,7 +75,8 @@ cursor:pointer;
 									role="dialog" aria-labelledby="reservationsModalLabel"
 									aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered" role="document">
-										<div class="modal-content" style="background-color: #b2851cc9;">
+										<div class="modal-content"
+											style="background-color: #b2851cf0;">
 											<div class="modal-header">
 												<h5 class="modal-title" id="reservationsModalLabel">Reservations</h5>
 												<button type="button" class="close" data-dismiss="modal"
@@ -96,34 +85,42 @@ cursor:pointer;
 												</button>
 											</div>
 											<div class="modal-body">
+												<c:if test="${userReservations.size() != 0}">
+													<table id="#reservationsList" style="text-align: center;">
+														<thead>
+															<tr>
 
-												<table id="#reservationsList" style="text-align: center;">
-												<thead>
-													<tr>
-											
-														<th scope="col">Plate</th>
-														<th scope="col" style="padding-left: 40px;">Spot</th>
-														<th scope="col">Space</th>
-														<th scope="col">Time</th>
-														
-													</tr>
-													</thead>
+																<th scope="col">Plate</th>
+																<th scope="col" style="padding-left: 40px;">Spot</th>
+																<th scope="col">Space</th>
+																<th scope="col">Time</th>
 
-													<c:forEach var="reservation" items="${userReservations}"
-														varStatus="tagStatus">
-														<tr data-toggle="collapse" class="reservationRow"  data-target="#image${reservation.parkingSpaceId }">
-														
-															<td>${reservation.licensePlateNumber}</td>
-															<td style="padding-left: 40px;"><h4 style="color:#fffb00;">${reservation.parkingSpot}</h4></td>
-															<td>${reservation.parkingSpace}</td>
-															<td><p class="startTime">${reservation.parkingStart} </p>--><p class="endTime">${reservation.parkingEnd}</p></td>
-												
-														</tr>
-														<tr id="image${reservation.parkingSpaceId }" class="collapse" ><td colspan = 5><img  class="imgCenter" id="parkMap${reservation.parkingSpaceId}"  src=""></img></td></tr>
-													</c:forEach>
+															</tr>
+														</thead>
 
-												</table>
+														<c:forEach var="reservation" items="${userReservations}"
+															varStatus="tagStatus">
+															<tr data-toggle="collapse" class="reservationRow"
+																data-target="#image${reservation.parkingSpaceId }">
 
+																<td>${reservation.licensePlateNumber}</td>
+																<td style="padding-left: 40px;"><h4
+																		style="color: #fffb00;">${reservation.parkingSpot}</h4></td>
+																<td>${reservation.parkingSpace}</td>
+																<td><p class="startTime">${reservation.parkingStart}
+																	</p>-->
+																	<p class="endTime">${reservation.parkingEnd}</p></td>
+
+															</tr>
+															<tr id="image${reservation.parkingSpaceId }"
+																class="collapse">
+																<td colspan=5><img class="imgCenter"
+																	id="parkMap${reservation.parkingSpaceId}" src=""></img></td>
+															</tr>
+														</c:forEach>
+
+													</table>
+												</c:if>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
@@ -175,29 +172,28 @@ cursor:pointer;
 
 </body>
 <script type="text/javascript">
+	$('tr').on('click', function(event) {
 
-	$('tr').on('click',function(event){
-		
 		var target = $(this).data("target");
-		
-		
+
 		var idParkingSpace = target.substr(6);
-		var elementById = $("#parkMap"+idParkingSpace).attr('src');
-		
-		if (elementById != "") return; 
-		
+		var elementById = $("#parkMap" + idParkingSpace).attr('src');
+
+		if (elementById != "")
+			return;
+
 		$.ajax({
-			url: 'getMapSrcFromId',
-			type: 'GET',
-			data: ({ Id: idParkingSpace }),
-			success: function(data) {
-				document.getElementById("parkMap"+idParkingSpace).src = data;
+			url : 'getMapSrcFromId',
+			type : 'GET',
+			data : ({
+				Id : idParkingSpace
+			}),
+			success : function(data) {
+				document.getElementById("parkMap" + idParkingSpace).src = data;
 			}
 		});
-		
+
 	})
-
-
 </script>
 
 
