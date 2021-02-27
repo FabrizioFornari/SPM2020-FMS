@@ -1,9 +1,9 @@
 package Unicam.SPM2020_FMS.controller;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,13 +70,6 @@ public class ParkSpaceListController {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
 			    }
-				Properties prop=new Properties();
-				try {
-					prop.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				mav.addObject("uploadDir", prop.getProperty("uploadDir"));
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					parkingSpace.setFreeAll(spotService.getAvailable(parkingSpace.getIdParkingSpace()));		
@@ -138,13 +131,36 @@ public class ParkSpaceListController {
 	@ResponseBody
 	public String getMapSrc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam("filename") String filename) throws IOException {
-		
-		byte[] payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
 		String extension=FilenameUtils.getExtension(filename).toLowerCase();
-		String prefix="data:image/"+extension+";base64,";
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
+	}
+	
+	@RequestMapping(value = "/getMapSrcFromId", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+	@ResponseBody
+	public String getMapSrcFromId (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam("Id") String parkId) throws IOException {
 		
-		return  prefix+Base64.getEncoder().encodeToString(payload);
-		
+		List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
+		String filename="";
+		for (ParkingSpace park : parkSpaceList) { if(park.getIdParkingSpace()==Integer.parseInt(parkId)) filename=park.getImageName();}
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
+		String extension=FilenameUtils.getExtension(filename).toLowerCase();
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
 	}
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
@@ -256,7 +272,7 @@ public class ParkSpaceListController {
 
 		} else {
 			String filename="";
-			if (!parkingSpace.getImageFile().isEmpty()) {
+			if (parkingSpace.getImageFile()!=null && !parkingSpace.getImageFile().isEmpty()) {
 				filename = System.currentTimeMillis() + parkingSpace.getImageFile().getOriginalFilename();
 				parkingSpace.setImageName(filename);
 			}
