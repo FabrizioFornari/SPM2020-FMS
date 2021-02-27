@@ -78,7 +78,7 @@ table tr.reservationRow {
 										<div class="modal-content"
 											style="background-color: #b2851cf0;">
 											<div class="modal-header">
-												<h5 class="modal-title" id="reservationsModalLabel">Reservations</h5>
+												<h5 class="modal-title" id="reservationsModalLabel" align="center">Reserved spots</h5>
 												<button type="button" class="close" data-dismiss="modal"
 													aria-label="Close">
 													<span aria-hidden="true">&times;</span>
@@ -101,7 +101,7 @@ table tr.reservationRow {
 														<c:forEach var="reservation" items="${userReservations}"
 															varStatus="tagStatus">
 															<tr data-toggle="collapse" class="reservationRow"
-																data-target="#image${reservation.parkingSpaceId }">
+																data-target="#${userReservations.indexOf(reservation)+1}image${reservation.parkingSpaceId }">
 
 																<td>${reservation.licensePlateNumber}</td>
 																<td style="padding-left: 40px;"><h4
@@ -112,15 +112,16 @@ table tr.reservationRow {
 																	<p class="endTime">${reservation.parkingEnd}</p></td>
 
 															</tr>
-															<tr id="image${reservation.parkingSpaceId }"
+															<tr id="${userReservations.indexOf(reservation)+1}image${reservation.parkingSpaceId }"
 																class="collapse">
 																<td colspan=5><img class="imgCenter"
-																	id="parkMap${reservation.parkingSpaceId}" src=""></img></td>
+																	id="${userReservations.indexOf(reservation)+1}parkMap${reservation.parkingSpaceId}" src=""></img></td>
 															</tr>
 														</c:forEach>
 
 													</table>
 												</c:if>
+												<c:if test="${userReservations.size() == 0}">No reservations at the moment</c:if>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
@@ -172,12 +173,22 @@ table tr.reservationRow {
 
 </body>
 <script type="text/javascript">
+
+var reservations = '${userReservations.size()}';
+
+if(reservations == 0){
+	
+	$('#reservationsModalLabel').hide();
+}
+
+
 	$('tr').on('click', function(event) {
 
 		var target = $(this).data("target");
-
-		var idParkingSpace = target.substr(6);
-		var elementById = $("#parkMap" + idParkingSpace).attr('src');
+		var index = target.substr(1,target.indexOf("i")-1);
+		var idParkingSpace = target.substr(target.lastIndexOf("e")+1);
+	
+		var elementById = $("#"+index+"parkMap" + idParkingSpace).attr('src');
 
 		if (elementById != "")
 			return;
@@ -189,7 +200,7 @@ table tr.reservationRow {
 				Id : idParkingSpace
 			}),
 			success : function(data) {
-				document.getElementById("parkMap" + idParkingSpace).src = data;
+				document.getElementById(index+"parkMap" + idParkingSpace).src = data;
 			}
 		});
 
