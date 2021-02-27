@@ -30,11 +30,20 @@ public class ReservationDao {
 
 	public List<Reservation> showReservationsToCheck() {
 
-		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end is null";
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end is null";
 
 		List<Reservation> reservationsToCheck = jdbcTemplate.query(sql, new ReservationsMapper());
 
 		return reservationsToCheck;
+	}
+	
+	public List<Reservation> showUserReservations(Integer driver) {
+
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Id_driver='"+driver+"' and Occupancy_end is null";
+
+		List<Reservation> userReservations = jdbcTemplate.query(sql, new ReservationsMapper());
+
+		return userReservations;
 	}
 	
 	class ReservationsMapper implements RowMapper<Reservation> {
@@ -45,6 +54,7 @@ public class ReservationDao {
 					rs.getInt("ParkingSpot"),
 					rs.getInt("ParkingSpaceId"),
 					rs.getString("ParkingSpace"),
+					rs.getString("Parking_start"),
 					rs.getString("Parking_end")
 			);
 

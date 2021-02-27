@@ -143,6 +143,26 @@ public class ParkSpaceListController {
 		return  prefix+Base64.getEncoder().encodeToString(payload);		
 	}
 	
+	@RequestMapping(value = "/getMapSrcFromId", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+	@ResponseBody
+	public String getMapSrcFromId (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam("Id") String parkId) throws IOException {
+		
+		List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
+		String filename="";
+		for (ParkingSpace park : parkSpaceList) { if(park.getIdParkingSpace()==Integer.parseInt(parkId)) filename=park.getImageName();}
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
+		String extension=FilenameUtils.getExtension(filename).toLowerCase();
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
+	}
+	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	@ResponseBody
 	public String reserveSpotForLater (HttpServletRequest request, HttpServletResponse response, HttpSession session,

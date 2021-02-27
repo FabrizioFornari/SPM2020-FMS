@@ -14,11 +14,12 @@ public class Reservation {
 	private boolean askedCovered;
 	private boolean askedHandicap;
 
-	public Reservation(String licensePlateNumber, Integer parkingSpot, Integer parkingSpaceId, String parkingSpace, String parkingEnd) {		
+	public Reservation(String licensePlateNumber, Integer parkingSpot, Integer parkingSpaceId, String parkingSpace, String parkingStart, String parkingEnd) {		
 		this.licensePlateNumber = licensePlateNumber;
 		this.parkingSpot = parkingSpot;
 		this.parkingSpaceId = parkingSpaceId;
 		this.parkingSpace = parkingSpace;
+		this.parkingStart = parkingStart;
 		this.parkingEnd = parkingEnd;
 	}
 	
