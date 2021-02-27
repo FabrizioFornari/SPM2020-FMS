@@ -21,12 +21,15 @@ public class WelcomeControllerTest {
 	
   MockMvc mockMvc;
   MockHttpSession mockSession;
+  User mockUser;
   
   @BeforeEach
   void setup(WebApplicationContext wac) {
       this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
       this.mockSession = new MockHttpSession();
-      this.mockSession.setAttribute("user", new User());
+      this.mockUser = new User();
+      this.mockUser.setUserType("Driver");
+      this.mockSession.setAttribute("user", mockUser);
   }
   
   @Test

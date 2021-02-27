@@ -29,8 +29,9 @@ public class WelcomeController {
     User user = (User)session.getAttribute("user");
     if (user!=null) {
     	if (user.getUserType().equals("Driver")) {
-	    	ModelAndView mav = new ModelAndView("welcome", "user", user);
+	    	ModelAndView mav = new ModelAndView("welcome");
 	    	List<Reservation> userReservations = reservationService.showUserReservation(user.getIdUser());
+	    	mav.addObject("user", user);
 	    	mav.addObject("userReservations", userReservations);
 	    	return mav;
     	} else {
