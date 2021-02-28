@@ -1,47 +1,23 @@
-<h1 align="center">Smart parking</h1>
-<p>
-  <a href="https://github.com/FabrizioFornari/SPM2020-FMS" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
-  </a>
-</p>
+<h1 align="center">PARKME Smart Parking</h1>
 
-> Managing parking space or finding a parking spot in nowadays congested cities could be a challenge.  
-The aim of this project is therefore to provide an efficient parking management application for all the actors involved in such a topic, including municipalities, policemen and of course drivers.
 
-### 🏠 [Homepage] http://notYetDefined
+### 🏠 [Homepage] http://apromore.unicam.it/SPM2020-FMS/
 
-## Usage
 
-```sh
-Not yet defined
-```
+## Overview
 
-## Run tests
+Managing parking space or finding a parking spot in nowadays congested cities could be a real challenge.  
+The aim of this project is therefore to provide an efficient parking management application for all the actors involved in such a topic, that means municipalities, policemen and of course drivers.  
+This project was developed for the laboratory part of the [Software Project Management](http://didattica.cs.unicam.it/doku.php?id=didattica:magistrale:spm:ay_2021:main) course, held by Prof. [Andrea Polini](http://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=626&ru=RD) and Prof. [Fabrizio Fornari](https://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=1179&ru=PROFCONTR) at the [University of Camerino](http://www.unicam.it/).   
+This application was developed as a Maven project adopting some of the most common DevOps technologies and Scrum principles and rules.    
+It is suited for 3 kinds of users: municipalities, drivers and policemen.  
+Additional informations can be found on the [Wiki](https://github.com/FabrizioFornari/SPM2020-FMS/wiki) section.  
 
-```sh
-Not yet defined
-```
 
 ## Authors
 
-👤 **Fulvio Teodori - Mario Lombardi - Stefano Aschettino**
+👤 **Fulvio Teodori : fulviomaria.teodori@studenti.unicam.it**  
+👤 **Mario Lombardi : mario.lombardi@studenti.unicam.it**  
+👤 **Stefano Aschettino : stefano.aschettino@studenti.unicam.it**
 
-
-## Description
-
-This Smart parking application is under current development for the laboratory part of the Software Project Management course, held by Prof. Andrea Polini and Prof. Fabrizio Fornari at University of Camerino.  
-The development of the project is organized following the Scrum methodology.  
-The Issues section represent the product backlog and therefore the typical user stories adopted in the SCRUM methodology.  
-Milestones are used to define each sprint backlog, taking in to consideration the priorities of the user stories, with story points assigned to each one.  
-The Task Board of each sprint is managed in the Projects section, in which each user story of the sprint backlog is divided into tasks and grouped in the "To do", "In progress" and "Done" columns.  
-Additional informations can be found on the Wiki section.
-
-## Tools
-
-Eclipse IDE  
-Maven  
-Java Spring  
-Visual Paradigm
-
-## Etc
 
