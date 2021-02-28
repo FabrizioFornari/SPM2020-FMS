@@ -2,6 +2,9 @@ package Unicam.SPM2020_FMS.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import static org.springframework.test.web.ModelAndViewAssert.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,15 +48,34 @@ public class WelcomeControllerTest {
   }
   
   @Test
-  public void testWelcomeUserView() throws Exception {
+  public void testWelcomeNoDriverView() throws Exception {
+	this.mockSession.removeAttribute("user");
+	this.mockUser.setUserType("Policeman");
+	this.mockSession.setAttribute("user", this.mockUser);
 	ModelAndView resultMav=mockMvc.perform(get("/").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertViewName(resultMav, "welcome");
   }
   
   @Test
-  public void testWelcomeUserModel() throws Exception {
+  public void testWelcomeNoDriverModel() throws Exception {
+	this.mockSession.removeAttribute("user");
+	this.mockUser.setUserType("Policeman");
+	this.mockSession.setAttribute("user", this.mockUser);
 	ModelAndView resultMav=mockMvc.perform(get("/").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertAndReturnModelAttributeOfType(resultMav, "user", User.class);
+  }
+  
+  @Test
+  public void testWelcomeDriverView() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(get("/").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertViewName(resultMav, "welcome");
+  }
+  
+  @Test
+  public void testWelcomeDriverModel() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(get("/").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertAndReturnModelAttributeOfType(resultMav, "user", User.class);
+	assertAndReturnModelAttributeOfType(resultMav, "userReservations", List.class);
   }
   
 }
