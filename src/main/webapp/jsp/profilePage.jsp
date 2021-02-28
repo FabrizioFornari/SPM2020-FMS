@@ -1,7 +1,9 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 
 <head>
@@ -109,15 +111,43 @@
 
 				</div>
 
+				<!-- form-group// -->
+				<div class="form-group input-group">
+				<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="fas fa-money-check-alt"></i>
+						</span>
+					</div>
+					<select class="input" required>
+			
+						<c:forEach var="payment" items="${paymentsList}"
+				varStatus="tagStatus">
+					
+
+						<c:choose>
+							<c:when test="${user.getPaymentTypeId() == payment.getId() } ">
+								<option value="${payment.getId()}" selected>${payment.getType()}</option>
+
+							</c:when>
+							<c:otherwise>
+								<option value="${payment.getId()}">${payment.getType()}</option>
+
+							</c:otherwise>
+						</c:choose>
+
+
+</c:forEach>
+					</select>
+				</div>
+
 				<div class="hr"></div>
 				<!-- form-group// -->
 				<div class="form-group">
-				<table align="center">
-							<tr>
-								<td style="font-style: italic; color: green;">${message}</td>
-						
-							</tr>
-						</table>
+					<table align="center">
+						<tr>
+							<td style="font-style: italic; color: green;">${message}</td>
+
+						</tr>
+					</table>
 
 					<form:button id="register" name="register" type="submit"
 						class="btn btn-primary btn-block">Update information</form:button>

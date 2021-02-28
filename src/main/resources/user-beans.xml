@@ -13,6 +13,10 @@
 <bean id="storageService" class="Unicam.SPM2020_FMS.service.StorageService" />
 <bean id="spotService" class="Unicam.SPM2020_FMS.service.ParkSpotService" />
 <bean id="schedulerService" class="Unicam.SPM2020_FMS.service.SchedulerService" />
+<bean id="statisticsService" class="Unicam.SPM2020_FMS.service.StatisticsService" />
+<bean id="statisticsDao" class="Unicam.SPM2020_FMS.dao.StatisticsDao" />
+<bean id="paymentService" class="Unicam.SPM2020_FMS.service.PaymentService" />
+<bean id="paymentDao" class="Unicam.SPM2020_FMS.dao.PaymentDao" />
 
 <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" />
 
@@ -22,7 +26,7 @@
 <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 <property name="url" value="jdbc:mysql://localhost:3306/smartparking_db?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
-<property name="username" value="spm2020FMS"/>
-<property name="password" value="spm2020FMS"/>
+<property name="username" value="root"/>
+<property name="password" value="password"/>
 </bean>
 </beans>

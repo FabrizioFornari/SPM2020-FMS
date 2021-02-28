@@ -215,14 +215,21 @@
 							</form:select>
 						</div>
 						<!-- form-group// -->
-							<div class="form-group">
-							<select class="form-control" required="true">
-								<option value="" disabled selected>Choose your payment
-									method</option>
+							<div class="form-group input-group">
+							<select class="input" required="true">
+					
 								<c:forEach var="payment" items="${paymentsList}"
 									varStatus="tagStatus">
-									<option>${payment.getType()}</option>
+								<c:choose>
+							<c:when test="${user.getPaymentTypeId() == payment.getId() } ">
+								<option value="${payment.getId()}" selected>${payment.getType()}</option>
 
+							</c:when>
+							<c:otherwise>
+								<option value="${payment.getId()}">${payment.getType()}</option>
+
+							</c:otherwise>
+						</c:choose>
 								</c:forEach>
 							</select>
 						</div>
