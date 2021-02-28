@@ -10,8 +10,10 @@
 <bean id="parkSpaceService" class="Unicam.SPM2020_FMS.service.ParkSpaceService"/>
 <bean id="parkSpaceDao" class="Unicam.SPM2020_FMS.dao.ParkSpaceDao"/>
 <bean id="spotDao" class="Unicam.SPM2020_FMS.dao.ParkSpotDao" />
+<bean id="statisticsDao" class="Unicam.SPM2020_FMS.dao.StatisticsDao" />
 <bean id="storageService" class="Unicam.SPM2020_FMS.service.StorageService" />
 <bean id="spotService" class="Unicam.SPM2020_FMS.service.ParkSpotService" />
+<bean id="statisticsService" class="Unicam.SPM2020_FMS.service.StatisticsService" />
 <bean id="schedulerService" class="Unicam.SPM2020_FMS.service.SchedulerService" />
 
 <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" />

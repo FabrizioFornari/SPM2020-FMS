@@ -25,7 +25,7 @@ public class StatisticsDao {
 		String sql="";
 		
 		if (lastMonth) {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney,parkingspace.Name " + 
+			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney,parkingspace.Name as parkSpace " + 
 							"FROM reservation,parkingspace " + 
 							"WHERE parkingspace.ID = reservation.ParkingSpace " + 
 							"GROUP BY ParkingSpace ";
@@ -46,11 +46,11 @@ public class StatisticsDao {
 		String sql="";
 		
 		if (lastMonth) {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney" + 
+			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney " + 
 					"FROM reservation,parkingspace " + 
 					"WHERE parkingspace.ID = reservation.ParkingSpace and  reservation.Booking_time >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH )";
 		} else {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney" + 
+			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney " + 
 					"FROM reservation,parkingspace " + 
 					"WHERE parkingspace.ID = reservation.ParkingSpace";
 		}
@@ -64,7 +64,7 @@ public class StatisticsDao {
 
 		public Statistic mapRow(ResultSet rs, int arg1) throws SQLException {
 			Statistic statistic = new Statistic(
-					rs.getString("ParkSpace"),
+					rs.getString("parkSpace"),
 					rs.getFloat("earnedMoney")
 			);
 			return statistic;

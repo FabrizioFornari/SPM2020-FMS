@@ -26,5 +26,15 @@ public class StatisticsService {
 		}
 		return result;
 	}
+
+	public int totalDrivers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public List<Statistic> usersByPayment() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
