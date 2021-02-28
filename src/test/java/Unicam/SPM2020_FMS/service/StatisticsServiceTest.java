@@ -2,7 +2,6 @@ package Unicam.SPM2020_FMS.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class StatisticsServiceTest {
 	for (Statistic parkRevenue : revenueByParks) {
 		computedPerc+=parkRevenue.getPercentage();
 	}
-	Assert.assertEquals(100, computedPerc, 0.01);
+	Assert.assertEquals(100, computedPerc, 0.02);
   }
   
   @Test
@@ -82,7 +81,6 @@ public class StatisticsServiceTest {
   }
   
   @Test
-  @Disabled
   public void testTotalDrivers() {
 	  int tableRows=JdbcTestUtils.countRowsInTableWhere(jdbcTemplate,"user","User_type = 'Driver'");
 	  int result=statService.totalDrivers();
@@ -90,18 +88,16 @@ public class StatisticsServiceTest {
   }
   
   @Test
-  @Disabled
   public void testUsersByPaymentPerc() {
 	List<Statistic> usersByPayment=statService.usersByPayment();
-	Float computedPerc=(float)0;
+	float computedPerc=(float)0;
 	for (Statistic paymentDrivers : usersByPayment) {
 		computedPerc+=paymentDrivers.getPercentage();
 	}
-	Assert.assertEquals(100, computedPerc, 0.01);
+	Assert.assertEquals(100, computedPerc, 0.02);
   }
   
   @Test
-  @Disabled
   public void testUsersByPaymentQty() {
 	List<Statistic> usersByPayment=statService.usersByPayment();
 	int computedDrivers=0;

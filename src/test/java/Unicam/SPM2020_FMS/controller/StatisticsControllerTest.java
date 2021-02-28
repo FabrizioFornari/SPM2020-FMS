@@ -8,7 +8,6 @@ import java.util.List;
 import static org.springframework.test.web.ModelAndViewAssert.*;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -67,14 +66,13 @@ public class StatisticsControllerTest {
   }
   
   @Test
-  public void testStatisticsMunicipalView() throws Exception {
+  public void testStatisticsMunicView() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/Statistics").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertViewName(resultMav, "statistics");
   }
   
   @Test
-  @Disabled
-  public void testStatisticsMunicipalModel() throws Exception {
+  public void testStatisticsMunicModel() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/Statistics").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertAndReturnModelAttributeOfType(resultMav, "totalRevenue", Float.class);
 	assertAndReturnModelAttributeOfType(resultMav, "totalRevenueFiltered", Float.class);

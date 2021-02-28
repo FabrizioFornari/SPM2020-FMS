@@ -28,13 +28,18 @@ public class StatisticsService {
 	}
 
 	public int totalDrivers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return statisticsDao.totalDrivers();
 	}
 
 	public List<Statistic> usersByPayment() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Statistic> result = statisticsDao.usersByPayment();
+		Integer totDrivers = statisticsDao.totalDrivers();
+		for (Statistic statistic : result) {
+			Float perc= statistic.getQuantity()/totDrivers*100;
+			perc = (float) (Math.round(perc*100)/100.0);
+			statistic.setPercentage(perc);			
+		}
+		return result;
 	}
 	
 }

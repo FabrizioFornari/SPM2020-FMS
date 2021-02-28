@@ -37,12 +37,16 @@ public class StatisticsController {
 		    }
 			List<Statistic> revenueBySpace = statService.revenueByParkSpace(false);
 			List<Statistic> revenueBySpaceMonth = statService.revenueByParkSpace(true);
+			List<Statistic> usersByPayment = statService.usersByPayment();
 			Float totalRevenue = statService.totalRevenue(false);
 			Float totalRevenueMonth = statService.totalRevenue(true);
+			int totalDrivers = statService.totalDrivers();
 			mav.addObject("revenueBySpace",revenueBySpace);
 			mav.addObject("revenueBySpaceFiltered",revenueBySpaceMonth);
+			mav.addObject("paymentTypeList",usersByPayment);
 			mav.addObject("totalRevenue",totalRevenue);
 			mav.addObject("totalRevenueFiltered",totalRevenueMonth);
+			mav.addObject("totalUsers",totalDrivers);
 			return mav;
 		} else {
 			return new ModelAndView("welcome", "user", user);

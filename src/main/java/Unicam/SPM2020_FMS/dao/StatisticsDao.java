@@ -25,12 +25,12 @@ public class StatisticsDao {
 		String sql="";
 		
 		if (lastMonth) {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney,parkingspace.Name as parkSpace " + 
+			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as quantity,parkingspace.Name as description " + 
 							"FROM reservation,parkingspace " + 
 							"WHERE parkingspace.ID = reservation.ParkingSpace " + 
 							"GROUP BY ParkingSpace ";
 		} else {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney, parkingspace.Name as parkSpace " + 
+			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as quantity, parkingspace.Name as description " + 
 							"FROM reservation,parkingspace " + 
 							"WHERE parkingspace.ID = reservation.ParkingSpace and reservation.Booking_time >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH ) " + 
 							"GROUP BY ParkingSpace ";
@@ -60,12 +60,42 @@ public class StatisticsDao {
 		return result;
 	}
 	
+	public int totalDrivers() {
+		
+		String sql = "SELECT COUNT(*) FROM user WHERE User_type = 'Driver'";
+		
+		Integer result = jdbcTemplate.queryForObject(sql, Integer.class);
+		
+		return result;
+		
+	}
+
+	public List<Statistic> usersByPayment() {
+		
+		String sql = 	"SELECT DISTINCT COUNT(*) as quantity, payment.Payment_type as description " +
+						"FROM payment, user " + 
+						"WHERE user.Default_payment = payment.ID and user.User_type = 'Driver' " +
+						"GROUP BY payment.Payment_type";
+		
+		List<Statistic> result = jdbcTemplate.query(sql, new StatisticsMapper());
+		return result;	
+	}
+
+	public Integer totalPaymentTypes() {
+		
+		String sql = "SELECT count(*) FROM payment";
+
+		Integer result = jdbcTemplate.queryForObject(sql, Integer.class);
+		
+		return result;
+	}
+	
 	class StatisticsMapper implements RowMapper<Statistic> {
 
 		public Statistic mapRow(ResultSet rs, int arg1) throws SQLException {
 			Statistic statistic = new Statistic(
-					rs.getString("parkSpace"),
-					rs.getFloat("earnedMoney")
+					rs.getString("description"),
+					rs.getFloat("quantity")
 			);
 			return statistic;
 		}
