@@ -117,7 +117,7 @@
 													</c:if>
 														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2" ></i>
 													<strong>	Fee:
-														${parkSpace.getParkingFee()} €</strong></li>
+														${parkSpace.getParkingFee()} €/hour</strong></li>
 												</ul>
 											</div>
 										</div>
@@ -199,6 +199,7 @@
 
 							</select>
 						</div>
+						<!-- form-group// -->
 						<div class="form-group" id="licenseSelect">
 							<form:select class="input" path="licensePlateNumber"
 								required="true">
@@ -213,6 +214,19 @@
 
 							</form:select>
 						</div>
+						<!-- form-group// -->
+							<div class="form-group">
+							<select class="form-control" required="true">
+								<option value="" disabled selected>Choose your payment
+									method</option>
+								<c:forEach var="payment" items="${paymentsList}"
+									varStatus="tagStatus">
+									<option>${payment.getType()}</option>
+
+								</c:forEach>
+							</select>
+						</div>
+						
 						<!-- form-group// -->
 						<div class="form-group input-group">
 
@@ -242,14 +256,7 @@
 
 						</div>
 
-						<!--  	<div class="form-group">
-							<select class="form-control" required="true">
-								<option value="" disabled selected>Choose your payment
-									method</option>
-								<option>Paypal</option>
-								<option>Postepay</option>
-							</select>
-						</div>-->
+						  
 					</form:form>
 
 				</div>
