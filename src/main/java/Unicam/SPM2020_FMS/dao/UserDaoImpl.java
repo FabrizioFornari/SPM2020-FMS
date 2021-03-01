@@ -103,7 +103,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	class UserMapper implements RowMapper<User> {
-
 		public User mapRow(ResultSet rs, int arg1) throws SQLException {
 			User user = new User(rs.getInt("ID"), rs.getString("Name"), rs.getString("Surname"), rs.getString("Email"),
 					rs.getString("Password"), rs.getString("Tax_code"), rs.getString("Phone_number"),

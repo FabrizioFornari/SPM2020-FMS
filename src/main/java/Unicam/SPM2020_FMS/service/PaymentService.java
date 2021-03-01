@@ -11,9 +11,9 @@ import Unicam.SPM2020_FMS.model.Payment;
 public class PaymentService {
 
 	@Autowired PaymentDao paymentDao;
-	
-	
+		
 	public List<Payment> showPaymentsList() {
 		return paymentDao.showPymentList();	
 	  }
+	
 }

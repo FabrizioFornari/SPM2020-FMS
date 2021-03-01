@@ -117,26 +117,18 @@
 						<span class="input-group-text"> <i class="fas fa-money-check-alt"></i>
 						</span>
 					</div>
-					<select class="input" required>
-			
-						<c:forEach var="payment" items="${paymentsList}"
-				varStatus="tagStatus">
-					
-
+					<form:select class="input" required="true" path="paymentTypeId">			
+					<c:forEach var="payment" items="${paymentsList}" varStatus="tagStatus">
 						<c:choose>
 							<c:when test="${user.getPaymentTypeId() == payment.getId() } ">
 								<option value="${payment.getId()}" selected>${payment.getType()}</option>
-
 							</c:when>
 							<c:otherwise>
 								<option value="${payment.getId()}">${payment.getType()}</option>
-
 							</c:otherwise>
 						</c:choose>
-
-
-</c:forEach>
-					</select>
+					</c:forEach>
+					</form:select>
 				</div>
 
 				<div class="hr"></div>

@@ -33,36 +33,25 @@ public class InformationController {
 	  public ModelAndView showProfile(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		  
 	    User user = (User)session.getAttribute("user");
-	    if (user!=null && !user.getUserType().equals("Driver")) {
+	    if (user!=null) {
 		    ModelAndView mav = new ModelAndView("profilePage", "user", user);
-		    Object message= session.getAttribute("message");
-	
+		    Object message= session.getAttribute("message");	
 		    if(message!=null) {
 		    	mav.addObject("message", (String) message);
 		    	session.removeAttribute("message");
 		    }
-		    
-		    return mav; 	
-	    }else if(user != null && user.getUserType().equals("Driver")) {
-	    	   ModelAndView mav = new ModelAndView("profilePage", "user", user);
-			    Object message= session.getAttribute("message");
-				    	
-			    	List<Payment> paymentsList = paymentService.showPaymentsList();
-			    	mav.addObject("paymentsList",paymentsList);
-		
-			    if(message!=null) {
-			    	mav.addObject("message", (String) message);
-			    	session.removeAttribute("message");
-			    }
-			    return mav;	
+	    	if(user.getUserType().equals("Driver")) {
+		    	List<Payment> paymentsList = paymentService.showPaymentsList();
+		    	mav.addObject("paymentsList",paymentsList);
+	    	}		    
+		    return mav;
 	    }else {
 	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
 	    	mav.addObject("message", "Please login");		
 	    	return mav;
 	    }
 	  }
-	  
-	  
+	  	  
 	  @RequestMapping(value = "/updateUserProcess", method = RequestMethod.POST)
 	  public String updateProfile(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user, HttpSession session) {
 	    User oldUser = (User) session.getAttribute("user");

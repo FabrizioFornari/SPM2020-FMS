@@ -98,9 +98,9 @@ public class UserTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		driver = new User(Integer.parseInt(driverIdUser), driverFirstname, driverSurname, driverEmail, driverPassword, driverTaxCode, driverPhoneNumber, driverUserType, null, null);
-		policeman = new User(Integer.parseInt(policemanIdUser), policemanFirstname, policemanSurname, policemanEmail, policemanPassword, policemanTaxCode, policemanPhoneNumber, policemanUserType, "policemanIdNumber", null);
-		municipality = new User(Integer.parseInt(municipalityIdUser), municipalityFirstname, municipalitySurname, municipalityEmail, municipalityPassword, municipalityTaxCode, municipalityPhoneNumber, municipalityUserType, null, "municipalityAuthNumber");
+		driver = new User(Integer.parseInt(driverIdUser), driverFirstname, driverSurname, driverEmail, driverPassword, driverTaxCode, driverPhoneNumber, driverUserType, null, null,0);
+		policeman = new User(Integer.parseInt(policemanIdUser), policemanFirstname, policemanSurname, policemanEmail, policemanPassword, policemanTaxCode, policemanPhoneNumber, policemanUserType, "policemanIdNumber", null,0);
+		municipality = new User(Integer.parseInt(municipalityIdUser), municipalityFirstname, municipalitySurname, municipalityEmail, municipalityPassword, municipalityTaxCode, municipalityPhoneNumber, municipalityUserType, null, "municipalityAuthNumber",0);
 	}
 
 	@AfterEach

@@ -19,19 +19,15 @@ public class PaymentDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public List<Payment> showPymentList() {
-
+	public List<Payment> showPymentList() {		
 		String sql = "SELECT * FROM payment";
 
 		List<Payment> paymentsList = jdbcTemplate.query(sql, new PaymentMapper());
 
 		return paymentsList;	
-	  }
-	
-	
+	}
 	
 	class PaymentMapper implements RowMapper<Payment> {
-
 		public Payment mapRow(ResultSet rs, int arg1) throws SQLException {
 			Payment payment = new Payment(
 				rs.getInt("ID"),
@@ -39,7 +35,6 @@ public class PaymentDao {
 			);
 			return payment;
 		}
-		
-	  }
+	 }
 	
 }
