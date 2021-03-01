@@ -93,6 +93,18 @@ public class CarRegistrationControllerTest {
   }
   
   @Test
+  public void testAddCarNoUserView() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(post("/addCar")).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertViewName(resultMav, "login");
+  }
+
+  @Test
+  public void testAddCarNoUserModel() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(post("/addCar")).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertAndReturnModelAttributeOfType(resultMav, "login", Login.class);
+  }
+  
+  @Test
   public void testDeleteCarView() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(post("/deleteCar").session(mockSession).flashAttr("carToTrash", new Car())).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertViewName(resultMav, "myCars");
@@ -104,5 +116,17 @@ public class CarRegistrationControllerTest {
 	assertAndReturnModelAttributeOfType(resultMav, "carToAdd", Car.class);
 	assertAndReturnModelAttributeOfType(resultMav, "carToTrash", Car.class);
 	assertAndReturnModelAttributeOfType(resultMav, "userCars", UserCars.class);
+  }
+  
+  @Test
+  public void testDeleteCarNoUserView() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(post("/deleteCar")).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertViewName(resultMav, "login");
+  }
+
+  @Test
+  public void testDeleteCarNoUserModel() throws Exception {
+	ModelAndView resultMav=mockMvc.perform(post("/deleteCar")).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertAndReturnModelAttributeOfType(resultMav, "login", Login.class);
   }
 }

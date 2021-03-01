@@ -54,8 +54,13 @@ public class InformationControllerTest {
   }
   
   @Test
-  public void testupdateUserProcessRedirect() throws Exception {
+  public void testUpdateUserProcessRedirect() throws Exception {
 	mockMvc.perform(post("/updateUserProcess").session(mockSession).flashAttr("user", new User())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/profile"));
+  }
+  
+  @Test
+  public void testUpdateUserProcessNoSessionRedirect() throws Exception {
+	mockMvc.perform(post("/updateUserProcess")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
   }
   
 }

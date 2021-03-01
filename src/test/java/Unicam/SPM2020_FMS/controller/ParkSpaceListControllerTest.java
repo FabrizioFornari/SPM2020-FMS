@@ -88,8 +88,19 @@ public class ParkSpaceListControllerTest {
   }
   
   @Test
+  public void testParkNowNoSession() throws Exception {
+	mockMvc.perform(post("/parkNow")).andExpect(status().isOk()).andExpect(content().string("Error: reservation has not been possible"));
+  }
+  
+  @Test
   public void testReserve() throws Exception {
 	mockMvc.perform(post("/reserve").session(mockSession).flashAttr("reservation", new Reservation())).andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith("text/plain"));
+  }
+  
+  @Test
+  public void testReserveNoSession() throws Exception {
+	mockMvc.perform(post("/reserve")).andExpect(status().isOk()).andExpect(content().string("Error: reservation has not been possible"));
+	
   }
   
   @Test
@@ -103,27 +114,23 @@ public class ParkSpaceListControllerTest {
 	assertViewName(resultMav, "login");
   }
   
-
   @Test
   public void testParksManagementNoUserModel() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/ParksManagement")).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertAndReturnModelAttributeOfType(resultMav, "login", Login.class);
-  }
-  
+  }  
   
   @Test
   public void testParksManagementNoMunicView() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/ParksManagement").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertViewName(resultMav, "welcome");
   }
-  
-  
+   
   @Test
   public void testParksManagementNoMunicModel() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/ParksManagement").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertAndReturnModelAttributeOfType(resultMav, "user", User.class);
   }
-  
   
   @Test
   public void testParksManagementMunicView() throws Exception {
@@ -133,7 +140,6 @@ public class ParkSpaceListControllerTest {
 	ModelAndView resultMav=mockMvc.perform(get("/ParksManagement").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertViewName(resultMav, "ParksManagement");
   }
-  
   
   @Test
   public void testParksManagementMunicModel() throws Exception {
@@ -146,7 +152,6 @@ public class ParkSpaceListControllerTest {
 	assertAndReturnModelAttributeOfType(resultMav, "parkSpaceList", List.class);
   }
   
-  
   @Test
   public void testEditPark() throws Exception {
 	this.mockSession.removeAttribute("user");
@@ -155,6 +160,10 @@ public class ParkSpaceListControllerTest {
 	mockMvc.perform(post("/ParksManagement").session(mockSession).flashAttr("parkSpaceToEdit", new ParkingSpace())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/ParksManagement"));
   }
   
+  @Test
+  public void testEditParkNoSession() throws Exception {
+	mockMvc.perform(post("/ParksManagement")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
+  }
   
   @Test
   public void testDeletePark() throws Exception {
@@ -163,6 +172,10 @@ public class ParkSpaceListControllerTest {
 	this.mockSession.setAttribute("user", this.mockUser);
 	mockMvc.perform(post("/DeleteParkSpace").session(mockSession).flashAttr("parkSpaceToDelete", new ParkingSpace())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/ParksManagement"));
   }
-  
+
+  @Test
+  public void testDeleteParkNoSession() throws Exception {
+	mockMvc.perform(post("/DeleteParkSpace")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
+  }
  
 }

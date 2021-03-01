@@ -79,5 +79,10 @@ public class NewParkSpaceControllerTest {
   public void testAddParkRedirect() throws Exception {
 	mockMvc.perform(post("/addParkSpace").session(mockSession).flashAttr("newParkSpace", new ParkingSpace())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/newParkArea"));
   }
+  
+  @Test
+  public void testAddParkNoSessionRedirect() throws Exception {
+	mockMvc.perform(post("/addParkSpace")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
+  }
 
 }

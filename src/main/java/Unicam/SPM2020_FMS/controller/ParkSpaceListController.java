@@ -97,17 +97,18 @@ public class ParkSpaceListController {
 	public String reserveSpotNow (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 				@ModelAttribute("reservartion") Reservation reservation) {
 		
-		User user = (User) session.getAttribute("user");
-		if (user==null) {
-			session.setAttribute("message", "Please login");		
-	    	return "redirect:/login";
-		}
-		
 		String[] bookMessages = {
 				  "We are sorry, it seems that there are no more available spots",
 				  "Error: dates are not correctly specified",
 				  "Error: reservation has not been possible"
 				};		
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return bookMessages[2];
+		}
+		
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
@@ -173,17 +174,18 @@ public class ParkSpaceListController {
 	public String reserveSpotForLater (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 				@ModelAttribute("reservartion") Reservation reservation) {
 		
-		User user = (User) session.getAttribute("user");
-		if (user==null) {
-			session.setAttribute("message", "Please login");		
-	    	return "redirect:/login";
-		}
-		
 		String[] bookMessages = {
 				  "We are sorry, it seems that there are no more available spots",
 				  "Error: dates are not correctly specified",
 				  "Error: reservation has not been possible"
-				};		
+				};	
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return bookMessages[2];
+		}
+			
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
