@@ -88,12 +88,12 @@ public class UserDaoImpl implements UserDao {
 
 	public int update(User user) {
 		
-		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
+		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ?,Default_payment = ? WHERE ID = ? ";
 		int updated=0;
 		
 		try {
 			updated=jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
-					user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() });
+					user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(),user.getPaymentTypeId(), user.getIdUser() });
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -114,11 +114,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	class UserMapper implements RowMapper<User> {
-
 		public User mapRow(ResultSet rs, int arg1) throws SQLException {
 			User user = new User(rs.getInt("ID"), rs.getString("Name"), rs.getString("Surname"), rs.getString("Email"),
 					rs.getString("Password"), rs.getString("Tax_code"), rs.getString("Phone_number"),
-					rs.getString("User_type"), rs.getString("Id_number"), rs.getString("Auth_number"));
+					rs.getString("User_type"), rs.getString("Id_number"), rs.getString("Auth_number"),rs.getInt("Default_Payment"));
 
 			return user;
 		}

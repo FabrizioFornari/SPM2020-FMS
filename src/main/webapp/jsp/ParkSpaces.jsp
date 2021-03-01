@@ -63,7 +63,8 @@
 						<div class="section-title text-center ">
 							<h3 class="top-c-sep">Find your parking space</h3>
 							<p>You can choose the parking space that is most suitable for
-								you. Press "Reserve" if you want to schedule your parking time, "Park now" otherwise.</p>
+								you. Press "Reserve" if you want to schedule your parking time,
+								"Park now" otherwise.</p>
 						</div>
 					</div>
 				</div>
@@ -112,12 +113,13 @@
 														Handicap:
 														${parkSpace.getFreeHandicap()}/${parkSpace.getHandicapSpots()}</li>
 													<c:if test="${parkSpace.isGuarded() == true}">
-														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2"></i>
-															<strong>Is guarded</strong></li>
+														<li class="mr-md-4" style="color: #d1ec15;"><i
+															class="zmdi zmdi-time mr-2"></i> <strong>Is
+																guarded</strong></li>
 													</c:if>
-														<li class="mr-md-4" style="color: #d1ec15;"><i class="zmdi zmdi-time mr-2" ></i>
-													<strong>	Fee:
-														${parkSpace.getParkingFee()} €</strong></li>
+													<li class="mr-md-4" style="color: #d1ec15;"><i
+														class="zmdi zmdi-time mr-2"></i> <strong> Fee:
+															${parkSpace.getParkingFee()} €/hour</strong></li>
 												</ul>
 											</div>
 										</div>
@@ -180,6 +182,7 @@
 						method="post">
 
 						<div class="form-group">
+
 							<form:input path="parkingSpaceId" class="input" type="hidden"
 								readonly="true" />
 						</div>
@@ -188,18 +191,39 @@
 						<div class="form-group" id="dateSelection">
 
 							From:
-					
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i class="fas fa-table"></i>
+								</span>
+							</div>
 							<input type="date" id="parkingStartDate" class="input"
-								autocomplete /><br> <select id="timeList" class="input">
+								autocomplete /><br>
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i class="fas fa-clock"></i>
+								</span>
+							</div>
+							<select id="timeList" class="input">
 
 							</select> To:
-					
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i class="fas fa-table"></i>
+								</span>
+							</div>
 							<input type="date" id="parkingEndDate" class="input" autocomplete />
-							<br> <select id="timeList2" class="input">
+							<br>
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i class="fas fa-clock"></i>
+								</span>
+							</div>
+							<select id="timeList2" class="input">
 
 							</select>
 						</div>
+						<!-- form-group// -->
 						<div class="form-group" id="licenseSelect">
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i class="fas fa-car "></i>
+								</span>
+							</div>
 							<form:select class="input" path="licensePlateNumber"
 								required="true">
 								<option value="" disabled selected>Choose your license
@@ -214,6 +238,40 @@
 							</form:select>
 						</div>
 						<!-- form-group// -->
+						<div class="form-group" id="paymentSelect">
+							<div class="input-group-prepend">
+								<span class="input-group-text"> <i
+									class="fas fa-money-check-alt"></i>
+								</span>
+							</div>
+							<form:select class="input" required="true" path="paymentType">
+
+								<c:forEach var="payment" items="${paymentsList}"
+									varStatus="tagStatus">
+									<c:choose>
+										<c:when
+											test="${user.getPaymentTypeId() == 0 && user.getPaymentTypeId() == payment.getId()}">
+											<option value="${payment.getId()}" disabled selected>${payment.getType()}</option>
+
+										</c:when>
+										<c:when test="${payment.getId()==0}">
+											<option value="${payment.getId()}" disabled>${payment.getType()}</option>
+
+										</c:when>
+										<c:when test="${user.getPaymentTypeId() == payment.getId()}">
+											<option value="${payment.getId()}" selected>${payment.getType()}</option>
+
+										</c:when>
+										<c:otherwise>
+											<option value="${payment.getId()}">${payment.getType()}</option>
+
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</form:select>
+						</div>
+
+						<!-- form-group// -->
 						<div class="form-group input-group">
 
 
@@ -222,18 +280,19 @@
 
 
 									<form:checkbox path="askedCovered" id="coveredSpot"
-										name="askedCovered"  />
+										name="askedCovered" />
 
 									<label for="coveredSpot">Covered</label>
 								</div>
 
-							</div> &ensp;
+							</div>
+							&ensp;
 							<div class="funkyradio">
 								<div class="funkyradio-default">
 
 
 									<form:checkbox path="askedHandicap" id="handicapSpot"
-										name="askedHandicap"  />
+										name="askedHandicap" />
 
 									<label for="handicapSpot">Handicap</label>
 								</div>
@@ -242,14 +301,7 @@
 
 						</div>
 
-						<!--  	<div class="form-group">
-							<select class="form-control" required="true">
-								<option value="" disabled selected>Choose your payment
-									method</option>
-								<option>Paypal</option>
-								<option>Postepay</option>
-							</select>
-						</div>-->
+
 					</form:form>
 
 				</div>
@@ -259,11 +311,11 @@
 					</ul>
 
 					<button type="button" id="reserveNowButton" align="center"
-						class="btn confirm btn-secondary">Confirm</button>
+						class="btn confirm btn-secondary" style="background-color: rgba(22, 45, 66, 0.86);">Confirm</button>
 					<button type="button" id="reserveButton" align="center"
-						class="btn confirm btn-secondary">Confirm</button>
+						class="btn confirm btn-secondary" style="background-color: rgba(22, 45, 66, 0.86);">Confirm</button>
 					<button type="button" align="center" class="btn btn-secondary"
-						data-dismiss="modal">Cancel</button>
+						style="background-color: #aa2626e6;" data-dismiss="modal">Cancel</button>
 
 				</div>
 			</div>

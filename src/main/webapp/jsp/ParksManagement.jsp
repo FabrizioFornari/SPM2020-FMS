@@ -246,7 +246,7 @@
 												</div>
 												<form:input path="parkingFee" name="parkingFee"
 													id="parkingFee" value="${parkSpace.getParkingFee()}" class="input" placeholder="Fee"
-													type="number" min="0" step="0.01" />
+													type="number" min="0.01" step="0.01" required="true" />
 
 
 											</div>

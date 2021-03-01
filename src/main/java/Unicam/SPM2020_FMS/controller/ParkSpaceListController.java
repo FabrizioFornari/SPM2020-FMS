@@ -24,12 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
+import Unicam.SPM2020_FMS.model.Payment;
 import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.model.UserCars;
 import Unicam.SPM2020_FMS.service.CarService;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
+import Unicam.SPM2020_FMS.service.PaymentService;
 import Unicam.SPM2020_FMS.service.ReservationService;
 import Unicam.SPM2020_FMS.service.SchedulerService;
 import Unicam.SPM2020_FMS.service.StorageService;
@@ -55,6 +57,9 @@ public class ParkSpaceListController {
 	@Autowired
 	public SchedulerService schedulerService;
 	
+	@Autowired
+	public PaymentService paymentService;
+	
 	//DRIVER
 	/** Retrieve the list of the parking spaces from the database (Driver) */
 	@RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
@@ -76,6 +81,8 @@ public class ParkSpaceListController {
 					parkingSpace.setFreeCovered(spotService.getCoveredAvailable(parkingSpace.getIdParkingSpace()));
 					parkingSpace.setFreeHandicap(spotService.getHandicapAvailable(parkingSpace.getIdParkingSpace()));
 				}
+		    	List<Payment> paymentsList = paymentService.showPaymentsList();
+		    	mav.addObject("paymentsList",paymentsList);
 				mav.addObject("parkSpaceList", parkSpaceList);
 				UserCars userCars = new UserCars();
 		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
