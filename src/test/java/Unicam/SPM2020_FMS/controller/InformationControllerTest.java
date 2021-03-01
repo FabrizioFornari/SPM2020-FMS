@@ -2,6 +2,9 @@ package Unicam.SPM2020_FMS.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import static org.springframework.test.web.ModelAndViewAssert.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +24,15 @@ public class InformationControllerTest {
 	
   MockMvc mockMvc;
   MockHttpSession mockSession;
+  User mockUser;
   
   @BeforeEach
   void setup(WebApplicationContext wac) {
       this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
       this.mockSession = new MockHttpSession();
-      this.mockSession.setAttribute("user", new User());
+      this.mockUser = new User();
+      this.mockUser.setUserType("Policeman");
+      this.mockSession.setAttribute("user", mockUser);
   }
   
   @Test
@@ -51,6 +57,25 @@ public class InformationControllerTest {
   public void testProfileUserModel() throws Exception {
 	ModelAndView resultMav=mockMvc.perform(get("/profile").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
 	assertAndReturnModelAttributeOfType(resultMav, "user", User.class);
+  }
+  
+  @Test
+  public void testProfileDriverView() throws Exception {
+	this.mockSession.removeAttribute("user");
+	this.mockUser.setUserType("Driver");
+	this.mockSession.setAttribute("user", this.mockUser);
+	ModelAndView resultMav=mockMvc.perform(get("/profile").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertViewName(resultMav, "profilePage");
+  }
+  
+  @Test
+  public void testProfileDriverModel() throws Exception {
+	this.mockSession.removeAttribute("user");
+	this.mockUser.setUserType("Driver");
+	this.mockSession.setAttribute("user", this.mockUser);
+	ModelAndView resultMav=mockMvc.perform(get("/profile").session(mockSession)).andExpect(status().isOk()).andReturn().getModelAndView();
+	assertAndReturnModelAttributeOfType(resultMav, "user", User.class);
+	assertAndReturnModelAttributeOfType(resultMav, "paymentsList", List.class);
   }
   
   @Test

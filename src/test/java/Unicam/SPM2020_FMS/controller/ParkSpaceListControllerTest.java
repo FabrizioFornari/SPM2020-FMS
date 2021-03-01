@@ -80,6 +80,7 @@ public class ParkSpaceListControllerTest {
 	assertAndReturnModelAttributeOfType(resultMav, "parkSpaceList", List.class);
 	assertAndReturnModelAttributeOfType(resultMav, "userCars", UserCars.class);
 	assertAndReturnModelAttributeOfType(resultMav, "reservation", Reservation.class);
+	assertAndReturnModelAttributeOfType(resultMav, "paymentsList", List.class);
   }
    
   @Test
@@ -100,7 +101,6 @@ public class ParkSpaceListControllerTest {
   @Test
   public void testReserveNoSession() throws Exception {
 	mockMvc.perform(post("/reserve")).andExpect(status().isOk()).andExpect(content().string("Error: reservation has not been possible"));
-	
   }
   
   @Test

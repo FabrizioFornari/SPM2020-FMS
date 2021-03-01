@@ -235,7 +235,6 @@ public class ParkSpaceListController {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
 			    }
-			    
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					try {
