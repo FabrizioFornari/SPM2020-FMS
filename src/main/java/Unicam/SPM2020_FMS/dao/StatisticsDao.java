@@ -25,15 +25,15 @@ public class StatisticsDao {
 		String sql="";
 		
 		if (lastMonth) {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as quantity,parkingspace.Name as description " + 
-							"FROM reservation,parkingspace " + 
-							"WHERE parkingspace.ID = reservation.ParkingSpace " + 
-							"GROUP BY ParkingSpace ";
+			sql = 	"SELECT ROUND(SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee),2) as quantity, parkingspace.Name as description " + 
+					"FROM reservation,parkingspace " + 
+					"WHERE parkingspace.ID = reservation.ParkingSpace and Occupancy_end is not null and reservation.Booking_time >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH ) " + 
+					"GROUP BY ParkingSpace ";
 		} else {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as quantity, parkingspace.Name as description " + 
-							"FROM reservation,parkingspace " + 
-							"WHERE parkingspace.ID = reservation.ParkingSpace and reservation.Booking_time >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH ) " + 
-							"GROUP BY ParkingSpace ";
+			sql = 	"SELECT ROUND(SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee),2) as quantity,parkingspace.Name as description " + 
+					"FROM reservation,parkingspace " + 
+					"WHERE parkingspace.ID = reservation.ParkingSpace and Occupancy_end is not null " + 
+					"GROUP BY ParkingSpace ";
 		}
 
 		List<Statistic> result = jdbcTemplate.query(sql, new StatisticsMapper());
@@ -46,11 +46,11 @@ public class StatisticsDao {
 		String sql="";
 		
 		if (lastMonth) {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney " + 
+			sql = 	"SELECT ROUND(SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee),2) as earnedMoney " + 
 					"FROM reservation,parkingspace " + 
 					"WHERE parkingspace.ID = reservation.ParkingSpace and  reservation.Booking_time >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH )";
 		} else {
-			sql = 	"SELECT SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee) as earnedMoney " + 
+			sql = 	"SELECT ROUND(SUM((TIMESTAMPDIFF(MINUTE,Occupancy_start,Occupancy_end)/60)*parkingspace.Parking_fee),2) as earnedMoney " + 
 					"FROM reservation,parkingspace " + 
 					"WHERE parkingspace.ID = reservation.ParkingSpace";
 		}
