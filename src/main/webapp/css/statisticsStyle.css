@@ -24,6 +24,23 @@ body .title h2 {
   font-weight: 400;
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+.modal-content{
+	
+	text-align: center ;
+	background-color: #ac9020e6 !important;
+}
+
+.modal-content table{
+	
+	width: 100%;
+	
+}
+
+.progress-bar{
+	
+	background-color: #492f91 !important;
+}
 body .ui {
   width: 100%;
   height: 280px;

@@ -14,12 +14,13 @@
 </head>
 <body>
 	<jsp:include page="navBar.jsp"></jsp:include>
-
+	<br>
 	<div class='title'>
-		<h1>[Parking statistics of ...]</h1>
-		<h2 style="color: #ececec;">Here you can check all the statistics
-			for your city ... (more details to be added)</h2>
+		<h1>ParkMe statistics</h1>
+		<h2 style="color: #ececec;">(Here you can check all the statistics
+			for your city)</h2>
 	</div>
+
 
 
 
@@ -30,9 +31,10 @@
 			data-target="#revenuesModal">
 			<div class='ui_box__inner'>
 				<h2>Total revenues</h2>
-
+				<fmt:formatNumber var="n" value="${totalRevenue}"
+					maxFractionDigits="2" />
 				<div class='stat'>
-					<i class="fas fa-money-bill-alt fa-5x" style="float: right;"></i> <span>${totalRevenue}€</span>
+					<i class="fas fa-money-bill-alt fa-5x" style="float: right;"></i> <span>${n} €</span>
 				</div>
 				<div class='progress'>
 					<div class='progress_bar'></div>
@@ -50,15 +52,15 @@
 		<div class='ui_box' id="usersStatisticsButton" data-toggle="modal"
 			data-target="#usersModal">
 			<div class='ui_box__inner'>
-				<fmt:formatNumber var="n" value="${totalUsers}"
+				<fmt:formatNumber var="t" value="${totalUsers}"
 					maxFractionDigits="0" />
 
-				<h2>Total users</h2>
+				<h2>Total Drivers</h2>
 
 
 
 				<div class='stat'>
-					<i class="fas fa-users fa-5x" style="float: right;"></i> <span>${n}</span>
+					<i class="fas fa-users fa-5x" style="float: right;"></i> <span>${t}</span>
 				</div>
 				<div class='progress'>
 					<div class='progress_bar'></div>
@@ -81,7 +83,8 @@
 	<!-- Start modal of revenues -->
 	<div class="modal fade" id="revenuesModal" tabindex="-1" role="dialog"
 		aria-labelledby="revenuesModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="revenuesModalLabel">Revenues</h5>
@@ -94,7 +97,7 @@
 					<select class="form-control" id="filterRevenues">
 						<option value="0">Since the beginning</option>
 						<option value="1">Since last month</option>
-					</select>
+					</select>&ensp;
 					<table id="revenuesBeginning">
 						<thead>
 							<tr>
@@ -114,8 +117,10 @@
 								<td>${revenue.getPercentage() }%
 									<div class="progress">
 										<div class="progress-bar progress-bar-striped"
-											role="progressbar" style="width: ${revenue.getPercentage() }%" aria-valuenow="${revenue.getPercentage() }"
-											aria-valuemin="0" aria-valuemax="100"></div>
+											role="progressbar"
+											style="width: ${revenue.getPercentage() }%"
+											aria-valuenow="${revenue.getPercentage() }" aria-valuemin="0"
+											aria-valuemax="100"></div>
 									</div>
 								</td>
 							</tr>
@@ -129,7 +134,7 @@
 								<th scope="col">#</th>
 								<th scope="col">Parking space</th>
 								<th scope="col">Revenue</th>
-								&emsp;<th scope="col">Percentage</th>
+								<th scope="col">Percentage</th>
 							</tr>
 						</thead>
 
@@ -140,7 +145,15 @@
 								<th scope="row">${revenueBySpaceFiltered.indexOf(revenue)+1}</th>
 								<td>${revenue.getDescription() }</td>
 								<td>${revenue.getQuantity() }€</td>
-								<td>${revenue.getPercentage() }%</td>
+								<td>${revenue.getPercentage() }%
+									<div class="progress">
+										<div class="progress-bar progress-bar-striped"
+											role="progressbar"
+											style="width: ${revenue.getPercentage() }%"
+											aria-valuenow="${revenue.getPercentage() }" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+								</td>
 							</tr>
 
 						</c:forEach>
@@ -151,7 +164,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+
 				</div>
 			</div>
 		</div>
@@ -161,7 +174,8 @@
 	<!-- Start modal of users -->
 	<div class="modal fade" id="usersModal" tabindex="-1" role="dialog"
 		aria-labelledby="usersModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="usersModalLabel">Users statistics</h5>
@@ -189,7 +203,15 @@
 								<th scope="row">${paymentTypeList.indexOf(paymentType)+1}</th>
 								<td>${paymentType.getDescription() }</td>
 								<td>${i}</td>
-								<td>${paymentType.getPercentage() }%</td>
+								<td>${paymentType.getPercentage() }%
+									<div class="progress">
+										<div class="progress-bar progress-bar-striped"
+											role="progressbar"
+											style="width: ${paymentType.getPercentage() }%"
+											aria-valuenow="${paymentType.getPercentage() }"
+											aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+								</td>
 							</tr>
 
 						</c:forEach>
@@ -198,7 +220,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+
 				</div>
 			</div>
 		</div>
