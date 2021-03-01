@@ -77,7 +77,7 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 	modal.find('#messagesList').html("");
 	modal.find('.modal-body div#spotAssignment').html("");
 
-	modal.find('#licenseSelect,#paymentType, .modal-footer button, .funkyradio').show();
+	modal.find('#licenseSelect,#paymentSelect, .modal-footer button, .funkyradio').show();
 
 
 
@@ -145,7 +145,7 @@ $('#reserveNowButton').on('click', function(event) {
 			if (spot == 0) {
 
 				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
-				modal.find('#licenseSelect,#paymentType, .funkyradio, .modal-footer button').hide();
+				modal.find('#licenseSelect,#paymentSelect, .funkyradio, .modal-footer button').hide();
 
 				return;
 			}
@@ -175,7 +175,7 @@ $('#reserveNowButton').on('click', function(event) {
 
 
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished!</li>");
-			modal.find('#licenseSelect,#paymentType, .funkyradio, .modal-footer button').hide();
+			modal.find('#licenseSelect,#paymentSelect, .funkyradio, .modal-footer button').hide();
 
 			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
 			$.ajax({
@@ -265,13 +265,13 @@ $('#reserveButton').on('click', function(event) {
 			if (spot == 0) {
 
 				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
-				modal.find('#licenseSelect,#paymentType, #dateSelection, .funkyradio, .modal-footer button').hide();
+				modal.find('#licenseSelect,#paymentSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
 
 				return;
 			}
 
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished! (Check your list for more details)</li>");
-			modal.find('#licenseSelect,#paymentType, #dateSelection, .funkyradio, .modal-footer button').hide();
+			modal.find('#licenseSelect,#paymentSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
 			modal.find('.modal-body div#spotAssignment').html('<h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1>');
 
 

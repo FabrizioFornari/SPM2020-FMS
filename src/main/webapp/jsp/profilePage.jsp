@@ -110,26 +110,29 @@
 						pattern="\d{6,20}" required="true" />
 
 				</div>
-<c:if test="${user.getUserType() == 'Driver' }">
-				<!-- form-group// -->
-				<div class="form-group input-group">
-				<div class="input-group-prepend">
-						<span class="input-group-text"> <i class="fas fa-money-check-alt"></i>
-						</span>
+				<c:if test="${user.getUserType() == 'Driver' }">
+					<!-- form-group// -->
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> <i
+								class="fas fa-money-check-alt"></i>
+							</span>
+						</div>
+						<form:select class="input" required="required"
+							path="paymentTypeId">
+							<c:forEach var="payment" items="${paymentsList}"
+								varStatus="tagStatus">
+								<c:choose>
+									<c:when test="${user.paymentTypeId == payment.id}">
+										<option value="${payment.getId()}" selected>${payment.getType()}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${payment.getId()}">${payment.getType()}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</form:select>
 					</div>
-					<form:select class="input" required="required" path="paymentTypeId">			
-					<c:forEach var="payment" items="${paymentsList}" varStatus="tagStatus">
-						<c:choose>
-							<c:when test="${user.paymentTypeId == payment.id}">
-								<option value="${payment.getId()}" selected>${payment.getType()}</option>
-							</c:when>
-							<c:otherwise>
-								<option value="${payment.getId()}">${payment.getType()}</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-					</form:select>
-				</div>
 				</c:if>
 
 				<div class="hr"></div>
@@ -137,11 +140,11 @@
 				<div class="form-group">
 					<table align="center">
 						<tr>
-							<td style="font-style: italic; color: green;">${message}</td>
+							<td style="font-style: italic; color: #085b08;">${message}</td>
 
 						</tr>
 					</table>
-
+<br>
 					<form:button id="register" name="register" type="submit"
 						class="btn btn-primary btn-block">Update information</form:button>
 
