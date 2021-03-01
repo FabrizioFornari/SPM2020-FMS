@@ -61,6 +61,7 @@ public class InformationController {
 		}
 	    user.setIdUser(oldUser.getIdUser());
 	    user.setUserType(oldUser.getUserType());
+	    if (user.getPaymentTypeId()==null) user.setPaymentTypeId(0);
 	    int updated=userService.update(user);
 	    String msg;
 	    session.removeAttribute("user");
