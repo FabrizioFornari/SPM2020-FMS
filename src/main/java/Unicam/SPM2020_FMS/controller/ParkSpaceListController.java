@@ -97,6 +97,12 @@ public class ParkSpaceListController {
 	public String reserveSpotNow (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 				@ModelAttribute("reservartion") Reservation reservation) {
 		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
+		
 		String[] bookMessages = {
 				  "We are sorry, it seems that there are no more available spots",
 				  "Error: dates are not correctly specified",
@@ -105,8 +111,7 @@ public class ParkSpaceListController {
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
-
-		User user = (User) session.getAttribute("user");	
+		
 		reservation.setDriver(user.getIdUser());
 		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId(),reservation.isAskedCovered(), reservation.isAskedHandicap()));
 		reservation.setParkingStart(null);
@@ -168,6 +173,12 @@ public class ParkSpaceListController {
 	public String reserveSpotForLater (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 				@ModelAttribute("reservartion") Reservation reservation) {
 		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
+		
 		String[] bookMessages = {
 				  "We are sorry, it seems that there are no more available spots",
 				  "Error: dates are not correctly specified",
@@ -176,8 +187,7 @@ public class ParkSpaceListController {
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
-
-		User user = (User) session.getAttribute("user");	
+	
 		reservation.setDriver(user.getIdUser());
 		reservation.setParkingSpot(spotService.getFreeSpot(reservation));
 		
@@ -256,6 +266,12 @@ public class ParkSpaceListController {
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.POST)
 	public String editParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToEdit") ParkingSpace parkingSpace, BindingResult bindingResult) {
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
 
 		String errMsg = "";
 		Boolean fileNotUploaded = false;
@@ -323,6 +339,12 @@ public class ParkSpaceListController {
 	@RequestMapping(value = "/DeleteParkSpace", method = RequestMethod.POST)
 	public String deleteParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToDelete") ParkingSpace parkingSpace) {
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
 
 		int res = parkService.deleteParkSpace(parkingSpace.getIdParkingSpace());
 		

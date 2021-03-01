@@ -1,0 +1,297 @@
+body {
+  background: #ededeb;
+}
+body .title {
+  width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  
+	
+	    border-style: groove;
+    background-color: #9d6161d6;
+
+}
+body .title h1 {
+  margin: 30px 0px 0px 0px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  color: #3d3d3d;
+}
+body .title h2 {
+  margin: 10px 0px 0px 0px;
+  font-size: 18px;
+  color: #8B8B8B;
+  font-weight: 400;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.modal-content{
+	
+	text-align: center ;
+	background-color: #ac9020e6 !important;
+}
+
+.modal-content table{
+	
+	width: 100%;
+	
+}
+
+.progress-bar{
+	
+	background-color: #492f91 !important;
+}
+body .ui {
+  width: 100%;
+  height: 280px;
+  margin: 0 auto;
+  margin-top: 50px;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  box-shadow: none;
+  padding-left: 20%;
+}
+body .ui ul {
+  margin: 0px 30px 10px 0px;
+  padding: 0;
+  list-style-type: none;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 20px;
+}
+body .ui .drop {
+  z-index: -3;
+  opacity: 0;
+  width: 240px;
+  height: 10px;
+  background: #3e8368;
+  position: absolute;
+  color: white;
+  bottom: 0;
+  padding: 12px 30px 21px 30px;
+  -webkit-transition-property: bottom,opacity;
+  transition-property: bottom,opacity;
+  -webkit-transition-duration: .3s;
+          transition-duration: .3s;
+}
+body .ui .drop p {
+  color: #f8fbfa;
+}
+body .ui_box {
+  width: 40%;
+  height: 220px;
+  position: relative;
+  background: #3d3d3d;
+  float: left;
+  box-shadow: -1px 0px rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition-property: background,-webkit-transform;
+  transition-property: background,-webkit-transform;
+  transition-property: transform,background;
+  transition-property: transform,background,-webkit-transform;
+  -webkit-transition-duration: .3s;
+          transition-duration: .3s;
+}
+body .ui_box__inner {
+  padding: 30px;
+}
+body .ui_box__inner span {
+  font-size: 36px;
+  font-weight: 700;
+}
+body .ui_box__inner .progress {
+  width: 100%;
+  margin-top: 10px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-bottom: 15px;
+}
+body .ui_box__inner .progress_graph {
+  float: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  width: 85px;
+  text-align: center;
+  position: relative;
+  padding-left: 20px;
+  top: 24px;
+}
+
+body .ui_box__inner .progress_bar {
+  height: 6px;
+  float: left;
+  width: 100%;
+  background: #4FA584;
+  -webkit-animation: bar 2s;
+}
+body .ui_box__inner .progress_bar--two {
+  height: 6px;
+  float: left;
+  width: 78%;
+  background: #4FA584;
+  -webkit-animation: bar2 2s;
+}
+body .ui_box h2 {
+  font-weight: normal;
+  font-size: 16px;
+  margin: -4px 0px 3px 0px;
+}
+body .ui_box p {
+  font-size: 11px;
+  color: #b6b6b6;
+  clear: left;
+  font-weight: 300;
+  width: 160px;
+  margin: 2px 0px 15px 0px;
+}
+body .ui_box:hover {
+  background: #4FA584;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  -webkit-transition-property: background,-webkit-transform;
+  transition-property: background,-webkit-transform;
+  transition-property: transform,background;
+  transition-property: transform,background,-webkit-transform;
+  -webkit-transition-duration: .3s;
+          transition-duration: .3s;
+  position: relative;
+  z-index: 1;
+}
+
+.ui_box:hover > .ui_box__inner p {
+  color: #b3dacb;
+}
+
+.ui_box:hover > .drop {
+  -webkit-transition-property: bottom,opacity;
+  transition-property: bottom,opacity;
+  -webkit-transition-duration: .3s;
+          transition-duration: .3s;
+  bottom: -42px;
+  opacity: 1;
+}
+
+
+
+.ui_box:hover > .ui_box__inner .progress_graph > div {
+  background: white;
+}
+
+.ui_box:hover > .ui_box__inner .progress .progress_bar, .ui_box:hover > .ui_box__inner .progress .progress_bar--two {
+  background: white;
+}
+
+.stat_left {
+  float: left;
+}
+
+
+
+@-webkit-keyframes bar {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes bar {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 100%;
+  }
+}
+@-webkit-keyframes bar2 {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 78%;
+  }
+}
+@keyframes bar2 {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 78%;
+  }
+}
+@-webkit-keyframes graph {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 20px;
+  }
+}
+@keyframes graph {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 20px;
+  }
+}
+@-webkit-keyframes graph2 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 30px;
+  }
+}
+@keyframes graph2 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 30px;
+  }
+}
+@-webkit-keyframes graph3 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 24px;
+  }
+}
+@keyframes graph3 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 24px;
+  }
+}
+@-webkit-keyframes graph4 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 13px;
+  }
+}
+@keyframes graph4 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 13px;
+  }
+}
+
+
+/*Statistic charts*/
+
+.card-body{
+	
+	background-color: #d78519ba !important;
+	text-align: center;
+}
+

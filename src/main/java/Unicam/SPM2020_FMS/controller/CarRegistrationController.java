@@ -54,6 +54,11 @@ public class CarRegistrationController {
 	  public ModelAndView addCar(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			  @ModelAttribute("carToAdd") Car car) {
 		User user = (User) session.getAttribute("user");
+		if (user==null) {
+	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
+	    	mav.addObject("message", "Please login");		
+	    	return mav;
+		}
 		
 		car.setDriver(user.getIdUser());
 	    int addResult=carService.register(car);
@@ -79,6 +84,11 @@ public class CarRegistrationController {
 		  
 		List<Car> carsList = cars.getMyCars();
 		User user = (User) session.getAttribute("user");
+		if (user==null) {
+	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
+	    	mav.addObject("message", "Please login");		
+	    	return mav;
+		}
 		
 	    carService.modifyCars(carsList, carService.showCars(user.getIdUser()));   
 	    ModelAndView mav = new ModelAndView("myCars");
@@ -96,6 +106,11 @@ public class CarRegistrationController {
 	      @ModelAttribute("carToTrash") Car car) {
 		  
 		User user = (User) session.getAttribute("user");
+		if (user==null) {
+	    	ModelAndView mav=new ModelAndView("login", "login", new Login());
+	    	mav.addObject("message", "Please login");		
+	    	return mav;
+		}
 		car.setDriver(user.getIdUser());
 		
 	    carService.deleteCar(car);
