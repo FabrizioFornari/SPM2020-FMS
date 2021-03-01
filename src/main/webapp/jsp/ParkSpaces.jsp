@@ -216,12 +216,16 @@
 						</div>
 						<!-- form-group// -->
 							<div class="form-group input-group">
-							<select class="input" required="true">
+							<form:select class="input" required="true" path="paymentType">
 					
 								<c:forEach var="payment" items="${paymentsList}"
 									varStatus="tagStatus">
 								<c:choose>
-							<c:when test="${user.getPaymentTypeId() == payment.getId() } ">
+								<c:when test="${user.getPaymentTypeId() == 0 && user.getPaymentTypeId() == payment.getId()}">
+							<option value="${payment.getId()}" disabled selected>${payment.getType()}</option>
+								
+								</c:when>
+							<c:when test="${user.getPaymentTypeId() == payment.getId()}">
 								<option value="${payment.getId()}" selected>${payment.getType()}</option>
 
 							</c:when>
@@ -231,7 +235,7 @@
 							</c:otherwise>
 						</c:choose>
 								</c:forEach>
-							</select>
+							</form:select>
 						</div>
 						
 						<!-- form-group// -->
