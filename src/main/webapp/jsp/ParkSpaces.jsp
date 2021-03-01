@@ -225,6 +225,10 @@
 							<option value="${payment.getId()}" disabled selected>${payment.getType()}</option>
 								
 								</c:when>
+								<c:when test="${payment.getId()==0}">
+							<option value="${payment.getId()}" disabled>${payment.getType()}</option>
+								
+								</c:when>
 							<c:when test="${user.getPaymentTypeId() == payment.getId()}">
 								<option value="${payment.getId()}" selected>${payment.getType()}</option>
 

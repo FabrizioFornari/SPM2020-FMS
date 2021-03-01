@@ -58,7 +58,7 @@ public class ReservationDao {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		boolean immediate=(reservation.getParkingStart()==null);
 		KeyHolder reservationKeyHolder = new GeneratedKeyHolder();
-	    String sql = "INSERT INTO reservation (`Id_driver`,`LicensePlateNumber`, `ParkingSpot`, `ParkingSpace`, `Parking_start`, `Parking_end`) VALUES (?,?,?,?,?,?)";
+	    String sql = "INSERT INTO reservation (`Id_driver`,`LicensePlateNumber`, `ParkingSpot`, `ParkingSpace`, `Parking_start`, `Parking_end`, `Payment`) VALUES (?,?,?,?,?,?,?)";
 
 	    
 		try {
@@ -82,10 +82,10 @@ public class ReservationDao {
 						throw new IllegalArgumentException("Wrong date specification");
 					}
 				}
+				ps.setInt(7, reservation.getPaymentType());
 				return ps;
 			}, reservationKeyHolder);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 			return -1;
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
