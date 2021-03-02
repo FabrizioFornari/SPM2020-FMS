@@ -23,7 +23,7 @@ Additional informations can be found on the [Wiki](https://github.com/FabrizioFo
 
 ## Team <a name="team"/>
 👤 **Mario Lombardi (SM)** &emsp; mario.lombardi@studenti.unicam.it  
-👤 **Fulvio Teodori** &emsp;&emsp;&emsp;&emsp; fulviomaria.teodori@studenti.unicam.it  
+👤 **Fulvio Teodori** &emsp;&emsp;&emsp;&emsp;&nbsp; fulviomaria.teodori@studenti.unicam.it  
 👤 **Stefano Aschettino** &emsp;&emsp; stefano.aschettino@studenti.unicam.it 
 
 
