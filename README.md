@@ -1,24 +1,29 @@
-<h1 align="center">PARKME Smart Parking</h1>
+<h1 align="center">ParkMe Smart Parking</h1>
 
-Jenkins Build &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
+## Table of contents
 
-### 🏠 [Homepage] http://apromore.unicam.it/SPM2020-FMS/
+1. [Current Status](#status)
+2. [Project Overview](#about)
+3. [Team](#team)
 
+## Current Status <a name="status"/>
 
-## Overview
+**Jenkins Project Build** &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
 
-Managing parking space or finding a parking spot in nowadays congested cities could be a real challenge.  
+**Jenkins Acceptance Tests** &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS-AcceptanceTests)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS-AcceptanceTests/)
+
+**Homepage** &nbsp;&nbsp; http://apromore.unicam.it/SPM2020-FMS/
+
+## Project Overview <a name="about"/>
+
 The aim of this project is therefore to provide an efficient parking management application for all the actors involved in such a topic, that means municipalities, policemen and of course drivers.  
-This project was developed for the laboratory part of the [Software Project Management](http://didattica.cs.unicam.it/doku.php?id=didattica:magistrale:spm:ay_2021:main) course, held by Prof. [Andrea Polini](http://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=626&ru=RD) and Prof. [Fabrizio Fornari](https://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=1179&ru=PROFCONTR) at the [University of Camerino](http://www.unicam.it/).   
-This application was developed as a Maven project adopting some of the most common DevOps technologies and Scrum principles and rules.    
-It is suited for 3 kinds of users: municipalities, drivers and policemen.  
+This project was developed for the lab part of the [Software Project Management](http://didattica.cs.unicam.it/doku.php?id=didattica:magistrale:spm:ay_2021:main) course, held by Prof. [Andrea Polini](http://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=626&ru=RD) and Prof. [Fabrizio Fornari](https://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=1179&ru=PROFCONTR) at the [University of Camerino](http://www.unicam.it/).   
+This application was developed as a Maven project with the usage of the most common DevOps technologies and following majority of Scrum principles and practices.
 Additional informations can be found on the [Wiki](https://github.com/FabrizioFornari/SPM2020-FMS/wiki) section.  
 
-
-## Authors
-
-👤 **Fulvio Teodori : fulviomaria.teodori@studenti.unicam.it**  
-👤 **Mario Lombardi : mario.lombardi@studenti.unicam.it**  
-👤 **Stefano Aschettino : stefano.aschettino@studenti.unicam.it**
+## Team <a name="team"/>
+👤 **Mario Lombardi (SM)**  &nbsp;  mario.lombardi@studenti.unicam.it  
+👤 **Fulvio Teodori**       &nbsp;  fulviomaria.teodori@studenti.unicam.it  
+👤 **Stefano Aschettino**   &nbsp;  stefano.aschettino@studenti.unicam.it
 
 
