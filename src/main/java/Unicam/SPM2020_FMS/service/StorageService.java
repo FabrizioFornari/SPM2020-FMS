@@ -2,6 +2,7 @@ package Unicam.SPM2020_FMS.service;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class StorageService {
 	
-	private final Path rootLocation;
+	private Path rootLocation=null;
 	
 	@Autowired
 	public StorageService() {
@@ -26,7 +27,16 @@ public class StorageService {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		this.rootLocation = Paths.get(prop.getProperty("uploadDir"));
+		String uploadDir=prop.getProperty("uploadDir");
+		if (uploadDir.equals("project resources")) {
+			try {
+				this.rootLocation = Paths.get(this.getClass().getClassLoader().getResource("maps/").toURI());
+			} catch (URISyntaxException e) {
+				System.out.println(e.getMessage());
+			}
+		}else {
+			this.rootLocation = Paths.get(uploadDir);
+		}
 	}
 
 	public void store(MultipartFile file, String filename) {

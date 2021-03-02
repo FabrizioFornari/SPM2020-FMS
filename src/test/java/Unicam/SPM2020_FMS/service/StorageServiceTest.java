@@ -2,7 +2,6 @@ package Unicam.SPM2020_FMS.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@Disabled
 @SpringJUnitConfig(locations = "classpath:/user-beans.xml")
 public class StorageServiceTest {
 
@@ -56,10 +54,10 @@ public class StorageServiceTest {
 	public void saveIncorrectFileName() {
 		if(uploadDirOk) {
 			MockMultipartFile newFile =new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,"Hello, World".getBytes());
-			Assertions.assertThrows(UncheckedIOException.class, () -> { storageService.store(newFile,"../helloWorld.txt"); } );
+			Assertions.assertThrows(UncheckedIOException.class, () -> { storageService.store(newFile,"/images/helloWorld.txt"); } );
 		} else {
 			Assert.fail("UploadDir not properly configured");
-	}
+		}
 	}
 	
 	@Test
@@ -69,7 +67,7 @@ public class StorageServiceTest {
 			Assertions.assertThrows(UncheckedIOException.class, () -> { storageService.store(newFile,"HelloWorld.txt"); } );
 		} else {
 			Assert.fail("UploadDir not properly configured");
-	}
+		}
 	}
 
 }

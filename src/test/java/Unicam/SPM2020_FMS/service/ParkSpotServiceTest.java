@@ -169,7 +169,7 @@ public class ParkSpotServiceTest {
 	Assert.assertEquals(1,result);
   }
   
-  @RepeatedTest(4)
+  @RepeatedTest(5)
   public void testIsBusy() {
 	spotService.generateSpots(spots);
 	ParkingSpot spot = spots.get((int)(Math.random()*spots.size()));
