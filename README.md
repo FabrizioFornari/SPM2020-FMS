@@ -8,11 +8,11 @@
 
 ## Current Status <a name="status"/>
 
+**Homepage** &nbsp;&nbsp; <http://apromore.unicam.it/SPM2020-FMS/>
+
 **Jenkins Project Build** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
 
 **Jenkins Acceptance Tests** &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS-AcceptanceTests)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS-AcceptanceTests/)
-
-**Homepage** &nbsp;&nbsp; <http://apromore.unicam.it/SPM2020-FMS/>
 
 ## Project Overview <a name="about"/>
 
