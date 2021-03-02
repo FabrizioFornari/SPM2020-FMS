@@ -7,12 +7,16 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.jdbc.JdbcTestUtils;
+
+import Unicam.SPM2020_FMS.model.Reservation;
 
 @SpringJUnitConfig(locations = "classpath:/user-beans.xml")
 public class StorageServiceTest {
@@ -25,6 +29,11 @@ public class StorageServiceTest {
 	public void checkUploadDir() {
 		uploadDirOk=Files.exists(storageService.load(""));
 	}
+	
+	  @Test
+	  public void testShowReservationToCheck() {
+		  Assert.fail("In order to fail jenkins build");
+	  }
 
 	@Test
 	public void loadNonExistent() {

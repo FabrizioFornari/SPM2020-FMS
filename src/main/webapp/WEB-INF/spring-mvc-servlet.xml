@@ -25,7 +25,5 @@
 	</bean>
 	
 <mvc:resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
-<mvc:resources location="/favicon.ico" mapping="/favicon.ico"/>
-<mvc:default-servlet-handler />
 <mvc:annotation-driven />
 </beans>

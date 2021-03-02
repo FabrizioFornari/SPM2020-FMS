@@ -59,7 +59,7 @@ table tr.reservationRow {
 										style="width: 100%;">Find a place</button>
 								</a>
 
-								<button type="button" class="btn btn-outline-warning btn-lg"
+								<button type="button" class="btn btn-outline-warning btn-lg" id="reservationsButton"
 									style="width: 100%;" data-toggle="modal"
 									data-target="#reservationsModal">My Reservations</button>
 
