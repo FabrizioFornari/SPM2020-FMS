@@ -1,5 +1,6 @@
 <h1 align="center">PARKME Smart Parking</h1>
 
+Jenkins Build &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
 
 ### 🏠 [Homepage] http://apromore.unicam.it/SPM2020-FMS/
 
