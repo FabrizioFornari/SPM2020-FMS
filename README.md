@@ -8,7 +8,7 @@
 
 ## Current Status <a name="status"/>
 
-**Jenkins Project Build** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
+**Jenkins Project Build** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS/)
 
 **Jenkins Acceptance Tests** &nbsp;&nbsp; [![Build Status](http://apromore.unicam.it/jenkins/buildStatus/icon?job=SPM2020FMS-AcceptanceTests)](http://apromore.unicam.it:80/jenkins/job/SPM2020FMS-AcceptanceTests/)
 
@@ -23,7 +23,7 @@ Additional informations can be found on the [Wiki](https://github.com/FabrizioFo
 
 ## Team <a name="team"/>
 👤 **Mario Lombardi (SM)** &emsp; mario.lombardi@studenti.unicam.it  
-👤 **Fulvio Teodori** &emsp;&emsp;&emsp; fulviomaria.teodori@studenti.unicam.it  
-👤 **Stefano Aschettino** &emsp;&emsp;&emsp; stefano.aschettino@studenti.unicam.it 
+👤 **Fulvio Teodori** &emsp;&emsp;&emsp;&emsp; fulviomaria.teodori@studenti.unicam.it  
+👤 **Stefano Aschettino** &emsp;&emsp; stefano.aschettino@studenti.unicam.it 
 
 
