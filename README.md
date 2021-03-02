@@ -22,8 +22,8 @@ This application was developed as a Maven project with the usage of the most com
 Additional informations can be found on the [Wiki](https://github.com/FabrizioFornari/SPM2020-FMS/wiki) section.  
 
 ## Team <a name="team"/>
-👤 **Mario Lombardi (SM)**&emsp;<mario.lombardi@studenti.unicam.it>
-👤 **Fulvio Teodori**&emsp;&emsp;&emsp;<fulviomaria.teodori@studenti.unicam.it>
-👤 **Stefano Aschettino**&emsp;&emsp;&emsp;<stefano.aschettino@studenti.unicam.it>
+👤 **Mario Lombardi (SM)** &emsp; mario.lombardi@studenti.unicam.it  
+👤 **Fulvio Teodori** &emsp;&emsp;&emsp; fulviomaria.teodori@studenti.unicam.it  
+👤 **Stefano Aschettino** &emsp;&emsp;&emsp; stefano.aschettino@studenti.unicam.it 
 
 
