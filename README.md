@@ -18,7 +18,7 @@
 
 The aim of this project is to provide an application for the efficient management of a parking system; it includes services for all the actors involved in such a topic, which are mainly municipalities, policemen and of course drivers.    
 This project has been developed for the lab part of the [Software Project Management](http://didattica.cs.unicam.it/doku.php?id=didattica:magistrale:spm:ay_2021:main) course, held by Prof. [Andrea Polini](http://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=626&ru=RD) and Prof. [Fabrizio Fornari](https://docenti.unicam.it/pdett.aspx?ids=N&tv=d&UteId=1179&ru=PROFCONTR) at the [University of Camerino](http://www.unicam.it/).   
-This application has been developed as a Maven project with the usage of the most common DevOps technologies and following majority of Scrum principles and practices.
+This application has been developed as a Maven project with the usage of the most common DevOps technologies and following majority of Scrum principles and practices.  
 Additional informations can be found on the [Wiki](https://github.com/FabrizioFornari/SPM2020-FMS/wiki) section.  
 
 ## Team <a name="team"/>
