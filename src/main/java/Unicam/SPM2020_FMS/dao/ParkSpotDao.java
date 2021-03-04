@@ -120,6 +120,7 @@ public class ParkSpotDao {
 		return result;
 	}
 	
+	@SuppressWarnings("unused")
 	public Integer getFreeSpotNumber(Reservation reservation) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		int result;		
@@ -145,13 +146,18 @@ public class ParkSpotDao {
 		}
 		
 		try {
+			Timestamp start=new Timestamp(dateFormat.parse(reservation.getParkingStart()).getTime());
+			Timestamp end=new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime());
+		} catch (Exception e) {
+			return -1;
+		}
+				
+		try {
 			result=jdbcTemplate.queryForObject(sql, Integer.class, new Object[] {
 					reservation.getParkingSpaceId(),
-					new Timestamp(dateFormat.parse(reservation.getParkingStart()).getTime()),
-					new Timestamp(dateFormat.parse(reservation.getParkingEnd()).getTime()),
+					reservation.getParkingStart(),
+					reservation.getParkingEnd(),
 				});
-		} catch (ParseException e) {
-			result=-1;
 		} catch (NullPointerException e) {
 			result=0;
 		} catch (Exception e) {
