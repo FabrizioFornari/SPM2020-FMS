@@ -240,7 +240,7 @@ $('#reserveButton').on('click', function(event) {
 		return;
 
 
-	} else if (dateFrom < currentDate || dateFrom > dateTo) {
+	} else if (dateFrom < currentDate || dateFrom > dateTo || dateFrom.getTime() === dateTo.getTime()) {
 
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please insert a valid period of reservation!</li>");
 		return;

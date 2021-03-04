@@ -68,7 +68,7 @@ public class ReservationDao {
 	public int addReservation(Reservation reservation) {
 		
 		int err=0;
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		boolean immediate=(reservation.getParkingStart()==null);
 		KeyHolder reservationKeyHolder = new GeneratedKeyHolder();
 	    String sql = "INSERT INTO reservation (`Id_driver`,`LicensePlateNumber`, `ParkingSpot`, `ParkingSpace`, `Parking_start`, `Parking_end`) VALUES (?,?,?,?,?,?)";
