@@ -121,7 +121,7 @@ public class ParkSpotDao {
 	}
 	
 	public Integer getFreeSpotNumber(Reservation reservation) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		int result;		
 		String sql = 
 				"SELECT  min(SpotNumber) " + 

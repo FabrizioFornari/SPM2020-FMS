@@ -49,7 +49,7 @@ public class SchedulerService implements ApplicationContextAware {
 	}
 	
 	public void scheduleReservationCheck(Reservation reservation) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			Instant startTime = dateFormat.parse(reservation.getParkingStart()).toInstant();
 			startTime=startTime.minus(5, ChronoUnit.MINUTES);
@@ -60,7 +60,7 @@ public class SchedulerService implements ApplicationContextAware {
 	}
 	
 	public void scheduleReservationClosing(Reservation reservation) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			Instant startTime = dateFormat.parse(reservation.getParkingStart()).toInstant();
 			startTime=startTime.plus(30, ChronoUnit.MINUTES);
