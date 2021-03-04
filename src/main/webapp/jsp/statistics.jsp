@@ -17,8 +17,8 @@
 	<br>
 	<div class='title'>
 		<h1>ParkMe statistics</h1>
-		<h2 style="color: #ececec;">(Here you can check all the statistics
-			for your city)</h2>
+		<h2 style="color: #ececec;">(Here you can check the statistics
+			for all the park spaces)</h2>
 	</div>
 
 
