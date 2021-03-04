@@ -23,6 +23,7 @@ public class CarService {
 	return carDao.showCars(idUser);	
   }
   
+  //NOT USED
   public int modifyCars(List<Car> newCars, List<Car> oldCars) {
 	  int res=0;
 	  for (int i = 0; i < newCars.size(); i++) {
@@ -38,7 +39,5 @@ public class CarService {
   public int deleteCar(Car car) {
 	    return carDao.deleteCar(car);
   }
-
-
 
 }

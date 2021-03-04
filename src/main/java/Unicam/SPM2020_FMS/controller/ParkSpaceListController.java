@@ -1,9 +1,9 @@
 package Unicam.SPM2020_FMS.controller;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,12 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Unicam.SPM2020_FMS.model.Login;
 import Unicam.SPM2020_FMS.model.ParkingSpace;
+import Unicam.SPM2020_FMS.model.Payment;
 import Unicam.SPM2020_FMS.model.Reservation;
 import Unicam.SPM2020_FMS.model.User;
 import Unicam.SPM2020_FMS.model.UserCars;
 import Unicam.SPM2020_FMS.service.CarService;
 import Unicam.SPM2020_FMS.service.ParkSpaceService;
 import Unicam.SPM2020_FMS.service.ParkSpotService;
+import Unicam.SPM2020_FMS.service.PaymentService;
 import Unicam.SPM2020_FMS.service.ReservationService;
 import Unicam.SPM2020_FMS.service.SchedulerService;
 import Unicam.SPM2020_FMS.service.StorageService;
@@ -55,6 +57,9 @@ public class ParkSpaceListController {
 	@Autowired
 	public SchedulerService schedulerService;
 	
+	@Autowired
+	public PaymentService paymentService;
+	
 	//DRIVER
 	/** Retrieve the list of the parking spaces from the database (Driver) */
 	@RequestMapping(value = "/ParkSpaces", method = RequestMethod.GET)
@@ -70,19 +75,14 @@ public class ParkSpaceListController {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
 			    }
-				Properties prop=new Properties();
-				try {
-					prop.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				mav.addObject("uploadDir", prop.getProperty("uploadDir"));
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					parkingSpace.setFreeAll(spotService.getAvailable(parkingSpace.getIdParkingSpace()));		
 					parkingSpace.setFreeCovered(spotService.getCoveredAvailable(parkingSpace.getIdParkingSpace()));
 					parkingSpace.setFreeHandicap(spotService.getHandicapAvailable(parkingSpace.getIdParkingSpace()));
 				}
+		    	List<Payment> paymentsList = paymentService.showPaymentsList();
+		    	mav.addObject("paymentsList",paymentsList);
 				mav.addObject("parkSpaceList", parkSpaceList);
 				UserCars userCars = new UserCars();
 		    	userCars.setMyCars(carService.showCars(user.getIdUser()));
@@ -109,11 +109,17 @@ public class ParkSpaceListController {
 				  "Error: dates are not correctly specified",
 				  "Error: reservation has not been possible"
 				};		
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return bookMessages[2];
+		}
+		
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
-
-		User user = (User) session.getAttribute("user");	
+		
 		reservation.setDriver(user.getIdUser());
 		reservation.setParkingSpot(spotService.getFreeSpot(reservation.getParkingSpaceId(),reservation.isAskedCovered(), reservation.isAskedHandicap()));
 		reservation.setParkingStart(null);
@@ -138,13 +144,36 @@ public class ParkSpaceListController {
 	@ResponseBody
 	public String getMapSrc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam("filename") String filename) throws IOException {
-		
-		byte[] payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
 		String extension=FilenameUtils.getExtension(filename).toLowerCase();
-		String prefix="data:image/"+extension+";base64,";
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
+	}
+	
+	@RequestMapping(value = "/getMapSrcFromId", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+	@ResponseBody
+	public String getMapSrcFromId (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam("Id") String parkId) throws IOException {
 		
-		return  prefix+Base64.getEncoder().encodeToString(payload);
-		
+		List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
+		String filename="";
+		for (ParkingSpace park : parkSpaceList) { if(park.getIdParkingSpace()==Integer.parseInt(parkId)) filename=park.getImageName();}
+
+		byte[] payload={};		
+		try {
+			payload = IOUtils.toByteArray(storageService.loadAsResource(filename).getInputStream());
+		} catch (UncheckedIOException e) {
+			return "";
+		}
+		String extension=FilenameUtils.getExtension(filename).toLowerCase();
+		String prefix="data:image/"+extension+";base64,";		
+		return  prefix+Base64.getEncoder().encodeToString(payload);		
 	}
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
@@ -156,12 +185,18 @@ public class ParkSpaceListController {
 				  "We are sorry, it seems that there are no more available spots",
 				  "Error: dates are not correctly specified",
 				  "Error: reservation has not been possible"
-				};		
+				};	
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return bookMessages[2];
+		}
+			
 		if (reservation.isAskedCovered() || reservation.isAskedHandicap()) {
 			bookMessages[0]="We are sorry, no available spot match your requests";
 		}
-
-		User user = (User) session.getAttribute("user");	
+	
 		reservation.setDriver(user.getIdUser());
 		reservation.setParkingSpot(spotService.getFreeSpot(reservation));
 		
@@ -200,7 +235,6 @@ public class ParkSpaceListController {
 			    	mav.addObject("message", (String) message);
 			    	session.removeAttribute("message");
 			    }
-			    
 				List<ParkingSpace> parkSpaceList = parkService.showParkSpaceList();
 				for (ParkingSpace parkingSpace : parkSpaceList) {
 					try {
@@ -240,6 +274,12 @@ public class ParkSpaceListController {
 	@RequestMapping(value = "/ParksManagement", method = RequestMethod.POST)
 	public String editParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToEdit") ParkingSpace parkingSpace, BindingResult bindingResult) {
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
 
 		String errMsg = "";
 		Boolean fileNotUploaded = false;
@@ -256,7 +296,7 @@ public class ParkSpaceListController {
 
 		} else {
 			String filename="";
-			if (!parkingSpace.getImageFile().isEmpty()) {
+			if (parkingSpace.getImageFile()!=null && !parkingSpace.getImageFile().isEmpty()) {
 				filename = System.currentTimeMillis() + parkingSpace.getImageFile().getOriginalFilename();
 				parkingSpace.setImageName(filename);
 			}
@@ -307,6 +347,12 @@ public class ParkSpaceListController {
 	@RequestMapping(value = "/DeleteParkSpace", method = RequestMethod.POST)
 	public String deleteParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("parkSpaceToDelete") ParkingSpace parkingSpace) {
+		
+		User user = (User) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("message", "Please login");		
+	    	return "redirect:/login";
+		}
 
 		int res = parkService.deleteParkSpace(parkingSpace.getIdParkingSpace());
 		

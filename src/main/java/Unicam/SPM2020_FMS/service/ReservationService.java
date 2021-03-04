@@ -32,5 +32,9 @@ public class ReservationService {
 	public int closeReservation(Integer id) {
 		return reservationsDao.closeReservation(id);	
 	}
+
+	public List<Reservation> showUserReservation(Integer driver) {
+		return reservationsDao.showUserReservations(driver);
+	}
 	
 }

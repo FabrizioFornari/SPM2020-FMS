@@ -77,7 +77,7 @@ $('#reservationModal').on('show.bs.modal', function(event) {
 	modal.find('#messagesList').html("");
 	modal.find('.modal-body div#spotAssignment').html("");
 
-	modal.find('#licenseSelect, .modal-footer button, .funkyradio').show();
+	modal.find('#licenseSelect,#paymentSelect, .modal-footer button, .funkyradio').show();
 
 
 
@@ -115,12 +115,16 @@ $('#reserveNowButton').on('click', function(event) {
 	var spaceId = modal.find('.modal-body input#parkingSpaceId').val();
 	var modal = $('#reservationModal');
 	var plate = modal.find('.modal-body select#licensePlateNumber').val();
-
+	var payment = modal.find('.modal-body select#paymentType').val();
 	if (plate == null) {
 		modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">Select your license plate, if you don\'t have one please add it <a href="myCars">here</a>  </li>');
 
 		return;
 
+	} else if (payment == null) {
+
+		modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">Select your payment method or check your profile <a href="profile">here</a> to associate one </li>');
+		return;
 	}
 
 	var reservation = $('#reservationForm').serialize();
@@ -141,7 +145,7 @@ $('#reserveNowButton').on('click', function(event) {
 			if (spot == 0) {
 
 				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
-				modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
+				modal.find('#licenseSelect,#paymentSelect, .funkyradio, .modal-footer button').hide();
 
 				return;
 			}
@@ -171,9 +175,9 @@ $('#reserveNowButton').on('click', function(event) {
 
 
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished!</li>");
-			modal.find('#licenseSelect, .funkyradio, .modal-footer button').hide();
+			modal.find('#licenseSelect,#paymentSelect, .funkyradio, .modal-footer button').hide();
 
-			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
+			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">Please park within <span id="timer">05:00</span> or try again</h6>');
 			$.ajax({
 				url: 'getMapSrc',
 				type: 'GET',
@@ -207,7 +211,7 @@ $('#reserveButton').on('click', function(event) {
 	var currentDate = new Date();
 	var date1 = modal.find('.modal-body input#parkingStartDate').val();
 	var inputHour1 = modal.find('.modal-body select#timeList').val();
-	
+
 	var dateFrom = new Date(date1 + " " + inputHour1);
 
 
@@ -215,34 +219,39 @@ $('#reserveButton').on('click', function(event) {
 	var inputHour2 = modal.find('.modal-body select#timeList2').val();
 
 	var dateTo = new Date(date2 + " " + inputHour2);
-	
-	
-	var plate = modal.find('.modal-body select#licensePlateNumber').val();
 
+
+	var plate = modal.find('.modal-body select#licensePlateNumber').val();
+	var payment = modal.find('.modal-body select#paymentType').val();
 	if (plate == null) {
 		modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">Select your license plate, if you don\'t have one please add it <a href="myCars">here</a>  </li>');
 
 		return;
 
-	// Check if the user has inserted the date for the reservation
+		// Check if the user has inserted the date for the reservation
+	} else if (payment == null) {
+
+		modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">Select your payment method or check your profile <a href="profile">here</a> to associate one </li>');
+		return;
+		
 	} else if (date1 == "" || date2 == "") {
 
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please fill all the fields!</li>");
 		return;
 
-	
-	} else if (dateFrom < currentDate || dateFrom > dateTo){
-		
+
+	} else if (dateFrom < currentDate || dateFrom > dateTo) {
+
 		modal.find('#messagesList').html("<li class='list-group-item list-group-item-danger'>Please insert a valid period of reservation!</li>");
 		return;
-		
+
 	}
 
 
 	var reservation = $('#reservationForm').serializeArray();
-	reservation.push({name: "parkingStart", value: date1 + ' ' + inputHour1});
-	reservation.push({name: "parkingEnd", value: date2 + ' ' + inputHour2});
-	
+	reservation.push({ name: "parkingStart", value: date1 + ' ' + inputHour1 });
+	reservation.push({ name: "parkingEnd", value: date2 + ' ' + inputHour2 });
+
 
 	$.ajax({
 		type: "POST",
@@ -256,13 +265,13 @@ $('#reserveButton').on('click', function(event) {
 			if (spot == 0) {
 
 				modal.find('#messagesList').html('<li class="list-group-item list-group-item-danger">' + data + '</li>');
-				modal.find('#licenseSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
+				modal.find('#licenseSelect,#paymentSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
 
 				return;
 			}
 
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished! (Check your list for more details)</li>");
-			modal.find('#licenseSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
+			modal.find('#licenseSelect,#paymentSelect, #dateSelection, .funkyradio, .modal-footer button').hide();
 			modal.find('.modal-body div#spotAssignment').html('<h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1>');
 
 

@@ -11,14 +11,15 @@ public class User {
 	private String phoneNumber;
 	private String userType;
 	private String idNumber;
-	private String authNumber;	
+	private String authNumber;
+	private Integer paymentTypeId;
 	
 	public User() {
 		super();
 	}
 
 	public User(Integer idUser, String name, String surname, String email, String password, String taxCode, String phoneNumber,
-			String userType, String idNumber, String authNumber) {
+			String userType, String idNumber, String authNumber, Integer paymentTypeId) {
 		this.idUser = idUser;
 		this.name = name;
 		this.surname = surname;
@@ -33,7 +34,9 @@ public class User {
 		this.idNumber = idNumber;
 		/** Serial number that identifies exclusively a municipality*/
 		this.authNumber = authNumber;
+		this.paymentTypeId = paymentTypeId;
 	}
+	
 
 	public Integer getIdUser() {
 		return idUser;
@@ -99,8 +102,6 @@ public class User {
 		this.userType = userType;
 	}
 
-
-
 	public String getIdNumber() {
 		return idNumber;
 	}
@@ -117,13 +118,19 @@ public class User {
 		this.authNumber = authNumber;
 	}
 
+	public Integer getPaymentTypeId() {
+		return paymentTypeId;
+	}
+
+	public void setPaymentTypeId(Integer paymentTypeId) {
+		this.paymentTypeId = paymentTypeId;
+	}
+	
+
 	@Override
 	public String toString() {
 		return "User [idUser=" + idUser + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
 				+ password + ", taxCode=" + taxCode + ", phoneNumber=" + phoneNumber + ", userType=" + userType
-				+ ", idNumber=" + idNumber + ", authNumber=" + authNumber + "]";
+				+ ", idNumber=" + idNumber + ", authNumber=" + authNumber + ", paymentType=" + paymentTypeId + "]";
 	}
-
-
-
 }

@@ -74,8 +74,6 @@ public class CarDao {
 		return deleted;
 	}
 
-
-
 	class CarMapper implements RowMapper<Car> {
 
 		public Car mapRow(ResultSet rs, int arg1) throws SQLException {

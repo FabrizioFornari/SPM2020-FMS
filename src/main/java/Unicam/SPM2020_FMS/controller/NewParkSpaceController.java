@@ -37,11 +37,8 @@ public class NewParkSpaceController {
 		User user = (User) session.getAttribute("user");
 		if (user != null) {
 			if (user.getUserType().equals("Municipality")) {
-
 				ModelAndView mav = new ModelAndView("newParkArea");
-
 				// if coming from an error try to reload old information
-
 				Object oldSpace = session.getAttribute("oldSpace");
 				if (oldSpace != null) {
 					mav.addObject("parkSpace", (ParkingSpace) oldSpace);
@@ -49,9 +46,7 @@ public class NewParkSpaceController {
 				} else {
 					mav.addObject("parkSpace", new ParkingSpace());
 				}
-
 				// and to show the error message
-
 				Object message = session.getAttribute("message");
 				if (message != null) {
 					mav.addObject("message", (String) message);
@@ -75,6 +70,12 @@ public class NewParkSpaceController {
 	@RequestMapping(value = "/addParkSpace", method = RequestMethod.POST)
 	public String addParkSpace(HttpServletRequest request, HttpServletResponse response, HttpSession session, 
 			  @ModelAttribute("newParkSpace") ParkingSpace newParkSpace, BindingResult bindingResult) {
+		
+		  User user = (User) session.getAttribute("user");
+		  if (user==null) {
+			session.setAttribute("message", "Please login");		
+		   	return "redirect:/login";
+		  }
 
 		  String errMsg="";
 		  Boolean fileNotUploaded=false;
@@ -91,7 +92,7 @@ public class NewParkSpaceController {
 			  
 		  } else {			  
 			  String filename="";
-			  if (!newParkSpace.getImageFile().isEmpty()) {
+			  if (newParkSpace.getImageFile()!=null && !newParkSpace.getImageFile().isEmpty()) {
 				  filename = System.currentTimeMillis() + newParkSpace.getImageFile().getOriginalFilename();
 			  }
 			  newParkSpace.setImageName(filename);

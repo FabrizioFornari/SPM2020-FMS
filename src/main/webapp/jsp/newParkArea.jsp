@@ -151,7 +151,7 @@
 					</div>
 					<form:input path="parkingFee" name="parkingFee"
 						id="parkingFee" class="input"
-						placeholder="Fee" type="number" step="0.01" />
+						placeholder="Fee" type="number" min="0.01" step="0.01" required="true"/>
 
 
 				</div>

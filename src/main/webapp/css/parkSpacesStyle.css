@@ -24,6 +24,10 @@ nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
 
 }
 
+.modal-content{
+	background-color: #a2d58ceb !important;
+}
+
 #messagesList {
 	width: 100% ;
 	padding-left: 0 ;
@@ -377,6 +381,10 @@ ul {
 	.job-content ul li {
 		border-bottom: 0;
 		padding: 0;
+	}
+	
+	.job-content{
+	width: 75%;
 	}
 	
 	

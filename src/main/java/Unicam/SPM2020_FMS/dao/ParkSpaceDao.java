@@ -47,7 +47,7 @@ public class ParkSpaceDao {
 		}, parkSpaceKeyHolder);
 	} catch (org.springframework.dao.DuplicateKeyException e) {
 		String msg=e.getMessage();
-		if (msg.contains("parkingspace.Coordinates")) {
+		if (msg.contains("Coordinates")) {
 			err=-1;
 		}
 		return err;
@@ -104,15 +104,15 @@ public class ParkSpaceDao {
 							parkingSpace.getCoveredSpots(),
 							parkingSpace.getHandicapSpots(),
 							parkingSpace.isGuarded(),
-							parkingSpace.getImageName(),
 							parkingSpace.getParkingFee(),
+							parkingSpace.getImageName(),
 							parkingSpace.getIdParkingSpace()
 						}
 				);
 			}
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("parkingspace.Coordinates")) {
+			if (msg.contains("Coordinates")) {
 				updated=-1;
 			}
 		} catch (Exception e) {
@@ -127,8 +127,9 @@ public class ParkSpaceDao {
 	int deleted;
 
 	try {
-		deleted = jdbcTemplate.update(sql, new Object[] {idParkingSpace });
+		deleted = jdbcTemplate.update(sql, idParkingSpace);
 	} catch (Exception e) {
+		e.printStackTrace();
 		return -1;
 	}
 	return deleted;
@@ -137,7 +138,6 @@ public class ParkSpaceDao {
   class ParkSpaceMapper implements RowMapper<ParkingSpace> {
 
 	public ParkingSpace mapRow(ResultSet rs, int arg1) throws SQLException {
-		
 		ParkingSpace parkSpace = new ParkingSpace(
 			rs.getInt("ID"),
 			rs.getString("City"),
@@ -152,11 +152,10 @@ public class ParkSpaceDao {
 			null,
 			null,
 			rs.getString("Image")
-
 		);
-
 		return parkSpace;
 	}
+	
   }
   
 }

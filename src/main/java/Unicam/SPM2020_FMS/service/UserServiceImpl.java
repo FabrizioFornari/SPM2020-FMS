@@ -16,21 +16,21 @@ public class UserServiceImpl implements UserService {
   public UserDao userDao;
 
   public int register(User user) {
+	if (user.getPassword()==null) return 0;
 	user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userDao.register(user);
   }
 
   public User validateUser(Login login) {
-	
-	
     return userDao.validateUser(login);
   }
 
-
-public int update(User user) {
-	
+  public int update(User user) {	
 	return userDao.update(user);
-	
-}
+  }
+  
+  public int delete(User user) {	
+	return userDao.delete(user);
+  }
 
 }

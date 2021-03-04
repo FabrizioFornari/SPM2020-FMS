@@ -29,12 +29,24 @@ public class ReservationDao {
 	JdbcTemplate jdbcTemplate;
 
 	public List<Reservation> showReservationsToCheck() {
-
-		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end is null";
+		/*showing all the current reservations still valid (occupancy_end not null) in order to see:
+			- if a driver is fair but has misunderstood the spot (in the list compare a reservation with that plate on another spot)
+			- if a driver has 'stolen' the reservation of another one (the illegality there isn't but the plates do not match)
+		*/
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and (Parking_end is null or Parking_end >= NOW()) and Occupancy_end is null";
 
 		List<Reservation> reservationsToCheck = jdbcTemplate.query(sql, new ReservationsMapper());
 
 		return reservationsToCheck;
+	}
+	
+	public List<Reservation> showUserReservations(Integer driver) {
+
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Id_driver='"+driver+"' and Occupancy_end is null";
+
+		List<Reservation> userReservations = jdbcTemplate.query(sql, new ReservationsMapper());
+
+		return userReservations;
 	}
 	
 	class ReservationsMapper implements RowMapper<Reservation> {
@@ -45,6 +57,7 @@ public class ReservationDao {
 					rs.getInt("ParkingSpot"),
 					rs.getInt("ParkingSpaceId"),
 					rs.getString("ParkingSpace"),
+					rs.getString("Parking_start"),
 					rs.getString("Parking_end")
 			);
 
@@ -85,20 +98,20 @@ public class ReservationDao {
 				return ps;
 			}, reservationKeyHolder);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("reservation.Id_parkingSpot")) {
+			if (msg.contains("Id_parkingSpot")) {
 				//parkingstart
 				err=-2;
-			} else if (msg.contains("reservation.Id_parkingSpot_2")) {
+			} else if (msg.contains("Id_parkingSpot_2")) {
 				//parkingend
 				err=-2;
 			}
 			return err;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -2;
 		}
 			
@@ -112,7 +125,7 @@ public class ReservationDao {
 		try {
 			deleted = jdbcTemplate.update(sql, reservation);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}	
 		return deleted;
@@ -125,14 +138,13 @@ public class ReservationDao {
 		try {
 			updated = jdbcTemplate.update(sql, new Object[] {newSpot, reservation});
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}
 		
 		return updated;
 	}
 	
-
 	public int closeReservation(Integer id) {
 		int updated;
 	    String sql = "UPDATE reservation SET Occupancy_start=Parking_start, Occupancy_end=ADDTIME(Parking_start, SEC_TO_TIME(30*60)) WHERE ID = ?";
@@ -140,7 +152,7 @@ public class ReservationDao {
 		try {
 			updated = jdbcTemplate.update(sql, id);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return -1;
 		}
 		

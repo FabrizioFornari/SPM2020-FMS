@@ -48,13 +48,13 @@ public class UserDaoImpl implements UserDao {
 			}, userKeyHolder);
 		} catch (org.springframework.dao.DuplicateKeyException e) {
 			String msg=e.getMessage();
-			if (msg.contains("user.Email")) {
+			if (msg.contains("Email")) {
 				err=-1;
-			} else if (msg.contains("user.Tax_code")) {
+			} else if (msg.contains("Tax_code")) {
 				err=-2;
-			} else if (msg.contains("user.Id_number")) {
+			} else if (msg.contains("Id_number")) {
 				err=-3;
-			} else if (msg.contains("user.Auth_number")) {
+			} else if (msg.contains("Auth_number")) {
 				err=-4;
 			}
 			return err;
@@ -86,28 +86,38 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	@Override
 	public int update(User user) {
 		
-		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ? WHERE ID = ? ";
+		String sql = "UPDATE user SET Name = ?, Surname = ?, Email =? , Tax_code = ? ,Phone_number = ?,Id_number = ? ,Auth_number = ?,Default_payment = ? WHERE ID = ? ";
 		int updated=0;
 		
 		try {
 			updated=jdbcTemplate.update(sql,new Object[] { user.getName(),user.getSurname(), user.getEmail(), user.getTaxCode(),
-					user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(), user.getIdUser() });
+					user.getPhoneNumber(), user.getIdNumber(), user.getAuthNumber(),user.getPaymentTypeId(), user.getIdUser() });
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
 		return updated;
 	}
+	
+	public int delete(User user) {
+		String sql = "DELETE FROM user WHERE ID = ? ";
+		int deleted;
+
+		try {
+			deleted = jdbcTemplate.update(sql, user.getIdUser());
+		} catch (Exception e) {
+			return -1;
+		}
+		return deleted;
+	}
 
 	class UserMapper implements RowMapper<User> {
-
 		public User mapRow(ResultSet rs, int arg1) throws SQLException {
 			User user = new User(rs.getInt("ID"), rs.getString("Name"), rs.getString("Surname"), rs.getString("Email"),
 					rs.getString("Password"), rs.getString("Tax_code"), rs.getString("Phone_number"),
-					rs.getString("User_type"), rs.getString("Id_number"), rs.getString("Auth_number"));
+					rs.getString("User_type"), rs.getString("Id_number"), rs.getString("Auth_number"),rs.getInt("Default_Payment"));
 
 			return user;
 		}
