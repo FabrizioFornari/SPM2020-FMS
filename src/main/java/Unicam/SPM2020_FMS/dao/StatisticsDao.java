@@ -56,6 +56,7 @@ public class StatisticsDao {
 		}
 
 		Float result = jdbcTemplate.queryForObject(sql, Float.class);
+		if (result==null) result=(float) 0;
 
 		return result;
 	}
