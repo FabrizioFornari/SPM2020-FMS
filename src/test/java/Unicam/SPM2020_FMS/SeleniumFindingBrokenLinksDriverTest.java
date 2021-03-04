@@ -186,7 +186,7 @@ class SeleniumFindingBrokenLinksDriverTest {
 	void checkParkSpacesPage() throws IOException {
 		//Getting the profile page
 		driver.get(URLbase+"ParkSpaces");
-		assertTrue(driver.getPageSource().contains("Search by location"));
+		assertTrue(driver.getPageSource().contains("your destination"));
 		
 		//Finding all anchor tags
 		List<WebElement> links = driver.findElements(By.tagName("a"));
