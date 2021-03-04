@@ -105,7 +105,7 @@ public class ReservationServiceTest {
   @Test
   public void testShowReservationToCheck() {
 	List<Reservation> result = reservationService.showReservationsToCheck();
-	int tableRows=JdbcTestUtils.countRowsInTableWhere(jdbcTemplate,"reservation","Parking_start <= NOW() and Parking_end is null");
+	int tableRows=JdbcTestUtils.countRowsInTableWhere(jdbcTemplate,"reservation","Parking_start <= NOW() and (Parking_end is null or Parking_end >= NOW()) and Occupancy_end is null");
     Assert.assertEquals(tableRows,result.size());
   }
 

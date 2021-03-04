@@ -29,8 +29,11 @@ public class ReservationDao {
 	JdbcTemplate jdbcTemplate;
 
 	public List<Reservation> showReservationsToCheck() {
-
-		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and Parking_end is null";
+		/*showing all the current reservations still valid (occupancy_end not null) in order to see:
+			- if a driver is fair but has misunderstood the spot (in the list compare a reservation with that plate on another spot)
+			- if a driver has 'stolen' the reservation of another one (the illegality there isn't but the plates do not match)
+		*/
+		String sql = "SELECT LicensePlateNumber, ParkingSpot, ParkingSpace as ParkingSpaceId, parkingspace.Name as ParkingSpace, Parking_start, Parking_end FROM reservation,parkingspace WHERE reservation.ParkingSpace = parkingspace.ID and Parking_start <= NOW() and (Parking_end is null or Parking_end >= NOW()) and Occupancy_end is null";
 
 		List<Reservation> reservationsToCheck = jdbcTemplate.query(sql, new ReservationsMapper());
 

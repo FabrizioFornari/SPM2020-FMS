@@ -244,7 +244,7 @@ public class ParkSpotDao {
 				"WHERE isOccupied=1 and a.ParkingSpace = b.ID and not exists (" + 
 				"	SELECT 1" + 
 				"	FROM reservation b " + 
-				"	WHERE parking_start <= NOW() and (Parking_end is null or Parking_end > NOW()) and a.SpotNumber=b.ParkingSpot and a.ParkingSpace=b.ParkingSpace " + 
+				"	WHERE parking_start <= NOW() and (Parking_end is null or Parking_end > NOW()) and occupancy_end is null and a.SpotNumber=b.ParkingSpot and a.ParkingSpace=b.ParkingSpace " + 
 				") " + 
 				"ORDER BY 2,1";
 

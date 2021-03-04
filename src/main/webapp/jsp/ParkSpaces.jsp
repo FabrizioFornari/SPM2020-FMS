@@ -47,7 +47,7 @@
 
 
 				<input type="text" class="input" id="mapFilter"
-					placeholder="Search by location (specify city for better usage)" />
+					placeholder="Type your destination..." />
 			</div>
 
 			<div id="map" align="center" ontouchstart="blurInput()"></div>
@@ -82,7 +82,7 @@
 
 
 								<input class="input" id="filterInput"
-									placeholder="Filter by Address" type="text"
+									placeholder="Filter by text" type="text"
 									onkeyup="filterItems()" />
 							</div>
 

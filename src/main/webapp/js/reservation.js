@@ -177,7 +177,7 @@ $('#reserveNowButton').on('click', function(event) {
 			modal.find('#messagesList').html("<li class='list-group-item list-group-item-success'>Reservation accomplished!</li>");
 			modal.find('#licenseSelect,#paymentSelect, .funkyradio, .modal-footer button').hide();
 
-			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">(You have <span id="timer">05:00</span> minutes to park, after that you will loose your spot)</h6>');
+			modal.find('.modal-body div#spotAssignment').html('<img align="center" class="imgCenter" id="parkMap"  src=""></img><br><h5>Your parking spot is:</h5><br><h1 align="center">' + data + '</h1><h6 align="center" style="color:red">Please park within <span id="timer">05:00</span> or try again</h6>');
 			$.ajax({
 				url: 'getMapSrc',
 				type: 'GET',
