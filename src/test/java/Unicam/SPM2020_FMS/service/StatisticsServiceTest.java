@@ -59,7 +59,7 @@ public class StatisticsServiceTest {
 	for (Statistic parkRevenue : revenueByParks) {
 		computedPerc+=parkRevenue.getPercentage();
 	}
-	if(revenueByParks.size()<0) Assert.assertEquals(100, computedPerc, 0.02);
+	if(revenueByParks.size()<0) Assert.assertEquals(100, computedPerc, 0.05);
   }
   
   @Test
@@ -94,7 +94,7 @@ public class StatisticsServiceTest {
 	for (Statistic paymentDrivers : usersByPayment) {
 		computedPerc+=paymentDrivers.getPercentage();
 	}
-	Assert.assertEquals(100, computedPerc, 0.02);
+	Assert.assertEquals(100, computedPerc, 0.05);
   }
   
   @Test

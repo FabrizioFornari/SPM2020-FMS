@@ -93,6 +93,7 @@ public class ReservationServiceTest {
 	res.setParkingEnd(null);
 	res.setAskedCovered(false);
 	res.setAskedHandicap(false);
+	res.setPaymentType(0);
 	res.setId(reservationService.addReservation(res));
   }
   
@@ -142,6 +143,7 @@ public class ReservationServiceTest {
 	res.setParkingSpaceId(park.getIdParkingSpace());
 	res.setParkingStart("2021-02-24 10:00");
 	res.setParkingEnd("2021-02-24 10:30");
+	res.setPaymentType(0);
     int result = reservationService.addReservation(res);
     Assert.assertTrue(result>0);
   }
